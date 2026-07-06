@@ -4,21 +4,25 @@ using UnityEngine.InputSystem;
 
 namespace Code.Infrastructure.InputSystem
 {
-    public sealed class InputSystem
+    public sealed class InputService : Singleton<InputService>
     {
-        private readonly GameInput _gameInput;
+        private GameInput _gameInput;
         
         public InputActionMap CurrentMap { get; private set; }
         public GameInput GameInput => _gameInput;
 
-        public InputSystem()
+        protected override void Awake()
         {
+            base.Awake();
+            
             _gameInput = new GameInput();
 
             foreach (InputActionMap map in _gameInput.asset.actionMaps)
             {
                 map.Disable();
             }
+            
+            DontDestroyOnLoad(gameObject);
         }
 
         public void SetMap(string mapName)
