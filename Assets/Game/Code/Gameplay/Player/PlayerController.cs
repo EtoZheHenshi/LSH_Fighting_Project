@@ -1,0 +1,75 @@
+using Code.Gameplay.Player.PlayerStateSystem;
+using Code.Gameplay.Player.PlayerStateSystem.Base;
+using Code.Infrastructure.InputSystem;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace Code.Gameplay.Player
+{
+    /// <summary>
+    /// "Контекст" паттерна State — владелец всех данных и компонентов,
+    /// которые нужны состояниям для работы.
+    /// 
+    /// Разделение ответственности:
+    ///   PlayerController — ВЛАДЕЕТ данными (Rigidbody, ввод, настройки)
+    ///                      и прокидывает Unity-события (Update, коллизии).
+    ///   Состояния        — РЕШАЮТ, что с этими данными делать.
+    ///   StateMachine     — СЛЕДИТ, какое состояние сейчас активно.
+    /// 
+    /// Это единственный MonoBehaviour во всей системе.
+    /// </summary>
+    public class PlayerController : MonoBehaviour
+    {
+        [SerializeField] private string actionMapName;
+        [SerializeField] private float moveSpeed = 8f;
+        [SerializeField] private float jumpForce = 12f;
+
+        public IPlayerInput Input;
+
+        public float MoveSpeed => moveSpeed;
+        public float JumpForce => jumpForce;
+
+        /// <summary>Стоит ли игрок на земле. Обновляется через события коллизий.</summary>
+        public bool IsGrounded { get; private set; }
+
+        // Все состояния создаются ОДИН РАЗ в Awake и переиспользуются.
+        // Если писать new IdleState(...) при каждом переходе, мы будем
+        // создавать мусор для сборщика (GC) десятки раз в секунду.
+        public IdleState IdleState { get; private set; }
+        public MoveState MoveState { get; private set; }
+        public JumpState JumpState { get; private set; }
+        public FallState FallState { get; private set; }
+
+        private StateMachine _stateMachine;
+
+        private void Awake()
+        {
+            _stateMachine = new StateMachine();
+
+            IdleState = new IdleState(this, _stateMachine);
+            MoveState = new MoveState(this, _stateMachine);
+            JumpState = new JumpState(this, _stateMachine);
+            FallState = new FallState(this, _stateMachine);
+        }
+
+        private void Start()
+        {
+            // У машины всегда должно быть начальное состояние.
+            _stateMachine.ChangeState(IdleState);
+        }
+
+        private void Update()
+        {
+            _stateMachine.Tick();
+
+            // Заметьте: здесь НЕТ никаких if/switch по типу состояния.
+            // Контроллер даже не знает, в каком состоянии находится игрок, —
+            // и ему это знать не нужно. В этом суть паттерна.
+        }
+
+        // --- Упрощённое определение земли (для учебного примера) ---
+        // Любое касание коллайдера считаем землёй. В реальном проекте
+        // здесь была бы проверка слоя (LayerMask) и направления контакта,
+        // иначе "землёй" станет и стена, и потолок.
+    }
+}

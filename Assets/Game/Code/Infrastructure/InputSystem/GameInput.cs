@@ -91,7 +91,7 @@ namespace Code.InputSystem
     ""name"": ""GameInput"",
     ""maps"": [
         {
-            ""name"": ""PlayerOne"",
+            ""name"": ""Player"",
             ""id"": ""c645162e-f919-43ca-b3de-83b27cfe7a38"",
             ""actions"": [
                 {
@@ -149,7 +149,7 @@ namespace Code.InputSystem
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard_P1"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -160,7 +160,40 @@ namespace Code.InputSystem
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": "";Keyboard_P1"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""3b76afc6-c389-4e1e-8f7f-9f74228f1cf1"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""18e4efd7-655a-4c7b-81f3-54a017fdcd5c"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard_P2"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""79ee0f4b-d8e6-4ff8-8d31-520b76afac4b"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard_P2"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -168,10 +201,21 @@ namespace Code.InputSystem
                 {
                     ""name"": """",
                     ""id"": ""97afff8f-2a3b-4566-9258-03fa11a02126"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""path"": ""<Keyboard>/g"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard_P1"",
+                    ""action"": ""HandAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a668fe2-7748-4f79-b987-06f0398c3318"",
+                    ""path"": ""<Keyboard>/period"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard_P2"",
                     ""action"": ""HandAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -182,7 +226,18 @@ namespace Code.InputSystem
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard_P1"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a07859b5-cf7c-4d0d-bea4-b21c092dedbf"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard_P2"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -193,7 +248,18 @@ namespace Code.InputSystem
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard_P1"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3aa73413-cf17-488a-9ca8-c1430c52eca5"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard_P2"",
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -201,19 +267,42 @@ namespace Code.InputSystem
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Keyboard_P1"",
+            ""bindingGroup"": ""Keyboard_P1"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Keyboard_P2"",
+            ""bindingGroup"": ""Keyboard_P2"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
-            // PlayerOne
-            m_PlayerOne = asset.FindActionMap("PlayerOne", throwIfNotFound: true);
-            m_PlayerOne_Move = m_PlayerOne.FindAction("Move", throwIfNotFound: true);
-            m_PlayerOne_Jump = m_PlayerOne.FindAction("Jump", throwIfNotFound: true);
-            m_PlayerOne_Crouch = m_PlayerOne.FindAction("Crouch", throwIfNotFound: true);
-            m_PlayerOne_HandAttack = m_PlayerOne.FindAction("HandAttack", throwIfNotFound: true);
+            // Player
+            m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+            m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+            m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+            m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+            m_Player_HandAttack = m_Player.FindAction("HandAttack", throwIfNotFound: true);
         }
 
         ~@GameInput()
         {
-            UnityEngine.Debug.Assert(!m_PlayerOne.enabled, "This will cause a leak and performance issues, GameInput.PlayerOne.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, GameInput.Player.Disable() has not been called.");
         }
 
         /// <summary>
@@ -286,44 +375,44 @@ namespace Code.InputSystem
             return asset.FindBinding(bindingMask, out action);
         }
 
-        // PlayerOne
-        private readonly InputActionMap m_PlayerOne;
-        private List<IPlayerOneActions> m_PlayerOneActionsCallbackInterfaces = new List<IPlayerOneActions>();
-        private readonly InputAction m_PlayerOne_Move;
-        private readonly InputAction m_PlayerOne_Jump;
-        private readonly InputAction m_PlayerOne_Crouch;
-        private readonly InputAction m_PlayerOne_HandAttack;
+        // Player
+        private readonly InputActionMap m_Player;
+        private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
+        private readonly InputAction m_Player_Move;
+        private readonly InputAction m_Player_Jump;
+        private readonly InputAction m_Player_Crouch;
+        private readonly InputAction m_Player_HandAttack;
         /// <summary>
-        /// Provides access to input actions defined in input action map "PlayerOne".
+        /// Provides access to input actions defined in input action map "Player".
         /// </summary>
-        public struct PlayerOneActions
+        public struct PlayerActions
         {
             private @GameInput m_Wrapper;
 
             /// <summary>
             /// Construct a new instance of the input action map wrapper class.
             /// </summary>
-            public PlayerOneActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+            public PlayerActions(@GameInput wrapper) { m_Wrapper = wrapper; }
             /// <summary>
-            /// Provides access to the underlying input action "PlayerOne/Move".
+            /// Provides access to the underlying input action "Player/Move".
             /// </summary>
-            public InputAction @Move => m_Wrapper.m_PlayerOne_Move;
+            public InputAction @Move => m_Wrapper.m_Player_Move;
             /// <summary>
-            /// Provides access to the underlying input action "PlayerOne/Jump".
+            /// Provides access to the underlying input action "Player/Jump".
             /// </summary>
-            public InputAction @Jump => m_Wrapper.m_PlayerOne_Jump;
+            public InputAction @Jump => m_Wrapper.m_Player_Jump;
             /// <summary>
-            /// Provides access to the underlying input action "PlayerOne/Crouch".
+            /// Provides access to the underlying input action "Player/Crouch".
             /// </summary>
-            public InputAction @Crouch => m_Wrapper.m_PlayerOne_Crouch;
+            public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
             /// <summary>
-            /// Provides access to the underlying input action "PlayerOne/HandAttack".
+            /// Provides access to the underlying input action "Player/HandAttack".
             /// </summary>
-            public InputAction @HandAttack => m_Wrapper.m_PlayerOne_HandAttack;
+            public InputAction @HandAttack => m_Wrapper.m_Player_HandAttack;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
-            public InputActionMap Get() { return m_Wrapper.m_PlayerOne; }
+            public InputActionMap Get() { return m_Wrapper.m_Player; }
             /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
             public void Enable() { Get().Enable(); }
             /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -331,9 +420,9 @@ namespace Code.InputSystem
             /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
             public bool enabled => Get().enabled;
             /// <summary>
-            /// Implicitly converts an <see ref="PlayerOneActions" /> to an <see ref="InputActionMap" /> instance.
+            /// Implicitly converts an <see ref="PlayerActions" /> to an <see ref="InputActionMap" /> instance.
             /// </summary>
-            public static implicit operator InputActionMap(PlayerOneActions set) { return set.Get(); }
+            public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
             /// <summary>
             /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
             /// </summary>
@@ -341,11 +430,11 @@ namespace Code.InputSystem
             /// <remarks>
             /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
             /// </remarks>
-            /// <seealso cref="PlayerOneActions" />
-            public void AddCallbacks(IPlayerOneActions instance)
+            /// <seealso cref="PlayerActions" />
+            public void AddCallbacks(IPlayerActions instance)
             {
-                if (instance == null || m_Wrapper.m_PlayerOneActionsCallbackInterfaces.Contains(instance)) return;
-                m_Wrapper.m_PlayerOneActionsCallbackInterfaces.Add(instance);
+                if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
@@ -366,8 +455,8 @@ namespace Code.InputSystem
             /// <remarks>
             /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
             /// </remarks>
-            /// <seealso cref="PlayerOneActions" />
-            private void UnregisterCallbacks(IPlayerOneActions instance)
+            /// <seealso cref="PlayerActions" />
+            private void UnregisterCallbacks(IPlayerActions instance)
             {
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
@@ -384,12 +473,12 @@ namespace Code.InputSystem
             }
 
             /// <summary>
-            /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PlayerOneActions.UnregisterCallbacks(IPlayerOneActions)" />.
+            /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PlayerActions.UnregisterCallbacks(IPlayerActions)" />.
             /// </summary>
-            /// <seealso cref="PlayerOneActions.UnregisterCallbacks(IPlayerOneActions)" />
-            public void RemoveCallbacks(IPlayerOneActions instance)
+            /// <seealso cref="PlayerActions.UnregisterCallbacks(IPlayerActions)" />
+            public void RemoveCallbacks(IPlayerActions instance)
             {
-                if (m_Wrapper.m_PlayerOneActionsCallbackInterfaces.Remove(instance))
+                if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
                     UnregisterCallbacks(instance);
             }
 
@@ -399,27 +488,53 @@ namespace Code.InputSystem
             /// <remarks>
             /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
             /// </remarks>
-            /// <seealso cref="PlayerOneActions.AddCallbacks(IPlayerOneActions)" />
-            /// <seealso cref="PlayerOneActions.RemoveCallbacks(IPlayerOneActions)" />
-            /// <seealso cref="PlayerOneActions.UnregisterCallbacks(IPlayerOneActions)" />
-            public void SetCallbacks(IPlayerOneActions instance)
+            /// <seealso cref="PlayerActions.AddCallbacks(IPlayerActions)" />
+            /// <seealso cref="PlayerActions.RemoveCallbacks(IPlayerActions)" />
+            /// <seealso cref="PlayerActions.UnregisterCallbacks(IPlayerActions)" />
+            public void SetCallbacks(IPlayerActions instance)
             {
-                foreach (var item in m_Wrapper.m_PlayerOneActionsCallbackInterfaces)
+                foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
                     UnregisterCallbacks(item);
-                m_Wrapper.m_PlayerOneActionsCallbackInterfaces.Clear();
+                m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
                 AddCallbacks(instance);
             }
         }
         /// <summary>
-        /// Provides a new <see cref="PlayerOneActions" /> instance referencing this action map.
+        /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
         /// </summary>
-        public PlayerOneActions @PlayerOne => new PlayerOneActions(this);
+        public PlayerActions @Player => new PlayerActions(this);
+        private int m_Keyboard_P1SchemeIndex = -1;
         /// <summary>
-        /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayerOne" which allows adding and removing callbacks.
+        /// Provides access to the input control scheme.
         /// </summary>
-        /// <seealso cref="PlayerOneActions.AddCallbacks(IPlayerOneActions)" />
-        /// <seealso cref="PlayerOneActions.RemoveCallbacks(IPlayerOneActions)" />
-        public interface IPlayerOneActions
+        /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
+        public InputControlScheme Keyboard_P1Scheme
+        {
+            get
+            {
+                if (m_Keyboard_P1SchemeIndex == -1) m_Keyboard_P1SchemeIndex = asset.FindControlSchemeIndex("Keyboard_P1");
+                return asset.controlSchemes[m_Keyboard_P1SchemeIndex];
+            }
+        }
+        private int m_Keyboard_P2SchemeIndex = -1;
+        /// <summary>
+        /// Provides access to the input control scheme.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
+        public InputControlScheme Keyboard_P2Scheme
+        {
+            get
+            {
+                if (m_Keyboard_P2SchemeIndex == -1) m_Keyboard_P2SchemeIndex = asset.FindControlSchemeIndex("Keyboard_P2");
+                return asset.controlSchemes[m_Keyboard_P2SchemeIndex];
+            }
+        }
+        /// <summary>
+        /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
+        /// </summary>
+        /// <seealso cref="PlayerActions.AddCallbacks(IPlayerActions)" />
+        /// <seealso cref="PlayerActions.RemoveCallbacks(IPlayerActions)" />
+        public interface IPlayerActions
         {
             /// <summary>
             /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
