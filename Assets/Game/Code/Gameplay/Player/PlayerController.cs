@@ -114,7 +114,6 @@ namespace Code.Gameplay.Player
             // Заметьте: здесь НЕТ никаких if/switch по типу состояния.
             // Контроллер даже не знает, в каком состоянии находится игрок, —
             // и ему это знать не нужно. В этом суть паттерна.
-            Debug.Log($"IsGrounded = {IsGrounded}");
         }
 
         public void TakeDamage(float damage)
