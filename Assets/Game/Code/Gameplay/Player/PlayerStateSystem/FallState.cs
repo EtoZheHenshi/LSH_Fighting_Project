@@ -23,7 +23,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             Debug.Log("Entered FallState");
             // player.Animator.Play("Fall");
         }
-
+        // todo
         public override void Tick()
         {
             // Наследуем air control.
@@ -31,10 +31,10 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
             // Уникальный переход падения: коснулись земли -> приземляемся.
             // Куда именно (Idle или Move) — решает общий метод суперсостояния.
-            // if (Player.IsGrounded)
-            // {
-            //     LandTo();
-            // }
+            if (Player.IsGrounded)
+            {
+                LandTo();
+            }
         }
     }
 }

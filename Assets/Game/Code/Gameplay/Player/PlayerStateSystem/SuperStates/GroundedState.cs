@@ -1,5 +1,7 @@
 ﻿using Code.Gameplay.Player.PlayerStateSystem.Base;
+using Unity.VisualScripting;
 using UnityEngine;
+using StateMachine = Code.Gameplay.Player.PlayerStateSystem.Base.StateMachine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem.SuperStates
 {
@@ -21,7 +23,9 @@ namespace Code.Gameplay.Player.PlayerStateSystem.SuperStates
     /// </summary>
     public abstract class GroundedState : PlayerBaseState
     {
-        protected GroundedState(PlayerController p, StateMachine m) : base(p, m) { }
+        protected GroundedState(PlayerController p, StateMachine m) : base(p, m)
+        {
+        }
 
         /// <summary>
         /// Общие переходы для ВСЕХ наземных состояний.
@@ -40,26 +44,33 @@ namespace Code.Gameplay.Player.PlayerStateSystem.SuperStates
         protected bool TryCommonTransitions()
         {
             // Приоритет 1: прыжок доступен из любого наземного состояния.
-            if (Player.Input.Jump == true)
+            if (Player.IsGrounded && Player.Input.Jump)
             {
                 Machine.ChangeState(Player.JumpState);
                 return true;
             }
-
+            if (Player.Input.Crouch)
+            {
+                Machine.ChangeState(Player.CrouchState);
+                return true;
+            }
             if (Player.Input.Attack)
             {
                 Machine.ChangeState(Player.GroundAttackState);
                 return true;
             }
+
             //
             // // Приоритет 2: сошли с края платформы -> падаем.
             // // Заметьте: это падение БЕЗ прыжка. Именно ради таких случаев
             // // FallState существует отдельно от JumpState.
-            // if (Player.IsGrounded == false)
-            // {
-            //     Machine.ChangeState(Player.FallState);
-            //     return true;
-            // }
+            if (!Player.IsGrounded)
+            {
+                Machine.ChangeState(Player.FallState);
+                return true;
+            }
+
+            
 
             return false; // остаёмся в текущем состоянии
         }

@@ -24,11 +24,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             // player.Animator.Play("Jump");
 
             // Импульс — разовое действие, поэтому Enter, а не Tick.
-            // Player.Body.linearVelocity = new Vector2(
-            //     Player.Body.linearVelocity.x,
-            //     Player.JumpForce);
+            Player.Body.linearVelocity = new Vector2(
+                Player.Body.linearVelocity.x,
+                Player.JumpForce);
         }
-
+        // todo реализовать через transform и добавить isGrounded
         public override void Tick()
         {
             // Наследуем поведение суперсостояния: air control.
@@ -38,10 +38,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             // мы на пике дуги, дальше физика тянет вниз. Переходим в Fall.
             // Заметьте: этот переход вызван ФИЗИКОЙ, а не кнопкой.
             // Состояния могут реагировать на разные источники событий.
-            // if (Player.Body.linearVelocity.y <= 0f)
-            // {
-            //     Machine.ChangeState(Player.FallState);
-            // }
+            if (Player.Body.linearVelocity.y <= 0f)
+            {
+                Machine.ChangeState(Player.FallState);
+            }
+           
         }
     }
 }

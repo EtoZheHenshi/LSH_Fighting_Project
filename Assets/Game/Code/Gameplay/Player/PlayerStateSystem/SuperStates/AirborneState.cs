@@ -16,9 +16,12 @@ namespace Code.Gameplay.Player.PlayerStateSystem.SuperStates
     ///   AirborneState выносит общее ПОВЕДЕНИЕ -> виртуальный Tick.
     /// Это два основных приёма HSM (иерархической машины состояний), и здесь мы демонстрируем оба.
     /// </summary>
+    // todo
     public abstract class AirborneState : PlayerBaseState
     {
-        protected AirborneState(PlayerController p, StateMachine m) : base(p, m) { }
+        protected AirborneState(PlayerController p, StateMachine m) : base(p, m)
+        {
+        }
 
         /// <summary>
         /// Общее поведение каждый кадр в воздухе: air control.
@@ -36,9 +39,9 @@ namespace Code.Gameplay.Player.PlayerStateSystem.SuperStates
         public override void Tick()
         {
             // Горизонталь управляется игроком, вертикаль — гравитацией.
-            // Player.Body.linearVelocity = new Vector2(
-            //     Player.Input.Horizontal * Player.MoveSpeed,
-            //     Player.Body.linearVelocity.y);
+            Player.transform.position =
+                new Vector2(Player.transform.position.x + Player.Input.Move * Player.MoveSpeed * Time.deltaTime,
+                    Player.transform.position.y);
         }
 
         /// <summary>
@@ -48,10 +51,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem.SuperStates
         /// </summary>
         protected void LandTo()
         {
-            // Machine.ChangeState(
-            //     Mathf.Abs(Player.Input.Horizontal) > 0.01f
-            //         ? (IState)Player.MoveState
-            //         : Player.IdleState);
+            if (Mathf.Abs(Player.Input.Move) > 0.01f)
+            {
+                Machine.ChangeState(Player.MoveState);
+            }
+            else Machine.ChangeState(Player.IdleState);
         }
     }
 }

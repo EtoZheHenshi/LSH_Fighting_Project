@@ -25,11 +25,24 @@ namespace Code.Gameplay.Player
         [SerializeField] private float moveSpeed = 8f;
         [SerializeField] private float jumpForce = 12f;
         [SerializeField] private LayerMask enemyLayer;
-
-        [Header("AttackConfigs")] 
-        [SerializeField] private AttackConfig groundAttack;
+        [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private Rigidbody2D body;
+        [SerializeField] private CircleCollider2D legsCollider;
         
+        [Header("AttackConfigs")] [SerializeField]
+        private AttackConfig groundAttack;
+    
+        public Rigidbody2D Body
+        {
+            get { return body; }
+            private set { body = value; }
+        }
         
+        public CircleCollider2D LegsCollider
+        {
+            get { return legsCollider; }
+            private set { legsCollider = value; }
+        }
 
         public IPlayerInput Input;
 
@@ -46,10 +59,12 @@ namespace Code.Gameplay.Player
         public MoveState MoveState { get; private set; }
         public JumpState JumpState { get; private set; }
         public FallState FallState { get; private set; }
+        
+        public CrouchState CrouchState { get; private set; }
         public GroundAttackState GroundAttackState { get; private set; }
 
         private StateMachine _stateMachine;
-        
+
 
         private void Awake()
         {
@@ -59,7 +74,10 @@ namespace Code.Gameplay.Player
             MoveState = new MoveState(this, _stateMachine);
             JumpState = new JumpState(this, _stateMachine);
             FallState = new FallState(this, _stateMachine);
+            CrouchState = new CrouchState(this, _stateMachine);
+            
             GroundAttackState = new GroundAttackState(this, _stateMachine, groundAttack, enemyLayer);
+            Body = GetComponent<Rigidbody2D>();
         }
 
         private void Start()
@@ -72,18 +90,16 @@ namespace Code.Gameplay.Player
             {
                 Input = InputService.Instance.Player1;
             }
-            
+
             // У машины всегда должно быть начальное состояние.
             _stateMachine.ChangeState(IdleState);
         }
 
         private void Update()
         {
+            IsGrounded = LegsCollider.IsTouchingLayers(groundLayer);
             _stateMachine.Tick();
-
-            // Заметьте: здесь НЕТ никаких if/switch по типу состояния.
-            // Контроллер даже не знает, в каком состоянии находится игрок, —
-            // и ему это знать не нужно. В этом суть паттерна.
+            Debug.Log($"IsGrounded = {IsGrounded}");
         }
 
         public void TakeDamage(float damage)
