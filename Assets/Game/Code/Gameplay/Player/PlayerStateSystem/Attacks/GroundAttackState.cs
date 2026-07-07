@@ -35,11 +35,13 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Attacks
                 _enemy.GetComponent<PlayerController>().TakeDamage(_attackConfig.Damage);
                 _enemy = null;
             }
+            
+            
+            Machine.ChangeState(Player.IdleState);
         }
 
         public override void Tick()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

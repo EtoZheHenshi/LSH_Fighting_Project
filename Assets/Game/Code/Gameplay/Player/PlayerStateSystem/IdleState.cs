@@ -29,10 +29,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             }
 
             // Затем собственный переход состояния: появился ввод -> бежим.
-            // if (Mathf.Abs(Player.Input.Horizontal) > 0.01f)
-            // {
-            //     Machine.ChangeState(Player.MoveState);
-            // }
             if (Mathf.Abs(Player.Input.Move) > 0.01f)
             {
                 Machine.ChangeState(Player.MoveState);

@@ -27,21 +27,16 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 return;
             }
             
+            // Собственный переход: ввод пропал -> покой.
+            if (Mathf.Abs(Player.Input.Move) < 0.01f)
+            {
+                Machine.ChangeState(Player.IdleState);
+            }
+            
+            // Собственное поведение: движение по земле.
             Player.transform.position = new Vector2(
                 Player.transform.position.x + Player.Input.Move * Player.MoveSpeed * Time.deltaTime,
                 Player.transform.position.y);
-
-            // Собственный переход: ввод пропал -> покой.
-            // if (Mathf.Abs(Player.Input.Horizontal) < 0.01f)
-            // {
-            //     Machine.ChangeState(Player.IdleState);
-            //     return;
-            // }
-            //
-            // // Собственное поведение: движение по земле.
-            // Player.Body.linearVelocity = new Vector2(
-            //     Player.Input.Horizontal * Player.MoveSpeed,
-            //     Player.Body.linearVelocity.y);
         }
     }
 }

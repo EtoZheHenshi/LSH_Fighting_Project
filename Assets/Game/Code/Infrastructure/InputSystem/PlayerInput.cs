@@ -30,6 +30,7 @@ namespace Code.Infrastructure.InputSystem
             actions.Crouch.canceled += OnCrouch;
 
             actions.HandAttack.started += OnHandAttack;
+            actions.HandAttack.canceled += OnHandAttack;
         }
         
         public PlayerInput(GameInput.PlayerTwoActions playerOneActions)
