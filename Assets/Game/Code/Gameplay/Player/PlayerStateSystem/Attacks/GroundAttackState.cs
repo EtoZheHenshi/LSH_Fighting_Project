@@ -9,8 +9,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Attacks
         private readonly AttackConfig _attackConfig;
         private readonly LayerMask _enemyMask;
 
-        private Collider2D _enemy;
-
         public GroundAttackState(PlayerController p, StateMachine m, 
             AttackConfig attackConfig, LayerMask enemyMask) : base(p, m)
         {
@@ -23,19 +21,17 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Attacks
             base.Enter();
             
             Debug.Log("Entered GroundAttackState");
-
-            _enemy = Physics2D.OverlapBox(
-                _attackConfig.transform.position,
-                _attackConfig.AttackSize,
-                0f,
-                _enemyMask);
             
-            if (_enemy != null)
+            if (Physics2D.OverlapBox(
+                    _attackConfig.transform.position,
+                    _attackConfig.AttackSize,
+                    0f,
+                    _enemyMask))
             {
-                _enemy.GetComponent<PlayerController>().TakeDamage(_attackConfig.Damage);
-                _enemy = null;
+                Player.Enemy.TakeDamage(_attackConfig.Damage);
             }
-            
+
+            Player.StartCoroutine(_attackConfig.SwitchGizmosColor());
             
             Machine.ChangeState(Player.IdleState);
         }
