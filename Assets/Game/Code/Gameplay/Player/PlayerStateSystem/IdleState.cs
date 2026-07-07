@@ -15,6 +15,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         public override void Enter()
         {
+            Debug.Log("Entered IdleState");
             // player.Animator.Play("Idle");
         }
 
@@ -32,7 +33,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             // {
             //     Machine.ChangeState(Player.MoveState);
             // }
-            
+            if (Mathf.Abs(Player.Input.Move) > 0.01f)
+            {
+                Machine.ChangeState(Player.MoveState);
+            }
+
         }
     }
 }

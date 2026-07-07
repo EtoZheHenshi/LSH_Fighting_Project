@@ -1,4 +1,5 @@
 ﻿using Code.Gameplay.Player.PlayerStateSystem.Base;
+using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem.SuperStates
 {
@@ -42,6 +43,12 @@ namespace Code.Gameplay.Player.PlayerStateSystem.SuperStates
             if (Player.Input.Jump == true)
             {
                 Machine.ChangeState(Player.JumpState);
+                return true;
+            }
+
+            if (Player.Input.Attack)
+            {
+                Machine.ChangeState(Player.GroundAttackState);
                 return true;
             }
             //

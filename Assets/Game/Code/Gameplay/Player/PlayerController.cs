@@ -1,4 +1,5 @@
 using Code.Gameplay.Player.PlayerStateSystem;
+using Code.Gameplay.Player.PlayerStateSystem.Attacks;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.InputSystem;
 using UnityEngine;
@@ -21,9 +22,14 @@ namespace Code.Gameplay.Player
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private bool isItPlayerTwo;
-        [SerializeField] private string actionMapName;
         [SerializeField] private float moveSpeed = 8f;
         [SerializeField] private float jumpForce = 12f;
+        [SerializeField] private LayerMask enemyLayer;
+
+        [Header("AttackConfigs")] 
+        [SerializeField] private AttackConfig groundAttack;
+        
+        
 
         public IPlayerInput Input;
 
@@ -40,11 +46,23 @@ namespace Code.Gameplay.Player
         public MoveState MoveState { get; private set; }
         public JumpState JumpState { get; private set; }
         public FallState FallState { get; private set; }
+        public GroundAttackState GroundAttackState { get; private set; }
 
         private StateMachine _stateMachine;
         
 
         private void Awake()
+        {
+            _stateMachine = new StateMachine();
+
+            IdleState = new IdleState(this, _stateMachine);
+            MoveState = new MoveState(this, _stateMachine);
+            JumpState = new JumpState(this, _stateMachine);
+            FallState = new FallState(this, _stateMachine);
+            GroundAttackState = new GroundAttackState(this, _stateMachine, groundAttack, enemyLayer);
+        }
+
+        private void Start()
         {
             if (isItPlayerTwo)
             {
@@ -55,16 +73,6 @@ namespace Code.Gameplay.Player
                 Input = InputService.Instance.Player1;
             }
             
-            _stateMachine = new StateMachine();
-
-            IdleState = new IdleState(this, _stateMachine);
-            MoveState = new MoveState(this, _stateMachine);
-            JumpState = new JumpState(this, _stateMachine);
-            FallState = new FallState(this, _stateMachine);
-        }
-
-        private void Start()
-        {
             // У машины всегда должно быть начальное состояние.
             _stateMachine.ChangeState(IdleState);
         }
@@ -76,6 +84,11 @@ namespace Code.Gameplay.Player
             // Заметьте: здесь НЕТ никаких if/switch по типу состояния.
             // Контроллер даже не знает, в каком состоянии находится игрок, —
             // и ему это знать не нужно. В этом суть паттерна.
+        }
+
+        public void TakeDamage(float damage)
+        {
+            Debug.Log($"Take {damage} damage");
         }
 
         // --- Упрощённое определение земли (для учебного примера) ---

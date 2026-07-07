@@ -20,6 +20,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         public override void Enter()
         {
+            Debug.Log("Entered JumpState");
             // player.Animator.Play("Jump");
 
             // Импульс — разовое действие, поэтому Enter, а не Tick.

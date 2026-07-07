@@ -18,10 +18,10 @@ namespace Code.Infrastructure.InputSystem
             
             _gameInput = new GameInput();
 
-            foreach (InputActionMap map in _gameInput.asset.actionMaps)
-            {
-                map.Disable();
-            }
+            // foreach (InputActionMap map in _gameInput.asset.actionMaps)
+            // {
+            //     map.Disable();
+            // }
             
             DontDestroyOnLoad(gameObject);
 

@@ -1,5 +1,6 @@
 ﻿using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Gameplay.Player.PlayerStateSystem.SuperStates;
+using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
 {
@@ -19,6 +20,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         public override void Enter()
         {
+            Debug.Log("Entered FallState");
             // player.Animator.Play("Fall");
         }
 

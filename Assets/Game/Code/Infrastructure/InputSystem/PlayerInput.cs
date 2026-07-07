@@ -19,6 +19,7 @@ namespace Code.Infrastructure.InputSystem
         {
             GameInput.PlayerOneActions actions = playerOneActions;
             _actions = actions;
+            actions.Enable();
             
             actions.Move.performed += OnMove;
             actions.Move.canceled += OnMove;
@@ -35,6 +36,7 @@ namespace Code.Infrastructure.InputSystem
         {
             GameInput.PlayerTwoActions actions = playerOneActions;
             _actions = actions;
+            actions.Enable();
             
             actions.Move.performed += OnMove;
             actions.Move.canceled += OnMove;

@@ -15,7 +15,8 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         public override void Enter()
         {
-            // player.Animator.Play("Run");`
+            Debug.Log("Entered MoveState");
+            // player.Animator.Play("Run");
         }
 
         public override void Tick()
@@ -25,6 +26,10 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             {
                 return;
             }
+            
+            Player.transform.position = new Vector2(
+                Player.transform.position.x + Player.Input.Move * Player.MoveSpeed * Time.deltaTime,
+                Player.transform.position.y);
 
             // Собственный переход: ввод пропал -> покой.
             // if (Mathf.Abs(Player.Input.Horizontal) < 0.01f)
