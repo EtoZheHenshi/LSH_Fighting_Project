@@ -30,6 +30,8 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Attacks
             {
                 Player.Enemy.TakeDamage(_attackConfig.Damage);
             }
+
+            Player.StartCoroutine(_attackConfig.SwitchGizmosColor());
             
             Machine.ChangeState(Player.IdleState);
         }
