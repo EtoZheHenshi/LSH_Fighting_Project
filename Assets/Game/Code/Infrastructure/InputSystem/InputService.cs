@@ -7,8 +7,9 @@ namespace Code.Infrastructure.InputSystem
     public sealed class InputService : Singleton<InputService>
     {
         private GameInput _gameInput;
-        
-        public InputActionMap CurrentMap { get; private set; }
+
+        public PlayerInput Player1 { get; private set; }
+        public PlayerInput Player2 { get; private set; }
         public GameInput GameInput => _gameInput;
 
         protected override void Awake()
@@ -23,21 +24,9 @@ namespace Code.Infrastructure.InputSystem
             }
             
             DontDestroyOnLoad(gameObject);
-        }
 
-        public void SetMap(string mapName)
-        {
-            InputActionMap map = _gameInput.asset.FindActionMap(mapName);
-
-            if (map == null)
-            {
-                Debug.LogWarning("Map not found: " + mapName);
-                return;
-            }
-            
-            CurrentMap?.Disable();
-            CurrentMap = map;
-            CurrentMap.Enable();
+            Player1 = new PlayerInput(_gameInput.PlayerOne);
+            Player2 = new PlayerInput(_gameInput.PlayerTwo);
         }
     }
 }

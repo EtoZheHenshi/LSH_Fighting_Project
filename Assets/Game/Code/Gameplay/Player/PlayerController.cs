@@ -20,6 +20,7 @@ namespace Code.Gameplay.Player
     /// </summary>
     public class PlayerController : MonoBehaviour
     {
+        [SerializeField] private bool isItPlayerTwo;
         [SerializeField] private string actionMapName;
         [SerializeField] private float moveSpeed = 8f;
         [SerializeField] private float jumpForce = 12f;
@@ -41,9 +42,19 @@ namespace Code.Gameplay.Player
         public FallState FallState { get; private set; }
 
         private StateMachine _stateMachine;
+        
 
         private void Awake()
         {
+            if (isItPlayerTwo)
+            {
+                Input = InputService.Instance.Player2;
+            }
+            else
+            {
+                Input = InputService.Instance.Player1;
+            }
+            
             _stateMachine = new StateMachine();
 
             IdleState = new IdleState(this, _stateMachine);

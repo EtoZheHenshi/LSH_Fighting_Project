@@ -3,7 +3,7 @@
     "name": "GameInput",
     "maps": [
         {
-            "name": "Player",
+            "name": "PlayerOne",
             "id": "c645162e-f919-43ca-b3de-83b27cfe7a38",
             "actions": [
                 {
@@ -78,56 +78,12 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "3b76afc6-c389-4e1e-8f7f-9f74228f1cf1",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "18e4efd7-655a-4c7b-81f3-54a017fdcd5c",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard_P2",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "79ee0f4b-d8e6-4ff8-8d31-520b76afac4b",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard_P2",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "97afff8f-2a3b-4566-9258-03fa11a02126",
                     "path": "<Keyboard>/g",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard_P1",
-                    "action": "HandAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7a668fe2-7748-4f79-b987-06f0398c3318",
-                    "path": "<Keyboard>/period",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard_P2",
                     "action": "HandAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -145,7 +101,106 @@
                 },
                 {
                     "name": "",
-                    "id": "a07859b5-cf7c-4d0d-bea4-b21c092dedbf",
+                    "id": "b44ca712-8aea-4cda-a23c-556c94492f8e",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard_P1",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PlayerTwo",
+            "id": "451943bf-546a-4c03-af9c-c05ad526dc1b",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "122b298c-dd22-4a9e-86eb-3f4f329c401e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "c42fd7c5-1cdf-4695-922b-879f348dbb1d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "5225a2d9-8fee-4afc-8ed2-d737458f769c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HandAttack",
+                    "type": "Button",
+                    "id": "60689153-4e9e-47b5-865f-18d7b4f88408",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "54acd45d-2a63-42cb-913f-c63c9410420d",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "8901cb35-e194-4c6a-a19e-2fd740c72737",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard_P2",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "8e58cea8-3e0c-4340-8019-c4db14ce8c8c",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard_P2",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "fd0cd7dd-3736-4b01-8fe4-ac0b5866c77a",
+                    "path": "<Keyboard>/period",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard_P2",
+                    "action": "HandAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53292c51-e520-4157-a6ba-bfee94cc5f3e",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
@@ -156,18 +211,7 @@
                 },
                 {
                     "name": "",
-                    "id": "b44ca712-8aea-4cda-a23c-556c94492f8e",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard_P1",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3aa73413-cf17-488a-9ca8-c1430c52eca5",
+                    "id": "da241c6b-7ec4-4a71-b2ea-996eda39d230",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",

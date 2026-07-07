@@ -1,4 +1,4 @@
-namespace Code.Gameplay.Player
+namespace Code.Infrastructure.InputSystem
 {
     public interface IPlayerInput
     {
