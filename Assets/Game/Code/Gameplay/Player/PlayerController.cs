@@ -1,3 +1,4 @@
+using System.Linq;
 using Code.Gameplay.Player.PlayerStateSystem;
 using Code.Gameplay.Player.PlayerStateSystem.Attacks;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
@@ -29,9 +30,8 @@ namespace Code.Gameplay.Player
         [Header("AttackConfigs")] 
         [SerializeField] private AttackConfig groundAttack;
         
-        
-
-        public IPlayerInput Input;
+        public IPlayerInput Input { get; private set; }
+        public PlayerController Enemy { get; private set; }
 
         public float MoveSpeed => moveSpeed;
         public float JumpForce => jumpForce;
@@ -49,6 +49,8 @@ namespace Code.Gameplay.Player
         public GroundAttackState GroundAttackState { get; private set; }
 
         private StateMachine _stateMachine;
+
+        private bool _turnedRight;
         
 
         private void Awake()
@@ -67,10 +69,15 @@ namespace Code.Gameplay.Player
             if (isItPlayerTwo)
             {
                 Input = InputService.Instance.Player2;
+                Enemy = GameObject.FindWithTag("Player1").GetComponent<PlayerController>();
+                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                _turnedRight = false;
             }
             else
             {
                 Input = InputService.Instance.Player1;
+                Enemy = GameObject.FindWithTag("Player2").GetComponent<PlayerController>();
+                _turnedRight = true;
             }
             
             // У машины всегда должно быть начальное состояние.
@@ -80,6 +87,8 @@ namespace Code.Gameplay.Player
         private void Update()
         {
             _stateMachine.Tick();
+            
+            PlayerRotate();
 
             // Заметьте: здесь НЕТ никаких if/switch по типу состояния.
             // Контроллер даже не знает, в каком состоянии находится игрок, —
@@ -91,9 +100,19 @@ namespace Code.Gameplay.Player
             Debug.Log($"Take {damage} damage");
         }
 
-        // --- Упрощённое определение земли (для учебного примера) ---
-        // Любое касание коллайдера считаем землёй. В реальном проекте
-        // здесь была бы проверка слоя (LayerMask) и направления контакта,
-        // иначе "землёй" станет и стена, и потолок.
+        private void PlayerRotate()
+        {
+            if (_turnedRight && Enemy.transform.position.x > transform.position.x)
+            {
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                _turnedRight = false;
+            }
+
+            if (!_turnedRight && Enemy.transform.position.x < transform.position.x)
+            {
+                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                _turnedRight = true;
+            }
+        }
     }
 }
