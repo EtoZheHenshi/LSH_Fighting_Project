@@ -1,5 +1,6 @@
 using System;
 using Code.Gameplay.Player.Attacks;
+using Code.Gameplay.Player.Blocks;
 using Code.Gameplay.Player.PlayerStateSystem;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
@@ -8,18 +9,6 @@ using UnityEngine;
 
 namespace Code.Gameplay.Player
 {
-    /// <summary>
-    /// "Контекст" паттерна State — владелец всех данных и компонентов,
-    /// которые нужны состояниям для работы.
-    /// 
-    /// Разделение ответственности:
-    ///   PlayerController — ВЛАДЕЕТ данными (Rigidbody, ввод, настройки)
-    ///                      и прокидывает Unity-события (Update, коллизии).
-    ///   Состояния        — РЕШАЮТ, что с этими данными делать.
-    ///   StateMachine     — СЛЕДИТ, какое состояние сейчас активно.
-    /// 
-    /// Это единственный MonoBehaviour во всей системе.
-    /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
     public class PlayerController : MonoBehaviour
@@ -32,6 +21,7 @@ namespace Code.Gameplay.Player
         [SerializeField] private LayerMask bodyObstacleLayers;
         [SerializeField] private LayerMask ghostObstacleLayers; 
         [SerializeField] private AttackConfig attackConfig;
+        [SerializeField] private BlockConfig blockConfig;
     
         private Rigidbody2D _rb;
         private StateMachine _stateMachine;
@@ -55,7 +45,7 @@ namespace Code.Gameplay.Player
             
             GhostState = new GhostState(this, _stateMachine, eventBus);
             AttackState = new AttackState(this, _stateMachine, eventBus, attackConfig, enemyLayer);
-            ProtectionState = new ProtectionState(this, _stateMachine, eventBus);
+            ProtectionState = new ProtectionState(this, _stateMachine, eventBus, blockConfig);
         }
 
         private void Start()
@@ -94,7 +84,14 @@ namespace Code.Gameplay.Player
 
         public void TakeDamage(float damage)
         {
-            Debug.Log($"Take {damage} damage");
+            if (ProtectionState.CanBlock)
+            {
+                Debug.Log("Blocked");
+            }
+            else
+            {
+                Debug.Log($"Take {damage} damage");
+            }
         }
 
         private void Move()
