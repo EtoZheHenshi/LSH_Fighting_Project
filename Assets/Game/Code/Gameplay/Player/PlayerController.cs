@@ -24,11 +24,8 @@ namespace Code.Gameplay.Player
     {
         [SerializeField] private bool isItPlayerTwo;
         [SerializeField] private float moveSpeed = 8f;
-        [SerializeField] private float jumpForce = 12f;
         [SerializeField] private LayerMask enemyLayer;
-        [SerializeField] private LayerMask groundLayer;
         [SerializeField] private Rigidbody2D body;
-        [SerializeField] private CircleCollider2D legsCollider;
         
         [Header("AttackConfigs")] [SerializeField]
         private AttackConfig groundAttack;
@@ -38,31 +35,17 @@ namespace Code.Gameplay.Player
             get { return body; }
             private set { body = value; }
         }
-        
-        public CircleCollider2D LegsCollider
-        {
-            get { return legsCollider; }
-            private set { legsCollider = value; }
-        }
 
         public IPlayerInput Input;
         public PlayerController Enemy { get; private set; }
 
         public float MoveSpeed => moveSpeed;
-        public float JumpForce => jumpForce;
-
-        /// <summary>Стоит ли игрок на земле. Обновляется через события коллизий.</summary>
-        public bool IsGrounded { get; private set; }
 
         // Все состояния создаются ОДИН РАЗ в Awake и переиспользуются.
         // Если писать new IdleState(...) при каждом переходе, мы будем
         // создавать мусор для сборщика (GC) десятки раз в секунду.
         public IdleState IdleState { get; private set; }
         public MoveState MoveState { get; private set; }
-        public JumpState JumpState { get; private set; }
-        public FallState FallState { get; private set; }
-        
-        public CrouchState CrouchState { get; private set; }
         public GroundAttackState GroundAttackState { get; private set; }
 
         private StateMachine _stateMachine;
@@ -76,9 +59,6 @@ namespace Code.Gameplay.Player
 
             IdleState = new IdleState(this, _stateMachine);
             MoveState = new MoveState(this, _stateMachine);
-            JumpState = new JumpState(this, _stateMachine);
-            FallState = new FallState(this, _stateMachine);
-            CrouchState = new CrouchState(this, _stateMachine);
             
             GroundAttackState = new GroundAttackState(this, _stateMachine, groundAttack, enemyLayer);
             Body = GetComponent<Rigidbody2D>();
@@ -106,7 +86,6 @@ namespace Code.Gameplay.Player
 
         private void Update()
         {
-            IsGrounded = LegsCollider.IsTouchingLayers(groundLayer);
             _stateMachine.Tick();
             
             PlayerRotate();
