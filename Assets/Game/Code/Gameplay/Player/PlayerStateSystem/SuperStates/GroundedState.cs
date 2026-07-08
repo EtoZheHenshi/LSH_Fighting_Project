@@ -44,33 +44,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem.SuperStates
         protected bool TryCommonTransitions()
         {
             // Приоритет 1: прыжок доступен из любого наземного состояния.
-            if (Player.IsGrounded && Player.Input.Jump)
-            {
-                Machine.ChangeState(Player.JumpState);
-                return true;
-            }
-            if (Player.Input.Crouch)
-            {
-                Machine.ChangeState(Player.CrouchState);
-                return true;
-            }
             if (Player.Input.Attack)
             {
                 Machine.ChangeState(Player.GroundAttackState);
                 return true;
             }
-
-            //
-            // // Приоритет 2: сошли с края платформы -> падаем.
-            // // Заметьте: это падение БЕЗ прыжка. Именно ради таких случаев
-            // // FallState существует отдельно от JumpState.
-            if (!Player.IsGrounded)
-            {
-                Machine.ChangeState(Player.FallState);
-                return true;
-            }
-
-            
 
             return false; // остаёмся в текущем состоянии
         }

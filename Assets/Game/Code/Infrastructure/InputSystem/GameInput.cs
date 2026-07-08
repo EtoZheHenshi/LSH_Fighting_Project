@@ -104,24 +104,6 @@ namespace Code.InputSystem
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""bde13f50-44ff-40d3-bcb4-84401d6c3f02"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Crouch"",
-                    ""type"": ""Button"",
-                    ""id"": ""d5004141-6ab2-4445-aa5f-9bf056803cca"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""HandAttack"",
                     ""type"": ""Button"",
                     ""id"": ""9103e3f4-e90b-4222-80d3-9b2182449dd8"",
@@ -133,9 +115,9 @@ namespace Code.InputSystem
             ],
             ""bindings"": [
                 {
-                    ""name"": ""1D Axis"",
+                    ""name"": ""2D Vector"",
                     ""id"": ""a3465a1d-b699-4663-95c5-d59b676f5a34"",
-                    ""path"": ""1DAxis"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -144,9 +126,9 @@ namespace Code.InputSystem
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
+                    ""name"": ""Up"",
                     ""id"": ""36cbf7c1-7a3b-4666-b973-06978a0b712e"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard_P1"",
@@ -155,12 +137,34 @@ namespace Code.InputSystem
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
+                    ""name"": ""Down"",
                     ""id"": ""2f25050b-2985-4879-a14c-e545e5df5af6"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard_P1"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Left"",
+                    ""id"": ""d7eceb44-34a2-4269-bf37-e143930db5d9"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Right"",
+                    ""id"": ""0905918d-0601-4509-9e48-0e0d8c2503b5"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -168,33 +172,11 @@ namespace Code.InputSystem
                 {
                     ""name"": """",
                     ""id"": ""97afff8f-2a3b-4566-9258-03fa11a02126"",
-                    ""path"": ""<Keyboard>/g"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard_P1"",
                     ""action"": ""HandAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""38b268b8-5abd-4401-8e45-d4d93b6edc05"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard_P1"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b44ca712-8aea-4cda-a23c-556c94492f8e"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard_P1"",
-                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -214,24 +196,6 @@ namespace Code.InputSystem
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""c42fd7c5-1cdf-4695-922b-879f348dbb1d"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Crouch"",
-                    ""type"": ""Button"",
-                    ""id"": ""5225a2d9-8fee-4afc-8ed2-d737458f769c"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""HandAttack"",
                     ""type"": ""Button"",
                     ""id"": ""60689153-4e9e-47b5-865f-18d7b4f88408"",
@@ -243,9 +207,9 @@ namespace Code.InputSystem
             ],
             ""bindings"": [
                 {
-                    ""name"": ""1D Axis"",
+                    ""name"": ""2D Vector"",
                     ""id"": ""54acd45d-2a63-42cb-913f-c63c9410420d"",
-                    ""path"": ""1DAxis"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -254,9 +218,9 @@ namespace Code.InputSystem
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
+                    ""name"": ""Up"",
                     ""id"": ""8901cb35-e194-4c6a-a19e-2fd740c72737"",
-                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard_P2"",
@@ -265,12 +229,34 @@ namespace Code.InputSystem
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
+                    ""name"": ""Down"",
                     ""id"": ""8e58cea8-3e0c-4340-8019-c4db14ce8c8c"",
-                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard_P2"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Left"",
+                    ""id"": ""b7591eb1-71b1-4ab4-a5ae-5b92303b0d1b"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Right"",
+                    ""id"": ""da5dd923-48dc-4573-b46b-3bd88914e196"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -285,68 +271,19 @@ namespace Code.InputSystem
                     ""action"": ""HandAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""53292c51-e520-4157-a6ba-bfee94cc5f3e"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard_P2"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""da241c6b-7ec4-4a71-b2ea-996eda39d230"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard_P2"",
-                    ""action"": ""Crouch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": [
-        {
-            ""name"": ""Keyboard_P1"",
-            ""bindingGroup"": ""Keyboard_P1"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Keyboard>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Keyboard_P2"",
-            ""bindingGroup"": ""Keyboard_P2"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Keyboard>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        }
-    ]
+    ""controlSchemes"": []
 }");
             // PlayerOne
             m_PlayerOne = asset.FindActionMap("PlayerOne", throwIfNotFound: true);
             m_PlayerOne_Move = m_PlayerOne.FindAction("Move", throwIfNotFound: true);
-            m_PlayerOne_Jump = m_PlayerOne.FindAction("Jump", throwIfNotFound: true);
-            m_PlayerOne_Crouch = m_PlayerOne.FindAction("Crouch", throwIfNotFound: true);
             m_PlayerOne_HandAttack = m_PlayerOne.FindAction("HandAttack", throwIfNotFound: true);
             // PlayerTwo
             m_PlayerTwo = asset.FindActionMap("PlayerTwo", throwIfNotFound: true);
             m_PlayerTwo_Move = m_PlayerTwo.FindAction("Move", throwIfNotFound: true);
-            m_PlayerTwo_Jump = m_PlayerTwo.FindAction("Jump", throwIfNotFound: true);
-            m_PlayerTwo_Crouch = m_PlayerTwo.FindAction("Crouch", throwIfNotFound: true);
             m_PlayerTwo_HandAttack = m_PlayerTwo.FindAction("HandAttack", throwIfNotFound: true);
         }
 
@@ -430,8 +367,6 @@ namespace Code.InputSystem
         private readonly InputActionMap m_PlayerOne;
         private List<IPlayerOneActions> m_PlayerOneActionsCallbackInterfaces = new List<IPlayerOneActions>();
         private readonly InputAction m_PlayerOne_Move;
-        private readonly InputAction m_PlayerOne_Jump;
-        private readonly InputAction m_PlayerOne_Crouch;
         private readonly InputAction m_PlayerOne_HandAttack;
         /// <summary>
         /// Provides access to input actions defined in input action map "PlayerOne".
@@ -448,14 +383,6 @@ namespace Code.InputSystem
             /// Provides access to the underlying input action "PlayerOne/Move".
             /// </summary>
             public InputAction @Move => m_Wrapper.m_PlayerOne_Move;
-            /// <summary>
-            /// Provides access to the underlying input action "PlayerOne/Jump".
-            /// </summary>
-            public InputAction @Jump => m_Wrapper.m_PlayerOne_Jump;
-            /// <summary>
-            /// Provides access to the underlying input action "PlayerOne/Crouch".
-            /// </summary>
-            public InputAction @Crouch => m_Wrapper.m_PlayerOne_Crouch;
             /// <summary>
             /// Provides access to the underlying input action "PlayerOne/HandAttack".
             /// </summary>
@@ -489,12 +416,6 @@ namespace Code.InputSystem
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
-                @Crouch.started += instance.OnCrouch;
-                @Crouch.performed += instance.OnCrouch;
-                @Crouch.canceled += instance.OnCrouch;
                 @HandAttack.started += instance.OnHandAttack;
                 @HandAttack.performed += instance.OnHandAttack;
                 @HandAttack.canceled += instance.OnHandAttack;
@@ -512,12 +433,6 @@ namespace Code.InputSystem
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
                 @Move.canceled -= instance.OnMove;
-                @Jump.started -= instance.OnJump;
-                @Jump.performed -= instance.OnJump;
-                @Jump.canceled -= instance.OnJump;
-                @Crouch.started -= instance.OnCrouch;
-                @Crouch.performed -= instance.OnCrouch;
-                @Crouch.canceled -= instance.OnCrouch;
                 @HandAttack.started -= instance.OnHandAttack;
                 @HandAttack.performed -= instance.OnHandAttack;
                 @HandAttack.canceled -= instance.OnHandAttack;
@@ -559,8 +474,6 @@ namespace Code.InputSystem
         private readonly InputActionMap m_PlayerTwo;
         private List<IPlayerTwoActions> m_PlayerTwoActionsCallbackInterfaces = new List<IPlayerTwoActions>();
         private readonly InputAction m_PlayerTwo_Move;
-        private readonly InputAction m_PlayerTwo_Jump;
-        private readonly InputAction m_PlayerTwo_Crouch;
         private readonly InputAction m_PlayerTwo_HandAttack;
         /// <summary>
         /// Provides access to input actions defined in input action map "PlayerTwo".
@@ -577,14 +490,6 @@ namespace Code.InputSystem
             /// Provides access to the underlying input action "PlayerTwo/Move".
             /// </summary>
             public InputAction @Move => m_Wrapper.m_PlayerTwo_Move;
-            /// <summary>
-            /// Provides access to the underlying input action "PlayerTwo/Jump".
-            /// </summary>
-            public InputAction @Jump => m_Wrapper.m_PlayerTwo_Jump;
-            /// <summary>
-            /// Provides access to the underlying input action "PlayerTwo/Crouch".
-            /// </summary>
-            public InputAction @Crouch => m_Wrapper.m_PlayerTwo_Crouch;
             /// <summary>
             /// Provides access to the underlying input action "PlayerTwo/HandAttack".
             /// </summary>
@@ -618,12 +523,6 @@ namespace Code.InputSystem
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
-                @Crouch.started += instance.OnCrouch;
-                @Crouch.performed += instance.OnCrouch;
-                @Crouch.canceled += instance.OnCrouch;
                 @HandAttack.started += instance.OnHandAttack;
                 @HandAttack.performed += instance.OnHandAttack;
                 @HandAttack.canceled += instance.OnHandAttack;
@@ -641,12 +540,6 @@ namespace Code.InputSystem
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
                 @Move.canceled -= instance.OnMove;
-                @Jump.started -= instance.OnJump;
-                @Jump.performed -= instance.OnJump;
-                @Jump.canceled -= instance.OnJump;
-                @Crouch.started -= instance.OnCrouch;
-                @Crouch.performed -= instance.OnCrouch;
-                @Crouch.canceled -= instance.OnCrouch;
                 @HandAttack.started -= instance.OnHandAttack;
                 @HandAttack.performed -= instance.OnHandAttack;
                 @HandAttack.canceled -= instance.OnHandAttack;
@@ -683,32 +576,6 @@ namespace Code.InputSystem
         /// Provides a new <see cref="PlayerTwoActions" /> instance referencing this action map.
         /// </summary>
         public PlayerTwoActions @PlayerTwo => new PlayerTwoActions(this);
-        private int m_Keyboard_P1SchemeIndex = -1;
-        /// <summary>
-        /// Provides access to the input control scheme.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
-        public InputControlScheme Keyboard_P1Scheme
-        {
-            get
-            {
-                if (m_Keyboard_P1SchemeIndex == -1) m_Keyboard_P1SchemeIndex = asset.FindControlSchemeIndex("Keyboard_P1");
-                return asset.controlSchemes[m_Keyboard_P1SchemeIndex];
-            }
-        }
-        private int m_Keyboard_P2SchemeIndex = -1;
-        /// <summary>
-        /// Provides access to the input control scheme.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
-        public InputControlScheme Keyboard_P2Scheme
-        {
-            get
-            {
-                if (m_Keyboard_P2SchemeIndex == -1) m_Keyboard_P2SchemeIndex = asset.FindControlSchemeIndex("Keyboard_P2");
-                return asset.controlSchemes[m_Keyboard_P2SchemeIndex];
-            }
-        }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayerOne" which allows adding and removing callbacks.
         /// </summary>
@@ -723,20 +590,6 @@ namespace Code.InputSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnMove(InputAction.CallbackContext context);
-            /// <summary>
-            /// Method invoked when associated input action "Jump" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-            /// </summary>
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnJump(InputAction.CallbackContext context);
-            /// <summary>
-            /// Method invoked when associated input action "Crouch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-            /// </summary>
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnCrouch(InputAction.CallbackContext context);
             /// <summary>
             /// Method invoked when associated input action "HandAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
@@ -759,20 +612,6 @@ namespace Code.InputSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnMove(InputAction.CallbackContext context);
-            /// <summary>
-            /// Method invoked when associated input action "Jump" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-            /// </summary>
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnJump(InputAction.CallbackContext context);
-            /// <summary>
-            /// Method invoked when associated input action "Crouch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-            /// </summary>
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnCrouch(InputAction.CallbackContext context);
             /// <summary>
             /// Method invoked when associated input action "HandAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>

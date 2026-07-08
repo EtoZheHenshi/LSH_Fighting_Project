@@ -28,15 +28,15 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             }
             
             // Собственный переход: ввод пропал -> покой.
-            if (Mathf.Abs(Player.Input.Move) < 0.01f)
+            if (Mathf.Abs(Player.Input.Move.sqrMagnitude) < 0.01f)
             {
                 Machine.ChangeState(Player.IdleState);
             }
             
             // Собственное поведение: движение по земле.
             Player.transform.position = new Vector2(
-                Player.transform.position.x + Player.Input.Move * Player.MoveSpeed * Time.deltaTime,
-                Player.transform.position.y);
+                Player.transform.position.x + Player.Input.Move.x * Player.MoveSpeed * Time.deltaTime,
+                Player.transform.position.y + Player.Input.Move.y * Player.MoveSpeed * Time.deltaTime);
         }
     }
 }

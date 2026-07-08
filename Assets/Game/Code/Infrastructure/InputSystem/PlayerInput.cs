@@ -1,5 +1,6 @@
 using Code.Gameplay.Player;
 using Code.InputSystem;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Code.Infrastructure.InputSystem
@@ -10,9 +11,7 @@ namespace Code.Infrastructure.InputSystem
         
         public InputActionMap ActionMap => _actions;
 
-        public float Move { get; set; }
-        public bool Jump { get; set;}
-        public bool Crouch { get; set;}
+        public Vector2 Move { get; set; }
         public bool Attack { get; set;}
 
         public PlayerInput(GameInput.PlayerOneActions playerOneActions)
@@ -24,11 +23,6 @@ namespace Code.Infrastructure.InputSystem
             actions.Move.performed += OnMove;
             actions.Move.canceled += OnMove;
             
-            actions.Jump.started += OnJump;
-            
-            actions.Crouch.started += OnCrouch;
-            actions.Crouch.canceled += OnCrouch;
-
             actions.HandAttack.started += OnHandAttack;
             actions.HandAttack.canceled += OnHandAttack;
         }
@@ -41,11 +35,6 @@ namespace Code.Infrastructure.InputSystem
             
             actions.Move.performed += OnMove;
             actions.Move.canceled += OnMove;
-            
-            actions.Jump.started += OnJump;
-            
-            actions.Crouch.started += OnCrouch;
-            actions.Crouch.canceled += OnCrouch;
 
             actions.HandAttack.started += OnHandAttack;
             actions.HandAttack.canceled += OnHandAttack;
@@ -53,17 +42,7 @@ namespace Code.Infrastructure.InputSystem
 
         private void OnMove(InputAction.CallbackContext ctx)
         {
-            Move = ctx.ReadValue<float>();
-        }
-
-        private void OnJump(InputAction.CallbackContext ctx)
-        {
-            Jump = ctx.started;
-        }
-
-        private void OnCrouch(InputAction.CallbackContext ctx)
-        {
-            Crouch = ctx.started;
+            Move = ctx.ReadValue<Vector2>();
         }
 
         private void OnHandAttack(InputAction.CallbackContext ctx)

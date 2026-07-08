@@ -1,10 +1,10 @@
+using UnityEngine;
+
 namespace Code.Infrastructure.InputSystem
 {
     public interface IPlayerInput
     {
-        public float Move { get; }
-        public bool Jump { get; }
-        public bool Crouch { get; }
+        public Vector2 Move { get; }
         public bool Attack { get; }
     }
 }
