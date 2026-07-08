@@ -1,4 +1,6 @@
 using System;
+using Code.Infrastructure.EventBusSystem;
+using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem.Base
 {
@@ -13,13 +15,15 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Base
     {
         protected readonly PlayerController Player;
         protected readonly StateMachine Machine;
+        protected readonly EventBusService EventBus;
         
         protected abstract Action ActiveAction { get; }
 
-        protected PlayerBaseState(PlayerController player, StateMachine machine)
+        protected PlayerBaseState(PlayerController player, StateMachine machine, EventBusService eventBus)
         {
             this.Player = player;
             this.Machine = machine;
+            this.EventBus = eventBus;
         }
 
         // Enter и Exit — virtual с пустым телом: состояние переопределяет

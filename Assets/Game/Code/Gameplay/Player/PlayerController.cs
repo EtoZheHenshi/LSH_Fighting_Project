@@ -2,6 +2,7 @@ using System;
 using Code.Gameplay.Player.Attacks;
 using Code.Gameplay.Player.PlayerStateSystem;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
+using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.InputSystem;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ namespace Code.Gameplay.Player
     /// 
     /// Это единственный MonoBehaviour во всей системе.
     /// </summary>
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Collider2D))]
     public class PlayerController : MonoBehaviour
     {
         private const float Skin = 0.02f;
@@ -37,6 +40,7 @@ namespace Code.Gameplay.Player
         public AttackState AttackState { get; private set; }
         public ProtectionState ProtectionState { get; private set; }
         
+        public StateMachine StateMachine => _stateMachine;
         public Rigidbody2D Rigidbody => _rb;
         public IPlayerInput Input;
         public PlayerController Enemy { get; private set; }
@@ -47,10 +51,11 @@ namespace Code.Gameplay.Player
         {
             _stateMachine = new StateMachine();
             _rb = GetComponent<Rigidbody2D>();
+            EventBusService eventBus = EventBusService.Instance;
             
-            GhostState = new GhostState(this, _stateMachine);
-            AttackState = new AttackState(this, _stateMachine);
-            ProtectionState = new ProtectionState(this, _stateMachine);
+            GhostState = new GhostState(this, _stateMachine, eventBus);
+            AttackState = new AttackState(this, _stateMachine, eventBus, attackConfig, enemyLayer);
+            ProtectionState = new ProtectionState(this, _stateMachine, eventBus);
         }
 
         private void Start()
@@ -67,7 +72,7 @@ namespace Code.Gameplay.Player
             }
 
             // У машины всегда должно быть начальное состояние.
-            _stateMachine.ChangeState(GhostState);
+            //_stateMachine.ChangeState(GhostState);
         }
 
         private void Update()

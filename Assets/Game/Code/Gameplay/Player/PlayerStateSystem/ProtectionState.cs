@@ -1,5 +1,7 @@
 using System;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
+using Code.Infrastructure.EventBusSystem;
+using Code.Infrastructure.EventBusSystem.Events;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
@@ -10,16 +12,35 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         
         protected override Action ActiveAction => _activeAction;
         
-        public ProtectionState(PlayerController player, StateMachine machine) : base(player, machine)
+        public ProtectionState(PlayerController player, StateMachine machine, EventBusService eventBusService) 
+            : base(player, machine, eventBusService)
         {
             _activeAction = Protect;
+        }
+        
+        public override void Enter()
+        {
+            base.Enter();
+            
+            EventBus.Subscribe<SwitchPlayerRoles>(SwitchToAttack);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            
+            EventBus.Unsubscribe<SwitchPlayerRoles>(SwitchToAttack);
         }
 
         private void Protect()
         {
             Debug.Log("Protect");
             //логика защиты
-            Machine.ChangeState(Player.GhostState);
+        }
+        
+        private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)
+        {
+            Machine.ChangeState(Player.AttackState);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
+using Code.Infrastructure.EventBusSystem;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
@@ -10,7 +11,8 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         
         protected override Action ActiveAction => _activeAction;
         
-        public GhostState(PlayerController player, StateMachine machine) : base(player, machine)
+        public GhostState(PlayerController player, StateMachine machine, EventBusService eventBusService) 
+            : base(player, machine, eventBusService)
         {
             _activeAction = Possession;
         }
@@ -19,7 +21,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         {
             Debug.Log("Possession");
             //логика завладевания телом
-            Machine.ChangeState(Player.AttackState);
         }
     }
 }

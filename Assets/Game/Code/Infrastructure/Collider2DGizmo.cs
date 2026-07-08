@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.Infrastructure
@@ -16,11 +18,11 @@ namespace Code.Infrastructure
             _collider = GetComponent<Collider2D>();
         }
 
-        public IEnumerator SwitchGizmosColor(Color switchColor, float duration)
+        public async UniTask SwitchGizmosColor(Color switchColor, float duration)
         {
-            Color oldColor = Gizmos.color;
+            Color oldColor = Color.yellow;
             color = switchColor;
-            yield return new WaitForSeconds(duration);
+            await UniTask.Delay(TimeSpan.FromSeconds(duration));
             color = oldColor;
         }
 
