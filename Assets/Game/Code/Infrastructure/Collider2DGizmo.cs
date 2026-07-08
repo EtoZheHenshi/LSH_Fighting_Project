@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Code.Infrastructure
@@ -13,6 +14,14 @@ namespace Code.Infrastructure
         private void Awake()
         {
             _collider = GetComponent<Collider2D>();
+        }
+
+        public IEnumerator SwitchGizmosColor(Color switchColor, float duration)
+        {
+            Color oldColor = Gizmos.color;
+            color = switchColor;
+            yield return new WaitForSeconds(duration);
+            color = oldColor;
         }
 
         private void OnDrawGizmos()
