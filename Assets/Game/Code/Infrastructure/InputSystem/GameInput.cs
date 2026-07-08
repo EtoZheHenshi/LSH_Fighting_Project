@@ -104,7 +104,7 @@ namespace Code.InputSystem
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""HandAttack"",
+                    ""name"": ""ActiveAction"",
                     ""type"": ""Button"",
                     ""id"": ""9103e3f4-e90b-4222-80d3-9b2182449dd8"",
                     ""expectedControlType"": """",
@@ -176,7 +176,7 @@ namespace Code.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard_P1"",
-                    ""action"": ""HandAttack"",
+                    ""action"": ""ActiveAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -196,7 +196,7 @@ namespace Code.InputSystem
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""HandAttack"",
+                    ""name"": ""ActiveAction"",
                     ""type"": ""Button"",
                     ""id"": ""60689153-4e9e-47b5-865f-18d7b4f88408"",
                     ""expectedControlType"": """",
@@ -268,7 +268,7 @@ namespace Code.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard_P2"",
-                    ""action"": ""HandAttack"",
+                    ""action"": ""ActiveAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -280,11 +280,11 @@ namespace Code.InputSystem
             // PlayerOne
             m_PlayerOne = asset.FindActionMap("PlayerOne", throwIfNotFound: true);
             m_PlayerOne_Move = m_PlayerOne.FindAction("Move", throwIfNotFound: true);
-            m_PlayerOne_HandAttack = m_PlayerOne.FindAction("HandAttack", throwIfNotFound: true);
+            m_PlayerOne_ActiveAction = m_PlayerOne.FindAction("ActiveAction", throwIfNotFound: true);
             // PlayerTwo
             m_PlayerTwo = asset.FindActionMap("PlayerTwo", throwIfNotFound: true);
             m_PlayerTwo_Move = m_PlayerTwo.FindAction("Move", throwIfNotFound: true);
-            m_PlayerTwo_HandAttack = m_PlayerTwo.FindAction("HandAttack", throwIfNotFound: true);
+            m_PlayerTwo_ActiveAction = m_PlayerTwo.FindAction("ActiveAction", throwIfNotFound: true);
         }
 
         ~@GameInput()
@@ -367,7 +367,7 @@ namespace Code.InputSystem
         private readonly InputActionMap m_PlayerOne;
         private List<IPlayerOneActions> m_PlayerOneActionsCallbackInterfaces = new List<IPlayerOneActions>();
         private readonly InputAction m_PlayerOne_Move;
-        private readonly InputAction m_PlayerOne_HandAttack;
+        private readonly InputAction m_PlayerOne_ActiveAction;
         /// <summary>
         /// Provides access to input actions defined in input action map "PlayerOne".
         /// </summary>
@@ -384,9 +384,9 @@ namespace Code.InputSystem
             /// </summary>
             public InputAction @Move => m_Wrapper.m_PlayerOne_Move;
             /// <summary>
-            /// Provides access to the underlying input action "PlayerOne/HandAttack".
+            /// Provides access to the underlying input action "PlayerOne/ActiveAction".
             /// </summary>
-            public InputAction @HandAttack => m_Wrapper.m_PlayerOne_HandAttack;
+            public InputAction @ActiveAction => m_Wrapper.m_PlayerOne_ActiveAction;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -416,9 +416,9 @@ namespace Code.InputSystem
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @HandAttack.started += instance.OnHandAttack;
-                @HandAttack.performed += instance.OnHandAttack;
-                @HandAttack.canceled += instance.OnHandAttack;
+                @ActiveAction.started += instance.OnActiveAction;
+                @ActiveAction.performed += instance.OnActiveAction;
+                @ActiveAction.canceled += instance.OnActiveAction;
             }
 
             /// <summary>
@@ -433,9 +433,9 @@ namespace Code.InputSystem
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
                 @Move.canceled -= instance.OnMove;
-                @HandAttack.started -= instance.OnHandAttack;
-                @HandAttack.performed -= instance.OnHandAttack;
-                @HandAttack.canceled -= instance.OnHandAttack;
+                @ActiveAction.started -= instance.OnActiveAction;
+                @ActiveAction.performed -= instance.OnActiveAction;
+                @ActiveAction.canceled -= instance.OnActiveAction;
             }
 
             /// <summary>
@@ -474,7 +474,7 @@ namespace Code.InputSystem
         private readonly InputActionMap m_PlayerTwo;
         private List<IPlayerTwoActions> m_PlayerTwoActionsCallbackInterfaces = new List<IPlayerTwoActions>();
         private readonly InputAction m_PlayerTwo_Move;
-        private readonly InputAction m_PlayerTwo_HandAttack;
+        private readonly InputAction m_PlayerTwo_ActiveAction;
         /// <summary>
         /// Provides access to input actions defined in input action map "PlayerTwo".
         /// </summary>
@@ -491,9 +491,9 @@ namespace Code.InputSystem
             /// </summary>
             public InputAction @Move => m_Wrapper.m_PlayerTwo_Move;
             /// <summary>
-            /// Provides access to the underlying input action "PlayerTwo/HandAttack".
+            /// Provides access to the underlying input action "PlayerTwo/ActiveAction".
             /// </summary>
-            public InputAction @HandAttack => m_Wrapper.m_PlayerTwo_HandAttack;
+            public InputAction @ActiveAction => m_Wrapper.m_PlayerTwo_ActiveAction;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -523,9 +523,9 @@ namespace Code.InputSystem
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @HandAttack.started += instance.OnHandAttack;
-                @HandAttack.performed += instance.OnHandAttack;
-                @HandAttack.canceled += instance.OnHandAttack;
+                @ActiveAction.started += instance.OnActiveAction;
+                @ActiveAction.performed += instance.OnActiveAction;
+                @ActiveAction.canceled += instance.OnActiveAction;
             }
 
             /// <summary>
@@ -540,9 +540,9 @@ namespace Code.InputSystem
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
                 @Move.canceled -= instance.OnMove;
-                @HandAttack.started -= instance.OnHandAttack;
-                @HandAttack.performed -= instance.OnHandAttack;
-                @HandAttack.canceled -= instance.OnHandAttack;
+                @ActiveAction.started -= instance.OnActiveAction;
+                @ActiveAction.performed -= instance.OnActiveAction;
+                @ActiveAction.canceled -= instance.OnActiveAction;
             }
 
             /// <summary>
@@ -591,12 +591,12 @@ namespace Code.InputSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnMove(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "HandAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "ActiveAction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnHandAttack(InputAction.CallbackContext context);
+            void OnActiveAction(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayerTwo" which allows adding and removing callbacks.
@@ -613,12 +613,12 @@ namespace Code.InputSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnMove(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "HandAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "ActiveAction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnHandAttack(InputAction.CallbackContext context);
+            void OnActiveAction(InputAction.CallbackContext context);
         }
     }
 }

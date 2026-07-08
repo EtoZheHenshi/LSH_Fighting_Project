@@ -16,7 +16,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "HandAttack",
+                    "name": "ActiveAction",
                     "type": "Button",
                     "id": "9103e3f4-e90b-4222-80d3-9b2182449dd8",
                     "expectedControlType": "",
@@ -88,7 +88,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard_P1",
-                    "action": "HandAttack",
+                    "action": "ActiveAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -108,7 +108,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "HandAttack",
+                    "name": "ActiveAction",
                     "type": "Button",
                     "id": "60689153-4e9e-47b5-865f-18d7b4f88408",
                     "expectedControlType": "",
@@ -180,7 +180,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard_P2",
-                    "action": "HandAttack",
+                    "action": "ActiveAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

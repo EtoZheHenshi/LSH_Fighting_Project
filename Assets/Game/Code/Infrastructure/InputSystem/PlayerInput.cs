@@ -12,7 +12,7 @@ namespace Code.Infrastructure.InputSystem
         public InputActionMap ActionMap => _actions;
 
         public Vector2 Move { get; set; }
-        public bool Attack { get; set;}
+        public bool ActiveAction { get; set;}
 
         public PlayerInput(GameInput.PlayerOneActions playerOneActions)
         {
@@ -23,8 +23,8 @@ namespace Code.Infrastructure.InputSystem
             actions.Move.performed += OnMove;
             actions.Move.canceled += OnMove;
             
-            actions.HandAttack.started += OnHandAttack;
-            actions.HandAttack.canceled += OnHandAttack;
+            actions.ActiveAction.started += OnHandAttack;
+            actions.ActiveAction.canceled += OnHandAttack;
         }
         
         public PlayerInput(GameInput.PlayerTwoActions playerOneActions)
@@ -36,8 +36,8 @@ namespace Code.Infrastructure.InputSystem
             actions.Move.performed += OnMove;
             actions.Move.canceled += OnMove;
 
-            actions.HandAttack.started += OnHandAttack;
-            actions.HandAttack.canceled += OnHandAttack;
+            actions.ActiveAction.started += OnHandAttack;
+            actions.ActiveAction.canceled += OnHandAttack;
         }
 
         private void OnMove(InputAction.CallbackContext ctx)
@@ -47,7 +47,7 @@ namespace Code.Infrastructure.InputSystem
 
         private void OnHandAttack(InputAction.CallbackContext ctx)
         {
-            Attack = ctx.started;
+            ActiveAction = ctx.started;
         }
     }
 }

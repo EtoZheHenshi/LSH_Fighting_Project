@@ -1,3 +1,5 @@
+using System;
+
 namespace Code.Gameplay.Player.PlayerStateSystem.Base
 {
     /// Общий предок всех состояний игрока.
@@ -9,10 +11,10 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Base
     ///   и одинаковый конструктор. Пишем это один раз здесь.
     public abstract class PlayerBaseState : IState
     {
-        // protected — поля видны наследникам, но закрыты для всех остальных.
-        // readonly — ссылки задаются один раз в конструкторе и не меняются.
         protected readonly PlayerController Player;
         protected readonly StateMachine Machine;
+        
+        protected abstract Action ActiveAction { get; }
 
         protected PlayerBaseState(PlayerController player, StateMachine machine)
         {
@@ -26,6 +28,12 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Base
         public virtual void Exit() { }
 
         // Tick — abstract: логика кадра обязана быть у КАЖДОГО состояния.
-        public abstract void Tick();
+        public virtual void Tick()
+        {
+            if (Player.Input.ActiveAction)
+            {
+                ActiveAction?.Invoke();
+            }
+        }
     }
 }

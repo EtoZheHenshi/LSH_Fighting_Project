@@ -1,10 +1,9 @@
-using System.Linq;
+using System;
+using Code.Gameplay.Player.Attacks;
 using Code.Gameplay.Player.PlayerStateSystem;
-using Code.Gameplay.Player.PlayerStateSystem.Attacks;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.InputSystem;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Code.Gameplay.Player
 {
@@ -22,46 +21,36 @@ namespace Code.Gameplay.Player
     /// </summary>
     public class PlayerController : MonoBehaviour
     {
+        private const float Skin = 0.02f;
+        
         [SerializeField] private bool isItPlayerTwo;
         [SerializeField] private float moveSpeed = 8f;
         [SerializeField] private LayerMask enemyLayer;
-        [SerializeField] private Rigidbody2D body;
-        
-        [Header("AttackConfigs")] [SerializeField]
-        private AttackConfig groundAttack;
+        [SerializeField] private LayerMask bodyObstacleLayers;
+        [SerializeField] private LayerMask ghostObstacleLayers; 
+        [SerializeField] private AttackConfig attackConfig;
     
-        public Rigidbody2D Body
-        {
-            get { return body; }
-            private set { body = value; }
-        }
-
+        private Rigidbody2D _rb;
+        private StateMachine _stateMachine;
+        
+        public GhostState GhostState { get; private set; }
+        public AttackState AttackState { get; private set; }
+        public ProtectionState ProtectionState { get; private set; }
+        
+        public Rigidbody2D Rigidbody => _rb;
         public IPlayerInput Input;
         public PlayerController Enemy { get; private set; }
-
         public float MoveSpeed => moveSpeed;
 
-        // Все состояния создаются ОДИН РАЗ в Awake и переиспользуются.
-        // Если писать new IdleState(...) при каждом переходе, мы будем
-        // создавать мусор для сборщика (GC) десятки раз в секунду.
-        public IdleState IdleState { get; private set; }
-        public MoveState MoveState { get; private set; }
-        public GroundAttackState GroundAttackState { get; private set; }
-
-        private StateMachine _stateMachine;
-
-        private bool _turnedRight;
-        
 
         private void Awake()
         {
             _stateMachine = new StateMachine();
-
-            IdleState = new IdleState(this, _stateMachine);
-            MoveState = new MoveState(this, _stateMachine);
+            _rb = GetComponent<Rigidbody2D>();
             
-            GroundAttackState = new GroundAttackState(this, _stateMachine, groundAttack, enemyLayer);
-            Body = GetComponent<Rigidbody2D>();
+            GhostState = new GhostState(this, _stateMachine);
+            AttackState = new AttackState(this, _stateMachine);
+            ProtectionState = new ProtectionState(this, _stateMachine);
         }
 
         private void Start()
@@ -70,29 +59,32 @@ namespace Code.Gameplay.Player
             {
                 Input = InputService.Instance.Player2;
                 Enemy = GameObject.FindWithTag("Player1").GetComponent<PlayerController>();
-                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-                _turnedRight = false;
             }
             else
             {
                 Input = InputService.Instance.Player1;
                 Enemy = GameObject.FindWithTag("Player2").GetComponent<PlayerController>();
-                _turnedRight = true;
             }
 
             // У машины всегда должно быть начальное состояние.
-            _stateMachine.ChangeState(IdleState);
+            _stateMachine.ChangeState(GhostState);
         }
 
         private void Update()
         {
             _stateMachine.Tick();
-            
-            PlayerRotate();
+        }
 
-            // Заметьте: здесь НЕТ никаких if/switch по типу состояния.
-            // Контроллер даже не знает, в каком состоянии находится игрок, —
-            // и ему это знать не нужно. В этом суть паттерна.
+        private void FixedUpdate()
+        {
+            // if (Input.Move.sqrMagnitude > 0.01f)
+            // {
+            //     Move();
+            // }
+            
+            Move();
+            
+            Rotate();
         }
 
         public void TakeDamage(float damage)
@@ -100,19 +92,37 @@ namespace Code.Gameplay.Player
             Debug.Log($"Take {damage} damage");
         }
 
-        private void PlayerRotate()
+        private void Move()
         {
-            if (_turnedRight && Enemy.transform.position.x > transform.position.x)
-            {
-                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                _turnedRight = false;
-            }
+            ContactFilter2D filter = new ContactFilter2D();
+            //filter.SetLayerMask(bodyObstacleLayers);
+            filter.useLayerMask = false;
 
-            if (!_turnedRight && Enemy.transform.position.x < transform.position.x)
+            RaycastHit2D[] hits = new RaycastHit2D[8];
+            float distance = moveSpeed * Time.fixedDeltaTime;
+
+            int count = _rb.Cast(
+                Input.Move,
+                filter,
+                hits,
+                distance);
+
+            if (count == 0)
             {
-                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-                _turnedRight = true;
+                _rb.MovePosition(_rb.position + Input.Move * distance);
             }
+            else
+            {
+                _rb.MovePosition(_rb.position + Input.Move * (hits[0].distance - Skin));
+            }
+        }
+
+        private void Rotate()
+        {
+            Vector2 direction = Enemy.Rigidbody.position - _rb.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                
+            _rb.MoveRotation(angle);
         }
     }
 }
