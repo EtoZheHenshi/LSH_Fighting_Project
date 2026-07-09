@@ -11,10 +11,9 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 {
     public class AttackState : PlayerBaseState
     {
-        private AttackConfig _attackConfig;
+        private readonly AttackConfig _attackConfig;
         private readonly LayerMask _enemyLayer;
         private readonly Action _activeAction;
-        private bool _delayActive;
 
         protected override Action ActiveAction => _activeAction;
         
@@ -43,10 +42,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Attack()
         {
-            // if (_delayActive) return;
-            //
-            // AttackDelay().Forget();
-            
             _attackConfig.VisualizeAttack();
             
             float attackTimeMs = Store.Instance.GetMusicPositionMs();
@@ -74,22 +69,10 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 Debug.Log($"Damage = {damage}");
             }
         }
-        
-        private async UniTask AttackDelay()
-        {
-            _delayActive = true;
-            await UniTask.Delay(TimeSpan.FromSeconds(2));
-            _delayActive = false;
-        }
 
         private void SwitchToProtection(SwitchPlayerRoles switchPlayerRole)
         {
             Machine.ChangeState(Player.ProtectionState);
-        }
-
-        public void SetAttack(AttackConfig attackConfig)
-        {
-            _attackConfig = attackConfig;
         }
     }
 }

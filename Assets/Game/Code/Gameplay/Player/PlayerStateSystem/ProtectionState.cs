@@ -11,11 +11,10 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 {
     public class ProtectionState : PlayerBaseState
     {
-        private BlockConfig _blockConfig;
+        private readonly BlockConfig _blockConfig;
         private const float Duration = 0.25f;
         private readonly Action _activeAction;
         private bool _canBlock;
-        private bool _delayActive;
 
         public bool CanBlock => _canBlock;
 
@@ -45,10 +44,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Protect()
         {
-            // if (_delayActive) return;
-            //
-            // BlockDelay().Forget();
-            
             _blockConfig.VisualizeAttack(Duration);
             
             float protectTimeMs = Store.Instance.GetMusicPositionMs();
@@ -71,21 +66,9 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             _canBlock = false;
         }
         
-        private async UniTask BlockDelay()
-        {
-            _delayActive = true;
-            await UniTask.Delay(TimeSpan.FromSeconds(2));
-            _delayActive = false;
-        }
-        
         private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)
         {
             Machine.ChangeState(Player.AttackState);
-        }
-
-        public void SetBlock(BlockConfig blockConfig)
-        {
-            _blockConfig = blockConfig;
         }
     }
 }

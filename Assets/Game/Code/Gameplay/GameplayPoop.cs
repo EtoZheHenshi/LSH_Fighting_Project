@@ -63,6 +63,14 @@ namespace Code.Gameplay
             _deadBodies.Remove(deadBody);
         }
 
+        public void StopCycle()
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+
+            _cts = new CancellationTokenSource();
+        }
+
         private void GhostCycle()
         {
             if (_ghostState)
@@ -127,6 +135,8 @@ namespace Code.Gameplay
             {
                 GetRandomDeadBody(_player2);
             }
+            
+            StartTimerSwitch().Forget();
         }
 
         private void GetRandomDeadBody(PlayerController player)

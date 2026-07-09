@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Player.Body.DeadBody
   spriteRenderer: {fileID: 7227147638519915839}
+  hp: 7
   moveSpeed: 6
   attackConfig: {fileID: 7559660550118705281}
   blockConfig: {fileID: 2492398800831640741}

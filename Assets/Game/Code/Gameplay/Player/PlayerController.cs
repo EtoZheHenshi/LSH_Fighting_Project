@@ -1,6 +1,3 @@
-using System;
-using Code.Gameplay.Player.Attacks;
-using Code.Gameplay.Player.Blocks;
 using Code.Gameplay.Player.Body;
 using Code.Gameplay.Player.PlayerStateSystem;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
@@ -24,9 +21,8 @@ namespace Code.Gameplay.Player
         [SerializeField] private LayerMask ghostObstacleLayers;
         [SerializeField] private SpriteRenderer ghostSpriteRenderer;
 
+        private float _hp;
         private float _moveSpeed;
-        // private AttackConfig _attackConfig;
-        // private BlockConfig _blockConfig;
         private Rigidbody2D _rb;
         private LayerMask _moveObstacleLayers;
         private DeadBody _currentBody;
@@ -42,7 +38,6 @@ namespace Code.Gameplay.Player
         public Rigidbody2D Rigidbody => _rb;
         public IPlayerInput Input;
         public PlayerController Enemy { get; private set; }
-        public float MoveSpeed => _moveSpeed;
         public bool HaveBody { get; private set; }
 
 
@@ -55,8 +50,6 @@ namespace Code.Gameplay.Player
             _moveObstacleLayers = ghostObstacleLayers;
             
             GhostState = new GhostState(this, _stateMachine, _eventBus, deadBodyLayer);
-            // AttackState = new AttackState(this, _stateMachine, eventBus, _attackConfig, enemyLayer);
-            // ProtectionState = new ProtectionState(this, _stateMachine, eventBus, _blockConfig);
             
             if (isItPlayerTwo)
             {
@@ -92,6 +85,7 @@ namespace Code.Gameplay.Player
 
             AttackState = new AttackState(this, _stateMachine, _eventBus, deadBody.AttackConfig, enemyLayer);
             ProtectionState = new ProtectionState(this, _stateMachine, _eventBus, deadBody.BlockConfig);
+            _hp = deadBody.Hp;
             _moveSpeed = deadBody.MoveSpeed;
             HaveBody = true;
         }
@@ -101,6 +95,7 @@ namespace Code.Gameplay.Player
             if (_currentBody != null)
             {
                 _currentBody.transform.parent = null;
+                _currentBody.gameObject.layer = 0;
                 _currentBody = null;
             }
             
@@ -109,6 +104,8 @@ namespace Code.Gameplay.Player
             AttackState = null;
             ProtectionState = null;
             HaveBody = false;
+            //_stateMachine.ChangeState(GhostState);
+            GameplayPoop.Instance.StartGhostTimer();
         }
 
         public void TakeDamage(float damage)
@@ -119,7 +116,13 @@ namespace Code.Gameplay.Player
             }
             else
             {
-                Debug.Log($"Take {damage} damage");
+                _hp -= damage;
+                Debug.Log($"HP = {_hp}");
+
+                if (_hp <= 0)
+                {
+                    _stateMachine.ChangeState(GhostState);
+                }
             }
         }
 
@@ -127,7 +130,6 @@ namespace Code.Gameplay.Player
         {
             ContactFilter2D filter = new ContactFilter2D();
             filter.SetLayerMask(_moveObstacleLayers);
-            //filter.useLayerMask = false;
 
             RaycastHit2D[] hits = new RaycastHit2D[8];
             float distance = _moveSpeed * Time.fixedDeltaTime;
