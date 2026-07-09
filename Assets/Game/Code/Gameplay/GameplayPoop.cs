@@ -1,67 +1,139 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Code.Gameplay.Player;
 using Code.Gameplay.Player.Body;
+using Code.Infrastructure;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Code.Gameplay
 {
-    public class GameplayPoop
+    public class GameplayPoop : Singleton<GameplayPoop>
     {
-        private readonly PlayerController _player1;
-        private readonly PlayerController _player2;
-        private readonly Transform _deadBodyRoot;
+        [SerializeField] private Transform deadBodyRoot;
+        
+        private PlayerController _player1;
+        private PlayerController _player2;
         private const float SwitchTime = 10f;
         private const float GhostTime = 5f;
         
         private EventBusService _eventBus;
-        
-        public GameplayPoop(PlayerController player1, PlayerController player2, Transform deadBodyRoot)
+        private CancellationTokenSource _cts;
+        private bool _ghostState;
+        private float _currentGhostTimeLeft;
+        private bool _playerOneAttack;
+        private List<DeadBody> _deadBodies;
+
+        public void Initialize(PlayerController player1, PlayerController player2)
         {
             _player1 = player1;
             _player2 = player2;
-            _deadBodyRoot = deadBodyRoot;
             _eventBus = EventBusService.Instance;
+            _cts = new CancellationTokenSource();
+            _deadBodies = deadBodyRoot.GetComponentsInChildren<DeadBody>().ToList();
         }
-        
-        public async UniTask StartGameplayLoop()
+
+        private void Update()
+        {
+            GhostCycle();
+        }
+
+        public void StartGameplayLoop()
         {
             _player1.StateMachine.ChangeState(_player1.GhostState);
             _player2.StateMachine.ChangeState(_player2.GhostState);
+            _playerOneAttack = true;
             
-            await UniTask.Delay(TimeSpan.FromSeconds(GhostTime));
-            
-            FindDeadBody();
-            
-            _player1.StateMachine.ChangeState(_player1.AttackState);
-            _player2.StateMachine.ChangeState(_player2.ProtectionState);
-            
-            TimerSwitch().Forget();
+            StartGhostTimer();
         }
 
-        private async UniTask TimerSwitch()
+        public void StartGhostTimer()
         {
-            while (true)
+            _currentGhostTimeLeft = GhostTime;
+            _ghostState = true;
+        }
+
+        public void RemoveDeadBodies(DeadBody deadBody)
+        {
+            _deadBodies.Remove(deadBody);
+        }
+
+        private void GhostCycle()
+        {
+            if (_ghostState)
             {
-                _eventBus.Publish(new SwitchPlayerRoles());
-                await UniTask.Delay(TimeSpan.FromSeconds(SwitchTime));
+                if (_currentGhostTimeLeft > 0f)
+                {
+                    if (_player1.HaveBody && _player2.HaveBody)
+                    {
+                        StartTimerSwitch().Forget();
+                        _ghostState = false;
+                        return;
+                    }
+                    
+                    _currentGhostTimeLeft -= Time.deltaTime;
+                    
+                    return;
+                }
+                
+                FindDeadBody();
+                _ghostState = false;
+            }
+        }
+
+        private async UniTask StartTimerSwitch()
+        {
+            if (_playerOneAttack)
+            {
+                _player1.StateMachine.ChangeState(_player1.AttackState);
+                _player2.StateMachine.ChangeState(_player2.ProtectionState);
+            }
+            else
+            {
+                _player1.StateMachine.ChangeState(_player1.ProtectionState);
+                _player2.StateMachine.ChangeState(_player2.AttackState);
+            }
+
+            _playerOneAttack = !_playerOneAttack;
+            
+            try
+            {
+                while (true)
+                {
+                    await UniTask.Delay(TimeSpan.FromSeconds(SwitchTime), cancellationToken: _cts.Token);
+                    _playerOneAttack = !_playerOneAttack;
+                    _eventBus.Publish(new SwitchPlayerRoles());
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                StartGhostTimer();
             }
         }
 
         private void FindDeadBody()
         {
-            DeadBody[] deadBodies = _deadBodyRoot.GetComponentsInChildren<DeadBody>();
             if (!_player1.HaveBody)
             {
-                _player1.SetBody(deadBodies[0]);
+                GetRandomDeadBody(_player1);
             }
 
             if (!_player2.HaveBody)
             {
-                _player2.SetBody(deadBodies[1]);
+                GetRandomDeadBody(_player2);
             }
+        }
+
+        private void GetRandomDeadBody(PlayerController player)
+        {
+            DeadBody deadBody = _deadBodies[Random.Range(0, _deadBodies.Count)];
+            _deadBodies.Remove(deadBody);
+            player.SetBody(deadBody);
         }
     }
 }

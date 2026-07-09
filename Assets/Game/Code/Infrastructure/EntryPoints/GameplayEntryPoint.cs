@@ -8,9 +8,8 @@ namespace Code.Infrastructure.EntryPoints
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
-        [SerializeField] private Transform deadBodyRoot;
+        [SerializeField] GameplayPoop gameplayPoop;
         
-        GameplayPoop _gameplayPoop;
         PlayerController _player1;
         PlayerController _player2;
         
@@ -19,12 +18,12 @@ namespace Code.Infrastructure.EntryPoints
             _player1 = GameObject.FindWithTag("Player1").GetComponent<PlayerController>();
             _player2 = GameObject.FindWithTag("Player2").GetComponent<PlayerController>();
             
-            _gameplayPoop = new GameplayPoop(_player1, _player2, deadBodyRoot);
+            gameplayPoop.Initialize(_player1, _player2);
         }
 
         private void Start()
         {
-            _gameplayPoop.StartGameplayLoop().Forget();
+            gameplayPoop.StartGameplayLoop();
         }
     }
 }

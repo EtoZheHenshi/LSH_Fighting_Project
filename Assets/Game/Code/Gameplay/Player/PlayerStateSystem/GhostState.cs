@@ -74,6 +74,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             if (_currentSelectedBody != null && !Player.HaveBody)
             {
                 Player.SetBody(_currentSelectedBody);
+                GameplayPoop.Instance.RemoveDeadBodies(_currentSelectedBody);
                 _currentSelectedBody.SetOutline(false);
                 _currentSelectedBody = null;
             }
