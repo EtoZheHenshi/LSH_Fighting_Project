@@ -23,8 +23,8 @@ namespace Code.Gameplay
         
         public void StartGameplayLoop()
         {
-            _player1.StateMachine.ChangeState(_player1.AttackState);
-            _player2.StateMachine.ChangeState(_player2.ProtectionState);
+            _player1.StateMachine.ChangeState(_player1.GhostState);
+            _player2.StateMachine.ChangeState(_player2.GhostState);
             
             TimerSwitch().Forget();
         }

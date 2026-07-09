@@ -54,10 +54,7 @@ namespace Code.Gameplay.Player
             GhostState = new GhostState(this, _stateMachine, eventBus);
             AttackState = new AttackState(this, _stateMachine, eventBus, _attackConfig, enemyLayer);
             ProtectionState = new ProtectionState(this, _stateMachine, eventBus, _blockConfig);
-        }
-
-        private void Start()
-        {
+            
             if (isItPlayerTwo)
             {
                 Input = InputService.Instance.Player2;
