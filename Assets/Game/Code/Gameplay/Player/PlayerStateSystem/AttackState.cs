@@ -43,42 +43,36 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Attack()
         {
-            if (_delayActive) return;
-            
-            AttackDelay().Forget();
+            // if (_delayActive) return;
+            //
+            // AttackDelay().Forget();
             
             _attackConfig.VisualizeAttack();
-            if (false) //Проверка на попадание в такт.
-            {
-                EventBus.Publish(new SwitchPlayerRoles());
-                return;
-            }
+            
             float attackTimeMs = Store.Instance.GetMusicPositionMs();
             float hitModifier = BeatTracker.Instance.CalculateHitMultiplier(attackTimeMs);
 
-            if (hitModifier > 0)
-            {
-                Debug.Log("Hit the beat!(Attack) " + hitModifier);
-                
-                if (Physics2D.OverlapBox(
-                        _attackConfig.transform.position,
-                        _attackConfig.AttackSize,
-                        0f,
-                        _enemyLayer
-                    )
-                   )
-                {
-                    float damage = _attackConfig.Damage * hitModifier;
-                    Player.Enemy.TakeDamage(damage);
-                    Debug.Log($"Damage = {damage}");
-                }
-            }
-            
-            else
+            if (hitModifier < 0)
             {
                 Debug.Log("Miss the beat!(Attack) " + hitModifier);
+                EventBus.Publish(new SwitchPlayerRoles());
+                return;
             }
             
+            Debug.Log("Hit the beat!(Attack) " + hitModifier);
+                
+            if (Physics2D.OverlapBox(
+                    _attackConfig.transform.position,
+                    _attackConfig.AttackSize,
+                    0f,
+                    _enemyLayer
+                )
+               )
+            {
+                float damage = _attackConfig.Damage * hitModifier;
+                Player.Enemy.TakeDamage(damage);
+                Debug.Log($"Damage = {damage}");
+            }
         }
         
         private async UniTask AttackDelay()

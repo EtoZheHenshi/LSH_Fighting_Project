@@ -12,7 +12,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
     public class ProtectionState : PlayerBaseState
     {
         private readonly BlockConfig _blockConfig;
-        private const float Duration = 0.5f;
+        private const float Duration = 0.25f;
         private readonly Action _activeAction;
         private bool _canBlock;
         private bool _delayActive;
@@ -45,15 +45,22 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Protect()
         {
-            if (_delayActive) return;
-            
-            BlockDelay().Forget();
+            // if (_delayActive) return;
+            //
+            // BlockDelay().Forget();
             
             _blockConfig.VisualizeAttack(Duration);
             
-            if (true)//проверка на попадание в такт
+            float protectTimeMs = Store.Instance.GetMusicPositionMs();
+            float protectModifier = BeatTracker.Instance.CalculateHitMultiplier(protectTimeMs);
+
+            if (protectModifier > 0)
             {
                 ActivateBlock().Forget();
+            }
+            else
+            {
+                Debug.Log("Miss the beat!(Protect)");
             }
         }
 
@@ -69,15 +76,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             _delayActive = true;
             await UniTask.Delay(TimeSpan.FromSeconds(2));
             _delayActive = false;
-            Debug.Log("Protect");
-            float protectTimeMs = Store.Instance.GetMusicPositionMs();
-            float protectModifier = BeatTracker.Instance.CalculateHitMultiplier(protectTimeMs);
-            
-            if (protectModifier > 0) Debug.Log("Hit the beat!(Protect)");
-            else
-            {
-                Debug.Log("Miss the beat!(Protect)");
-            }
         }
         
         private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)

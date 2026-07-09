@@ -8,6 +8,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
     public class GhostState : PlayerBaseState
     {
         private readonly Action _activeAction;
+        private Collider2D[] _deadBodies;
         
         protected override Action ActiveAction => _activeAction;
         
@@ -15,6 +16,21 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             : base(player, machine, eventBusService)
         {
             _activeAction = Possession;
+            _deadBodies = new Collider2D[5];
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            
+            Player.RemoveBody();
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+            
+            //_deadBodies = Physics2D.OverlapCircle(Player.transform.position, )
         }
 
         private void Possession()

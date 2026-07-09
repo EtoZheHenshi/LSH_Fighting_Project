@@ -26,8 +26,10 @@ namespace Code.Infrastructure.InputSystem
             actions.Move.performed += OnMove;
             actions.Move.canceled += OnMove;
             
-            actions.ActiveAction.started += OnHandAttack;
-            actions.ActiveAction.canceled += OnHandAttack;
+            // actions.ActiveAction.started += OnHandAttack;
+            // actions.ActiveAction.canceled += OnHandAttack;
+            
+            actions.ActiveAction.performed += _ => AttackAction?.Invoke();
         }
         
         public PlayerInput(GameInput.PlayerTwoActions playerOneActions)
@@ -39,8 +41,8 @@ namespace Code.Infrastructure.InputSystem
             actions.Move.performed += OnMove;
             actions.Move.canceled += OnMove;
 
-            actions.ActiveAction.started += OnHandAttack;
-            actions.ActiveAction.canceled += OnHandAttack;
+            // actions.ActiveAction.started += OnHandAttack;
+            // actions.ActiveAction.canceled += OnHandAttack;
             
             actions.ActiveAction.performed += _ => AttackAction?.Invoke();
         }

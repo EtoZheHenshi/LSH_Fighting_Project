@@ -1,6 +1,7 @@
 using System;
 using Code.Gameplay.Player.Attacks;
 using Code.Gameplay.Player.Blocks;
+using Code.Gameplay.Player.Body;
 using Code.Gameplay.Player.PlayerStateSystem;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
@@ -16,14 +17,19 @@ namespace Code.Gameplay.Player
         private const float Skin = 0.02f;
         
         [SerializeField] private bool isItPlayerTwo;
-        [SerializeField] private float moveSpeed = 8f;
+        [SerializeField] private float ghostMoveSpeed = 8f;
         [SerializeField] private LayerMask enemyLayer;
         [SerializeField] private LayerMask bodyObstacleLayers;
-        [SerializeField] private LayerMask ghostObstacleLayers; 
-        [SerializeField] private AttackConfig attackConfig;
-        [SerializeField] private BlockConfig blockConfig;
-    
+        [SerializeField] private LayerMask ghostObstacleLayers;
+        [SerializeField] private SpriteRenderer ghostSpriteRenderer;
+
+        private float _moveSpeed;
+        private AttackConfig _attackConfig;
+        private BlockConfig _blockConfig;
         private Rigidbody2D _rb;
+        private LayerMask _moveObstacleLayers;
+        private Transform _currentBody;
+        
         private StateMachine _stateMachine;
         
         public GhostState GhostState { get; private set; }
@@ -34,7 +40,7 @@ namespace Code.Gameplay.Player
         public Rigidbody2D Rigidbody => _rb;
         public IPlayerInput Input;
         public PlayerController Enemy { get; private set; }
-        public float MoveSpeed => moveSpeed;
+        public float MoveSpeed => _moveSpeed;
 
 
         private void Awake()
@@ -42,10 +48,12 @@ namespace Code.Gameplay.Player
             _stateMachine = new StateMachine();
             _rb = GetComponent<Rigidbody2D>();
             EventBusService eventBus = EventBusService.Instance;
+            _moveSpeed = ghostMoveSpeed;
+            _moveObstacleLayers = ghostObstacleLayers;
             
             GhostState = new GhostState(this, _stateMachine, eventBus);
-            AttackState = new AttackState(this, _stateMachine, eventBus, attackConfig, enemyLayer);
-            ProtectionState = new ProtectionState(this, _stateMachine, eventBus, blockConfig);
+            AttackState = new AttackState(this, _stateMachine, eventBus, _attackConfig, enemyLayer);
+            ProtectionState = new ProtectionState(this, _stateMachine, eventBus, _blockConfig);
         }
 
         private void Start()
@@ -62,8 +70,6 @@ namespace Code.Gameplay.Player
             }
         }
 
-       
-
         private void Update()
         {
             _stateMachine.Tick();
@@ -71,14 +77,35 @@ namespace Code.Gameplay.Player
 
         private void FixedUpdate()
         {
-            // if (Input.Move.sqrMagnitude > 0.01f)
-            // {
-            //     Move();
-            // }
-            
             Move();
             
             Rotate();
+        }
+
+        public void SetBody(BodyConfig bodyConfig, Transform bodyTransform)
+        {
+            ghostSpriteRenderer.enabled = false;
+            _rb.position = bodyTransform.position;
+            bodyTransform.parent = transform;
+            _currentBody = bodyTransform;
+            
+            _attackConfig = bodyConfig.AttackConfig;
+            _blockConfig = bodyConfig.BlockConfig;
+            _moveSpeed = bodyConfig.MoveSpeed;
+        }
+
+        public void RemoveBody()
+        {
+            if (_currentBody != null)
+            {
+                _currentBody.parent = null;
+                _currentBody = null;
+            }
+            
+            _moveSpeed = ghostMoveSpeed;
+            ghostSpriteRenderer.enabled = true;
+            _attackConfig = null;
+            _blockConfig = null;
         }
 
         public void TakeDamage(float damage)
@@ -96,11 +123,11 @@ namespace Code.Gameplay.Player
         private void Move()
         {
             ContactFilter2D filter = new ContactFilter2D();
-            //filter.SetLayerMask(bodyObstacleLayers);
-            filter.useLayerMask = false;
+            filter.SetLayerMask(_moveObstacleLayers);
+            //filter.useLayerMask = false;
 
             RaycastHit2D[] hits = new RaycastHit2D[8];
-            float distance = moveSpeed * Time.fixedDeltaTime;
+            float distance = _moveSpeed * Time.fixedDeltaTime;
 
             int count = _rb.Cast(
                 Input.Move,

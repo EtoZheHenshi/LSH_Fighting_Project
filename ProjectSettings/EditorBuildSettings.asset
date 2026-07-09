@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Game/Scenes/Bootstrap.unity
     guid: 9cf9d5b2cdfb52a498ed4f0665a4e7f7
   - enabled: 1
-    path: Assets/Game/Prefabs/Gameplay.unity
+    path: Assets/Game/Scenes/Gameplay.unity
     guid: ee048b8b32783416998a14839e0eccd9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
