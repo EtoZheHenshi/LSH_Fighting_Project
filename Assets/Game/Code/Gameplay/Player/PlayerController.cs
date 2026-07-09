@@ -62,12 +62,7 @@ namespace Code.Gameplay.Player
             }
         }
 
-        private void Start()
-        {
-
-            // У машины всегда должно быть начальное состояние.
-            //_stateMachine.ChangeState(GhostState);
-        }
+       
 
         private void Update()
         {
