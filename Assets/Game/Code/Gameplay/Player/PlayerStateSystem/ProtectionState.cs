@@ -2,6 +2,7 @@ using System;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
+using Code.Infrastructure.RhytmSystem;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
@@ -35,7 +36,14 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private void Protect()
         {
             Debug.Log("Protect");
-            //логика защиты
+            float protectTimeMs = Store.Instance.GetMusicPositionMs();
+            float protectModifier = BeatTracker.Instance.CalculateHitMultiplier(protectTimeMs);
+            
+            if (protectModifier > 0) Debug.Log("Hit the beat!(Protect)");
+            else
+            {
+                Debug.Log("Miss the beat!(Protect)");
+            }
         }
         
         private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)

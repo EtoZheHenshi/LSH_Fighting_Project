@@ -13,14 +13,14 @@ namespace Code.Infrastructure.RhytmSystem
     {
         private float _musicPositionMs;
 
-        public float GetMusicPosition()
+        public float GetMusicPositionMs()
         {
             return _musicPositionMs;
         }
 
-        public void UpdateMusicPosition(float time)
+        public void UpdateMusicPosition(float timeSec)
         {
-            _musicPositionMs = time * 1000f;
+            _musicPositionMs = timeSec * 1000f;
         }
     }
 }

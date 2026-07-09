@@ -56,10 +56,7 @@ namespace Code.Gameplay.Player
             GhostState = new GhostState(this, _stateMachine, eventBus);
             AttackState = new AttackState(this, _stateMachine, eventBus, attackConfig, enemyLayer);
             ProtectionState = new ProtectionState(this, _stateMachine, eventBus);
-        }
-
-        private void Start()
-        {
+            
             if (isItPlayerTwo)
             {
                 Input = InputService.Instance.Player2;
@@ -70,6 +67,10 @@ namespace Code.Gameplay.Player
                 Input = InputService.Instance.Player1;
                 Enemy = GameObject.FindWithTag("Player2").GetComponent<PlayerController>();
             }
+        }
+
+        private void Start()
+        {
 
             // У машины всегда должно быть начальное состояние.
             //_stateMachine.ChangeState(GhostState);

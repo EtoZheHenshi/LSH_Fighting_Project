@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Code.Infrastructure.InputSystem
@@ -6,5 +7,7 @@ namespace Code.Infrastructure.InputSystem
     {
         public Vector2 Move { get; }
         public bool ActiveAction { get; }
+        
+        public Action AttackAction { get; set; }
     }
 }

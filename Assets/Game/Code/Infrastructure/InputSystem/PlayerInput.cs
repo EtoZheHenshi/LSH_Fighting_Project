@@ -1,3 +1,4 @@
+using System;
 using Code.Gameplay.Player;
 using Code.InputSystem;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Code.Infrastructure.InputSystem
 
         public Vector2 Move { get; set; }
         public bool ActiveAction { get; set;}
+
+        public Action AttackAction { get; set; }
 
         public PlayerInput(GameInput.PlayerOneActions playerOneActions)
         {
@@ -38,6 +41,8 @@ namespace Code.Infrastructure.InputSystem
 
             actions.ActiveAction.started += OnHandAttack;
             actions.ActiveAction.canceled += OnHandAttack;
+            
+            actions.ActiveAction.performed += _ => AttackAction?.Invoke();
         }
 
         private void OnMove(InputAction.CallbackContext ctx)

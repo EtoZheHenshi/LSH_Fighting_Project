@@ -28,16 +28,23 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Base
 
         // Enter и Exit — virtual с пустым телом: состояние переопределяет
         // их только если ему действительно нужно что-то сделать на входе/выходе.
-        public virtual void Enter() { }
-        public virtual void Exit() { }
+        public virtual void Enter()
+        {
+            Player.Input.AttackAction = ActiveAction;
+        }
+
+        public virtual void Exit()
+        {
+            Player.Input.AttackAction = null;
+        }
 
         // Tick — abstract: логика кадра обязана быть у КАЖДОГО состояния.
         public virtual void Tick()
         {
-            if (Player.Input.ActiveAction)
-            {
-                ActiveAction?.Invoke();
-            }
+            // if (Player.Input.ActiveAction)
+            // {
+            //     ActiveAction?.Invoke();
+            // }
         }
     }
 }

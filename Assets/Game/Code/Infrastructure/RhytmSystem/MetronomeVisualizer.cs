@@ -18,7 +18,7 @@ namespace Code.Infrastructure
             _flashColor = Color.darkRed;
             _renderer.material.color = _flashColor;
 
-            _flashInterval = 60f / BeatTracker.Instance.BPM * 2;
+            _flashInterval = 60f / BeatTracker.Instance.BPM / 2;
             
         }
 

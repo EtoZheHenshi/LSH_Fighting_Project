@@ -3,6 +3,7 @@ using Code.Gameplay.Player.Attacks;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
+using Code.Infrastructure.RhytmSystem;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
@@ -42,16 +43,32 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         {
             _attackConfig.VisualizeAttack();
             
-            if (Physics2D.OverlapBox(
-                    _attackConfig.transform.position,
-                    _attackConfig.AttackSize,
-                    0f,
-                    _enemyLayer
-                    )
-                )
+            float attackTimeMs = Store.Instance.GetMusicPositionMs();
+            float hitModifier = BeatTracker.Instance.CalculateHitMultiplier(attackTimeMs);
+
+            if (hitModifier > 0)
             {
-                Player.Enemy.TakeDamage(_attackConfig.Damage);
+                Debug.Log("Hit the beat!(Attack) " + hitModifier);
+                
+                if (Physics2D.OverlapBox(
+                        _attackConfig.transform.position,
+                        _attackConfig.AttackSize,
+                        0f,
+                        _enemyLayer
+                    )
+                   )
+                {
+                    float damage = _attackConfig.Damage * hitModifier;
+                    Player.Enemy.TakeDamage(damage);
+                    Debug.Log($"Damage = {damage}");
+                }
             }
+            
+            else
+            {
+                Debug.Log("Miss the beat!(Attack) " + hitModifier);
+            }
+            
         }
 
         private void SwitchToProtection(SwitchPlayerRoles switchPlayerRole)
