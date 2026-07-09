@@ -85,12 +85,15 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  deadBodyLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   bodyObstacleLayers:
     serializedVersion: 2
-    m_Bits: 255
+    m_Bits: 768
   ghostObstacleLayers:
     serializedVersion: 2
-    m_Bits: 767
+    m_Bits: 256
   ghostSpriteRenderer: {fileID: 1453418865629483627}
 --- !u!212 &1453418865629483627
 SpriteRenderer:
@@ -266,12 +269,15 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  deadBodyLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   bodyObstacleLayers:
     serializedVersion: 2
-    m_Bits: 255
+    m_Bits: 768
   ghostObstacleLayers:
     serializedVersion: 2
-    m_Bits: 767
+    m_Bits: 256
   ghostSpriteRenderer: {fileID: 2842751132545597767}
 --- !u!212 &2842751132545597767
 SpriteRenderer:

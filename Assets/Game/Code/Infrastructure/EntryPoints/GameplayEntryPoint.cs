@@ -1,13 +1,16 @@
 using System;
 using Code.Gameplay;
 using Code.Gameplay.Player;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.Infrastructure.EntryPoints
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
-        GameplayLoop _gameplayLoop;
+        [SerializeField] private Transform deadBodyRoot;
+        
+        GameplayPoop _gameplayPoop;
         PlayerController _player1;
         PlayerController _player2;
         
@@ -16,12 +19,12 @@ namespace Code.Infrastructure.EntryPoints
             _player1 = GameObject.FindWithTag("Player1").GetComponent<PlayerController>();
             _player2 = GameObject.FindWithTag("Player2").GetComponent<PlayerController>();
             
-            _gameplayLoop = new GameplayLoop(_player1, _player2);
+            _gameplayPoop = new GameplayPoop(_player1, _player2, deadBodyRoot);
         }
 
         private void Start()
         {
-            _gameplayLoop.StartGameplayLoop();
+            _gameplayPoop.StartGameplayLoop().Forget();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 {
     public class ProtectionState : PlayerBaseState
     {
-        private readonly BlockConfig _blockConfig;
+        private BlockConfig _blockConfig;
         private const float Duration = 0.25f;
         private readonly Action _activeAction;
         private bool _canBlock;
@@ -81,6 +81,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)
         {
             Machine.ChangeState(Player.AttackState);
+        }
+
+        public void SetBlock(BlockConfig blockConfig)
+        {
+            _blockConfig = blockConfig;
         }
     }
 }

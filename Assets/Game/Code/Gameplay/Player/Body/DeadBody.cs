@@ -1,11 +1,22 @@
+using System;
+using Code.Gameplay.Player.Attacks;
+using Code.Gameplay.Player.Blocks;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.Body
 {
     public class DeadBody : MonoBehaviour
     {
-        [SerializeField] private BodyConfig bodyConfig;
         [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private AttackConfig attackConfig;
+        [SerializeField] private BlockConfig blockConfig;
+        
+        public float MoveSpeed => moveSpeed;
+        public AttackConfig AttackConfig => attackConfig;
+        public BlockConfig BlockConfig => blockConfig;
+        public AttackConfig Attack {get; private set;}
+        public BlockConfig Block {get; private set;}
 
         private static readonly int OutlineEnabled = Shader.PropertyToID("_OutlineEnabled");
 

@@ -11,7 +11,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 {
     public class AttackState : PlayerBaseState
     {
-        private readonly AttackConfig _attackConfig;
+        private AttackConfig _attackConfig;
         private readonly LayerMask _enemyLayer;
         private readonly Action _activeAction;
         private bool _delayActive;
@@ -85,6 +85,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private void SwitchToProtection(SwitchPlayerRoles switchPlayerRole)
         {
             Machine.ChangeState(Player.ProtectionState);
+        }
+
+        public void SetAttack(AttackConfig attackConfig)
+        {
+            _attackConfig = attackConfig;
         }
     }
 }

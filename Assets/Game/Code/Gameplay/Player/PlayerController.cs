@@ -19,18 +19,20 @@ namespace Code.Gameplay.Player
         [SerializeField] private bool isItPlayerTwo;
         [SerializeField] private float ghostMoveSpeed = 8f;
         [SerializeField] private LayerMask enemyLayer;
+        [SerializeField] private LayerMask deadBodyLayer;
         [SerializeField] private LayerMask bodyObstacleLayers;
         [SerializeField] private LayerMask ghostObstacleLayers;
         [SerializeField] private SpriteRenderer ghostSpriteRenderer;
 
         private float _moveSpeed;
-        private AttackConfig _attackConfig;
-        private BlockConfig _blockConfig;
+        // private AttackConfig _attackConfig;
+        // private BlockConfig _blockConfig;
         private Rigidbody2D _rb;
         private LayerMask _moveObstacleLayers;
-        private Transform _currentBody;
+        private DeadBody _currentBody;
         
         private StateMachine _stateMachine;
+        private EventBusService _eventBus;
         
         public GhostState GhostState { get; private set; }
         public AttackState AttackState { get; private set; }
@@ -41,19 +43,20 @@ namespace Code.Gameplay.Player
         public IPlayerInput Input;
         public PlayerController Enemy { get; private set; }
         public float MoveSpeed => _moveSpeed;
+        public bool HaveBody { get; private set; }
 
 
         private void Awake()
         {
             _stateMachine = new StateMachine();
             _rb = GetComponent<Rigidbody2D>();
-            EventBusService eventBus = EventBusService.Instance;
+            _eventBus = EventBusService.Instance;
             _moveSpeed = ghostMoveSpeed;
             _moveObstacleLayers = ghostObstacleLayers;
             
-            GhostState = new GhostState(this, _stateMachine, eventBus);
-            AttackState = new AttackState(this, _stateMachine, eventBus, _attackConfig, enemyLayer);
-            ProtectionState = new ProtectionState(this, _stateMachine, eventBus, _blockConfig);
+            GhostState = new GhostState(this, _stateMachine, _eventBus, deadBodyLayer);
+            // AttackState = new AttackState(this, _stateMachine, eventBus, _attackConfig, enemyLayer);
+            // ProtectionState = new ProtectionState(this, _stateMachine, eventBus, _blockConfig);
             
             if (isItPlayerTwo)
             {
@@ -79,30 +82,33 @@ namespace Code.Gameplay.Player
             Rotate();
         }
 
-        public void SetBody(BodyConfig bodyConfig, Transform bodyTransform)
+        public void SetBody(DeadBody deadBody)
         {
             ghostSpriteRenderer.enabled = false;
-            _rb.position = bodyTransform.position;
-            bodyTransform.parent = transform;
-            _currentBody = bodyTransform;
-            
-            _attackConfig = bodyConfig.AttackConfig;
-            _blockConfig = bodyConfig.BlockConfig;
-            _moveSpeed = bodyConfig.MoveSpeed;
+            transform.position = deadBody.transform.position;
+            transform.rotation = deadBody.transform.rotation;
+            deadBody.transform.parent = transform;
+            _currentBody = deadBody;
+
+            AttackState = new AttackState(this, _stateMachine, _eventBus, deadBody.AttackConfig, enemyLayer);
+            ProtectionState = new ProtectionState(this, _stateMachine, _eventBus, deadBody.BlockConfig);
+            _moveSpeed = deadBody.MoveSpeed;
+            HaveBody = true;
         }
 
         public void RemoveBody()
         {
             if (_currentBody != null)
             {
-                _currentBody.parent = null;
+                _currentBody.transform.parent = null;
                 _currentBody = null;
             }
             
             _moveSpeed = ghostMoveSpeed;
             ghostSpriteRenderer.enabled = true;
-            _attackConfig = null;
-            _blockConfig = null;
+            AttackState = null;
+            ProtectionState = null;
+            HaveBody = false;
         }
 
         public void TakeDamage(float damage)
