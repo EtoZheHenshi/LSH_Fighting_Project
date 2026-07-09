@@ -20,47 +20,53 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         public bool CanBlock => _canBlock;
 
         protected override Action ActiveAction => _activeAction;
-        
+
         public ProtectionState(PlayerController player, StateMachine machine,
-            EventBusService eventBusService, BlockConfig blockConfig) 
+            EventBusService eventBusService, BlockConfig blockConfig)
             : base(player, machine, eventBusService)
         {
             _blockConfig = blockConfig;
             _activeAction = Protect;
         }
-        
+
         public override void Enter()
         {
             base.Enter();
-            
+
             EventBus.Subscribe<SwitchPlayerRoles>(SwitchToAttack);
         }
 
         public override void Exit()
         {
             base.Exit();
-            
+
             EventBus.Unsubscribe<SwitchPlayerRoles>(SwitchToAttack);
         }
 
         private void Protect()
         {
-            // if (_delayActive) return;
-            //
-            // BlockDelay().Forget();
-            
-            _blockConfig.VisualizeAttack(Duration);
-            
-            float protectTimeMs = Store.Instance.GetMusicPositionMs();
-            float protectModifier = BeatTracker.Instance.CalculateHitMultiplier(protectTimeMs);
+            if (_delayActive) return;
 
-            if (protectModifier > 0)
+            BlockDelay().Forget();
+
+            _blockConfig.VisualizeAttack(Duration);
+
+            float hitTimeMs = Store.Instance.GetMusicPositionMs();
+
+            Store.Instance.ProtectTimeMs = hitTimeMs;
+
+            float accuracy = BeatTracker.Instance.CalculateHitAccuracy(hitTimeMs);
+            HitQuality quality = BeatTracker.Instance.HitQuality(accuracy);
+            float multiplier = quality.GetMultiplier();
+
+
+            if (accuracy < 0)
             {
-                ActivateBlock().Forget();
+                Debug.Log($"Miss the beat!(Protect)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
             }
             else
             {
-                Debug.Log("Miss the beat!(Protect)");
+                Debug.Log($"Hit the beat!(Protect)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
             }
         }
 
@@ -70,14 +76,14 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             await UniTask.Delay(TimeSpan.FromSeconds(Duration));
             _canBlock = false;
         }
-        
+
         private async UniTask BlockDelay()
         {
             _delayActive = true;
             await UniTask.Delay(TimeSpan.FromSeconds(2));
             _delayActive = false;
         }
-        
+
         private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)
         {
             Machine.ChangeState(Player.AttackState);

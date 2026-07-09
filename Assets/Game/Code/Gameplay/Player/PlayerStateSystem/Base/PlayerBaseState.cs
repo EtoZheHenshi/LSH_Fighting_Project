@@ -21,13 +21,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Base
 
         protected PlayerBaseState(PlayerController player, StateMachine machine, EventBusService eventBus)
         {
-            this.Player = player;
-            this.Machine = machine;
-            this.EventBus = eventBus;
+            Player = player;
+            Machine = machine;
+            EventBus = eventBus;
         }
 
-        // Enter и Exit — virtual с пустым телом: состояние переопределяет
-        // их только если ему действительно нужно что-то сделать на входе/выходе.
         public virtual void Enter()
         {
             Player.Input.AttackAction = ActiveAction;

@@ -17,9 +17,9 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private bool _delayActive;
 
         protected override Action ActiveAction => _activeAction;
-        
+
         public AttackState(PlayerController player, StateMachine machine, EventBusService eventBusService,
-            AttackConfig attackConfig, LayerMask enemyLayer) 
+            AttackConfig attackConfig, LayerMask enemyLayer)
             : base(player, machine, eventBusService)
         {
             _attackConfig = attackConfig;
@@ -30,51 +30,59 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         public override void Enter()
         {
             base.Enter();
-            
+
             EventBus.Subscribe<SwitchPlayerRoles>(SwitchToProtection);
         }
 
         public override void Exit()
         {
             base.Exit();
-            
+
             EventBus.Unsubscribe<SwitchPlayerRoles>(SwitchToProtection);
         }
 
         private void Attack()
         {
-            // if (_delayActive) return;
-            //
-            // AttackDelay().Forget();
-            
-            _attackConfig.VisualizeAttack();
-            
-            float attackTimeMs = Store.Instance.GetMusicPositionMs();
-            float hitModifier = BeatTracker.Instance.CalculateHitMultiplier(attackTimeMs);
+            if (_delayActive) return;
 
-            if (hitModifier < 0)
+            AttackDelay().Forget();
+
+            _attackConfig.VisualizeAttack();
+
+            float hitTimeMs = Store.Instance.GetMusicPositionMs();
+
+            Store.Instance.AttackTimeMs = hitTimeMs;
+
+
+            float accuracy = BeatTracker.Instance.CalculateHitAccuracy(hitTimeMs);
+            HitQuality quality = BeatTracker.Instance.HitQuality(accuracy);
+            float multiplier = quality.GetMultiplier();
+
+
+            if (accuracy < 0)
             {
-                Debug.Log("Miss the beat!(Attack) " + hitModifier);
-                EventBus.Publish(new SwitchPlayerRoles());
-                return;
+                Debug.Log($"Miss the beat!(Attack)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
             }
-            
-            Debug.Log("Hit the beat!(Attack) " + hitModifier);
-                
-            if (Physics2D.OverlapBox(
-                    _attackConfig.transform.position,
-                    _attackConfig.AttackSize,
-                    0f,
-                    _enemyLayer
-                )
-               )
+            else
             {
-                float damage = _attackConfig.Damage * hitModifier;
-                Player.Enemy.TakeDamage(damage);
-                Debug.Log($"Damage = {damage}");
+                Debug.Log(
+                    $"Hit the beat!(Attack)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
+                if (Physics2D.OverlapBox(
+                        _attackConfig.transform.position,
+                        _attackConfig.AttackSize,
+                        0f,
+                        _enemyLayer
+                    )
+                   )
+                {
+                    float damage = _attackConfig.Damage * multiplier;
+
+                    Player.Enemy.TakeDamage(damage);
+                    Debug.Log($"Damage = {damage}");
+                }
             }
         }
-        
+
         private async UniTask AttackDelay()
         {
             _delayActive = true;

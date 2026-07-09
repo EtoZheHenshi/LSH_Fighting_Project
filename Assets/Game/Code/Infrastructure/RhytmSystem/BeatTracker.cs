@@ -16,20 +16,18 @@ namespace Code.Infrastructure.RhytmSystem
         public int BPM => bpm;
         public event Action OnBeat;
 
-        // private float _beatDurationSec;
+        [SerializeField] private float perfectHitBound = 0.8f;
+        [SerializeField] private float goodHitBound = 0.6f;
+        [SerializeField] private float badHitBound = 0.2f;
+        private readonly int _hitRadiusMs = 150;
+
         private float _beatDurationMs;
         private float _nextBeatTime;
-        private float _beatCounter = 0;
         private float _nextBeatPosition;
         private float _lastBeatPosition;
         private float _lastHitPosition;
+
         private float _currentBeatPosition;
-
-        // private int _activeBeat = -1;
-        private readonly int _hitRadiusMs = 150;
-        private float _activeBeatStartPosition;
-        private float _activeBeatEndPosition;
-
 
         protected override void Awake()
         {
@@ -38,24 +36,53 @@ namespace Code.Infrastructure.RhytmSystem
             _nextBeatPosition = _beatDurationMs;
         }
 
-        public float CalculateHitMultiplier(float timeMs)
+        private float NormalDistribution(float x, float sigma, float mu)
+        {
+            return Mathf.Exp(-((x - mu) * (x - mu) / (2 * sigma * sigma)));
+        }
+
+        public float CalculateHitAccuracy(float timeMs)
         {
             float multiplier;
-            print(timeMs + " " + _lastBeatPosition + " " + _nextBeatPosition);
-            if (Mathf.Abs(timeMs - _lastBeatPosition) < _hitRadiusMs && _lastHitPosition != _lastBeatPosition)
+            print($"timeMs: {timeMs}, _lastBeatPosition: {_lastBeatPosition}, _nextBeatPosition: {_nextBeatPosition}");
+            if (Mathf.Abs(timeMs - _lastBeatPosition) < _hitRadiusMs &&
+                _lastHitPosition != _lastBeatPosition)
             {
-                multiplier = 1 - (Math.Abs(timeMs - _lastBeatPosition) / _hitRadiusMs);
+                float mu = _lastBeatPosition;
+                float sigma = _hitRadiusMs / 2.5f;
+                multiplier = NormalDistribution(timeMs, sigma, mu);
                 _lastHitPosition = _lastBeatPosition;
                 return multiplier;
             }
-            else if (Mathf.Abs(timeMs - _nextBeatPosition) < _hitRadiusMs && _lastHitPosition != _nextBeatPosition)
+            else if (Mathf.Abs(timeMs - _nextBeatPosition) < _hitRadiusMs &&
+                     _lastHitPosition != _nextBeatPosition)
             {
-                multiplier = 1 - (Math.Abs(timeMs - _nextBeatPosition) / _hitRadiusMs);
+                float mu = _nextBeatPosition;
+                float sigma = _hitRadiusMs / 2.5f;
+                multiplier = NormalDistribution(timeMs, sigma, mu);
                 _lastHitPosition = _nextBeatPosition;
                 return multiplier;
             }
 
             return -1;
+        }
+
+        public HitQuality HitQuality(float multiplier)
+        {
+            if (multiplier > perfectHitBound)
+            {
+                return RhytmSystem.HitQuality.Perfect;
+            }
+            else if (badHitBound < multiplier && multiplier <= goodHitBound)
+            {
+                return RhytmSystem.HitQuality.Good;
+            }
+            else if (0 < multiplier && multiplier <= badHitBound)
+            {
+                return RhytmSystem.HitQuality.Bad;
+            }
+
+            return RhytmSystem.HitQuality.Miss;
         }
 
         private void Update()
@@ -64,14 +91,10 @@ namespace Code.Infrastructure.RhytmSystem
 
             if (_currentBeatPosition >= _nextBeatPosition)
             {
-                _beatCounter++;
                 _lastBeatPosition = _nextBeatPosition;
                 OnBeat?.Invoke();
                 _nextBeatPosition += _beatDurationMs;
             }
-
-            _activeBeatStartPosition = _nextBeatPosition - _hitRadiusMs;
-            _activeBeatEndPosition = _nextBeatPosition + _hitRadiusMs;
         }
     }
 }

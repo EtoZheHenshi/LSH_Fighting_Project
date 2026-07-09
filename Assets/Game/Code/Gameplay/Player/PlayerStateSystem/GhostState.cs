@@ -1,6 +1,8 @@
 using System;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
+using Code.Infrastructure.EventBusSystem.Events;
+using Code.Infrastructure.RhytmSystem;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
@@ -9,10 +11,10 @@ namespace Code.Gameplay.Player.PlayerStateSystem
     {
         private readonly Action _activeAction;
         private Collider2D[] _deadBodies;
-        
+
         protected override Action ActiveAction => _activeAction;
-        
-        public GhostState(PlayerController player, StateMachine machine, EventBusService eventBusService) 
+
+        public GhostState(PlayerController player, StateMachine machine, EventBusService eventBusService)
             : base(player, machine, eventBusService)
         {
             _activeAction = Possession;
@@ -22,21 +24,37 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         public override void Enter()
         {
             base.Enter();
-            
+
             Player.RemoveBody();
         }
 
         public override void Tick()
         {
             base.Tick();
-            
+
             //_deadBodies = Physics2D.OverlapCircle(Player.transform.position, )
         }
 
         private void Possession()
         {
-            Debug.Log("Possession");
-            //логика завладевания телом
+            float hitTimeMs = Store.Instance.GetMusicPositionMs();
+
+            Store.Instance.AttackTimeMs = hitTimeMs;
+
+            float accuracy = BeatTracker.Instance.CalculateHitAccuracy(hitTimeMs);
+            HitQuality quality = BeatTracker.Instance.HitQuality(accuracy);
+            float multiplier = quality.GetMultiplier();
+
+            if (accuracy < 0)
+            {
+                Debug.Log(
+                    $"Miss the beat!(Possession)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
+            }
+            else
+            {
+                Debug.Log(
+                    $"Hit the beat!(Possession)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
+            }
         }
     }
 }

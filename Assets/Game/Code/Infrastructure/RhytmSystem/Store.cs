@@ -7,11 +7,19 @@ namespace Code.Infrastructure.RhytmSystem
     /// В текущей архитектуре предоставляет текущую позицию музыкального трека в миллисекундах.
     /// Служит посредником между MusicPlayer и Metronome.
     /// Метод getMusicPosition() должен возвращать актуальное время воспроизведения, 
-    /// обновляемое из MusicPlayer .
+    /// обновляемое из MusicPlayer 
     /// </summary>
     public class Store : Singleton<Store>
     {
         private float _musicPositionMs;
+
+        private float _attackTimeMs = 0;
+
+        private float _protectTimeMs = 0;
+
+        public float AttackTimeMs { get; set; }
+
+        public float ProtectTimeMs { get; set; }
 
         public float GetMusicPositionMs()
         {
