@@ -4,6 +4,7 @@ using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
 using Code.Infrastructure.RhytmSystem;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
@@ -13,7 +14,8 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private readonly AttackConfig _attackConfig;
         private readonly LayerMask _enemyLayer;
         private readonly Action _activeAction;
-        
+        private bool _delayActive;
+
         protected override Action ActiveAction => _activeAction;
         
         public AttackState(PlayerController player, StateMachine machine, EventBusService eventBusService,
@@ -41,8 +43,16 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Attack()
         {
-            _attackConfig.VisualizeAttack();
+            if (_delayActive) return;
             
+            AttackDelay().Forget();
+            
+            _attackConfig.VisualizeAttack();
+            if (false) //Проверка на попадание в такт.
+            {
+                EventBus.Publish(new SwitchPlayerRoles());
+                return;
+            }
             float attackTimeMs = Store.Instance.GetMusicPositionMs();
             float hitModifier = BeatTracker.Instance.CalculateHitMultiplier(attackTimeMs);
 
@@ -69,6 +79,13 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 Debug.Log("Miss the beat!(Attack) " + hitModifier);
             }
             
+        }
+        
+        private async UniTask AttackDelay()
+        {
+            _delayActive = true;
+            await UniTask.Delay(TimeSpan.FromSeconds(2));
+            _delayActive = false;
         }
 
         private void SwitchToProtection(SwitchPlayerRoles switchPlayerRole)

@@ -1,21 +1,31 @@
 using System;
+using Code.Gameplay.Player.Blocks;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
 using Code.Infrastructure.RhytmSystem;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
 {
     public class ProtectionState : PlayerBaseState
     {
+        private readonly BlockConfig _blockConfig;
+        private const float Duration = 0.5f;
         private readonly Action _activeAction;
-        
+        private bool _canBlock;
+        private bool _delayActive;
+
+        public bool CanBlock => _canBlock;
+
         protected override Action ActiveAction => _activeAction;
         
-        public ProtectionState(PlayerController player, StateMachine machine, EventBusService eventBusService) 
+        public ProtectionState(PlayerController player, StateMachine machine,
+            EventBusService eventBusService, BlockConfig blockConfig) 
             : base(player, machine, eventBusService)
         {
+            _blockConfig = blockConfig;
             _activeAction = Protect;
         }
         
@@ -35,6 +45,30 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Protect()
         {
+            if (_delayActive) return;
+            
+            BlockDelay().Forget();
+            
+            _blockConfig.VisualizeAttack(Duration);
+            
+            if (true)//проверка на попадание в такт
+            {
+                ActivateBlock().Forget();
+            }
+        }
+
+        private async UniTask ActivateBlock()
+        {
+            _canBlock = true;
+            await UniTask.Delay(TimeSpan.FromSeconds(Duration));
+            _canBlock = false;
+        }
+        
+        private async UniTask BlockDelay()
+        {
+            _delayActive = true;
+            await UniTask.Delay(TimeSpan.FromSeconds(2));
+            _delayActive = false;
             Debug.Log("Protect");
             float protectTimeMs = Store.Instance.GetMusicPositionMs();
             float protectModifier = BeatTracker.Instance.CalculateHitMultiplier(protectTimeMs);
