@@ -2,7 +2,6 @@ using System;
 using Code.Gameplay.Player.Body;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
-using Code.Infrastructure.EventBusSystem.Events;
 using Code.Infrastructure.RhytmSystem;
 using UnityEngine;
 

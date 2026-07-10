@@ -44,10 +44,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Protect()
         {
-            // if (_delayActive) return;
-
-            // BlockDelay().Forget();
-
             _blockConfig.VisualizeAttack(Duration);
 
             float hitTimeMs = Store.Instance.GetMusicPositionMs();
@@ -61,13 +57,13 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
             if (accuracy < 0)
             {
-                ActivateBlock().Forget();
                 Debug.Log($"Miss the beat!(Protect)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
+                return;
             }
-            else
-            {
-                Debug.Log($"Hit the beat!(Protect)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
-            }
+            
+            ActivateBlock().Forget();
+            Debug.Log($"Hit the beat!(Protect)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
+            
         }
 
         private async UniTask ActivateBlock()
@@ -77,13 +73,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             _canBlock = false;
         }
         
-        // private async UniTask BlockDelay()
-        // {
-        //     _delayActive = true;
-        //     await UniTask.Delay(TimeSpan.FromSeconds(2));
-        //     _delayActive = false;
-        // }
-        //
         private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)
         {
             Machine.ChangeState(Player.AttackState);
