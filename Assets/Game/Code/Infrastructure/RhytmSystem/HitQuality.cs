@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Code.Infrastructure.RhytmSystem
 {
@@ -14,10 +15,10 @@ namespace Code.Infrastructure.RhytmSystem
     {
         private static readonly Dictionary<HitQuality, float> _multipliers = new()
         {
-            { HitQuality.Miss, 0.25f },
+            { HitQuality.Miss, 0f},
             { HitQuality.Bad, 0.5f },
             { HitQuality.Good, 0.75f },
-            { HitQuality.Perfect, 1.0f }
+            { HitQuality.Perfect, 1f }
         };
 
         public static float GetMultiplier(this HitQuality quality)

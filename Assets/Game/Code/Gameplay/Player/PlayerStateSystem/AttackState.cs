@@ -80,12 +80,12 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             }
         }
 
-        private async UniTask AttackDelay()
-        {
-            _delayActive = true;
-            await UniTask.Delay(TimeSpan.FromSeconds(2));
-            _delayActive = false;
-        }
+        // private async UniTask AttackDelay()
+        // {
+        //     _delayActive = true;
+        //     await UniTask.Delay(TimeSpan.FromSeconds(2));
+        //     _delayActive = false;
+        // }
 
         private void SwitchToProtection(SwitchPlayerRoles switchPlayerRole)
         {

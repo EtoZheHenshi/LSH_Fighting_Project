@@ -76,21 +76,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             float hitTimeMs = Store.Instance.GetMusicPositionMs();
 
             Store.Instance.AttackTimeMs = hitTimeMs;
-
-            float accuracy = BeatTracker.Instance.CalculateHitAccuracy(hitTimeMs);
-            HitQuality quality = BeatTracker.Instance.HitQuality(accuracy);
-            float multiplier = quality.GetMultiplier();
-
-            if (accuracy < 0)
-            {
-                Debug.Log(
-                    $"Miss the beat!(Possession)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
-            }
-            else
-            {
-                Debug.Log(
-                    $"Hit the beat!(Possession)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
-            }
+            
             if (_currentSelectedBody != null && !Player.HaveBody)
             {
                 Player.SetBody(_currentSelectedBody);

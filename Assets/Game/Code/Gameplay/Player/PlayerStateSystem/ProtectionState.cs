@@ -44,9 +44,9 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Protect()
         {
-            if (_delayActive) return;
+            // if (_delayActive) return;
 
-            BlockDelay().Forget();
+            // BlockDelay().Forget();
 
             _blockConfig.VisualizeAttack(Duration);
 
@@ -77,13 +77,13 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             _canBlock = false;
         }
         
-        private async UniTask BlockDelay()
-        {
-            _delayActive = true;
-            await UniTask.Delay(TimeSpan.FromSeconds(2));
-            _delayActive = false;
-        }
-        
+        // private async UniTask BlockDelay()
+        // {
+        //     _delayActive = true;
+        //     await UniTask.Delay(TimeSpan.FromSeconds(2));
+        //     _delayActive = false;
+        // }
+        //
         private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)
         {
             Machine.ChangeState(Player.AttackState);
