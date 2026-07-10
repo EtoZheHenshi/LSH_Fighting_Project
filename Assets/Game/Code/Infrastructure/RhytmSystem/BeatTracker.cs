@@ -88,9 +88,15 @@ namespace Code.Infrastructure.RhytmSystem
         private void Update()
         {
             _currentBeatPosition = Store.Instance.GetMusicPositionMs();
-
+            string attackMessage = Store.Instance.AttackTimeMs == -1
+                ? "attack skipped"
+                : Store.Instance.AttackTimeMs.ToString();
+            string protectMessage = Store.Instance.AttackTimeMs == -1
+                ? "protect skipped"
+                : Store.Instance.AttackTimeMs.ToString();
             if (_currentBeatPosition >= _nextBeatPosition)
             {
+                // print($"attack time: {attackMessage}, protect time: {protectMessage}");
                 _lastBeatPosition = _nextBeatPosition;
                 OnBeat?.Invoke();
                 _nextBeatPosition += _beatDurationMs;

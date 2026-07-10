@@ -47,8 +47,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             float hitTimeMs = Store.Instance.GetMusicPositionMs();
 
             Store.Instance.AttackTimeMs = hitTimeMs;
-
-
+            
             float accuracy = BeatTracker.Instance.CalculateHitAccuracy(hitTimeMs);
             HitQuality quality = BeatTracker.Instance.HitQuality(accuracy);
             float multiplier = quality.GetMultiplier();
@@ -63,7 +62,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             else
             {
                 Debug.Log(
-                    $"Hit the beat!(Attack)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
+                    $"Hit the beat!(Attack)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
                 if (Physics2D.OverlapBox(
                         _attackConfig.transform.position,
                         _attackConfig.AttackSize,

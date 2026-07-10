@@ -62,11 +62,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             if (accuracy < 0)
             {
                 ActivateBlock().Forget();
-                Debug.Log($"Miss the beat!(Protect)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
+                Debug.Log($"Miss the beat!(Protect)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
             }
             else
             {
-                Debug.Log($"Hit the beat!(Protect)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
+                Debug.Log($"Hit the beat!(Protect)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
             }
         }
 

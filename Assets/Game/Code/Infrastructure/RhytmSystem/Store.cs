@@ -12,10 +12,10 @@ namespace Code.Infrastructure.RhytmSystem
     public class Store : Singleton<Store>
     {
         private float _musicPositionMs;
+        
+        private float _attackTimeMs = -1;
 
-        private float _attackTimeMs = 0;
-
-        private float _protectTimeMs = 0;
+        private float _protectTimeMs = -1;
 
         public float AttackTimeMs { get; set; }
 
