@@ -28,12 +28,12 @@ namespace Code.Gameplay.Player.PlayerStateSystem.Base
 
         public virtual void Enter()
         {
-            Player.Input.AttackAction = ActiveAction;
+            Player.Input.InputActiveAction = ActiveAction;
         }
 
         public virtual void Exit()
         {
-            Player.Input.AttackAction = null;
+            Player.Input.InputActiveAction = null;
         }
 
         // Tick — abstract: логика кадра обязана быть у КАЖДОГО состояния.

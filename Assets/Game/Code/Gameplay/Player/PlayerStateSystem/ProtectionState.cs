@@ -15,12 +15,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private const float Duration = 0.25f;
         private readonly Action _activeAction;
         private bool _canBlock;
-        private bool _delayActive;
 
         public bool CanBlock => _canBlock;
 
         protected override Action ActiveAction => _activeAction;
-
+        
         public ProtectionState(PlayerController player, StateMachine machine,
             EventBusService eventBusService, BlockConfig blockConfig)
             : base(player, machine, eventBusService)
@@ -62,6 +61,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
             if (accuracy < 0)
             {
+                ActivateBlock().Forget();
                 Debug.Log($"Miss the beat!(Protect)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
             }
             else
@@ -76,14 +76,14 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             await UniTask.Delay(TimeSpan.FromSeconds(Duration));
             _canBlock = false;
         }
-
+        
         private async UniTask BlockDelay()
         {
             _delayActive = true;
             await UniTask.Delay(TimeSpan.FromSeconds(2));
             _delayActive = false;
         }
-
+        
         private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)
         {
             Machine.ChangeState(Player.AttackState);

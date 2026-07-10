@@ -1,9 +1,7 @@
-using System;
-using System.Threading.Tasks;
-using Code.Infrastructure.RhytmSystem;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Code.Infrastructure
+namespace Code.Infrastructure.RhytmSystem
 {
     public class MetronomeVisualizer : MonoBehaviour
     {
@@ -31,7 +29,7 @@ namespace Code.Infrastructure
         private async void Flash()
         {
             _renderer.material.color = _flashColor;
-            await Task.Delay((int)(_flashInterval * 1000));
+            await UniTask.Delay((int)(_flashInterval * 1000));
             _renderer.material.color = _normalColor;
         }
         

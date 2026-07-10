@@ -15,7 +15,7 @@ namespace Code.Infrastructure.InputSystem
         public Vector2 Move { get; set; }
         public bool ActiveAction { get; set;}
 
-        public Action AttackAction { get; set; }
+        public Action InputActiveAction { get; set; }
 
         public PlayerInput(GameInput.PlayerOneActions playerOneActions)
         {
@@ -29,7 +29,7 @@ namespace Code.Infrastructure.InputSystem
             // actions.ActiveAction.started += OnHandAttack;
             // actions.ActiveAction.canceled += OnHandAttack;
             
-            actions.ActiveAction.performed += _ => AttackAction?.Invoke();
+            actions.ActiveAction.performed += _ => InputActiveAction?.Invoke();
         }
         
         public PlayerInput(GameInput.PlayerTwoActions playerOneActions)
@@ -44,7 +44,7 @@ namespace Code.Infrastructure.InputSystem
             // actions.ActiveAction.started += OnHandAttack;
             // actions.ActiveAction.canceled += OnHandAttack;
             
-            actions.ActiveAction.performed += _ => AttackAction?.Invoke();
+            actions.ActiveAction.performed += _ => InputActiveAction?.Invoke();
         }
 
         private void OnMove(InputAction.CallbackContext ctx)

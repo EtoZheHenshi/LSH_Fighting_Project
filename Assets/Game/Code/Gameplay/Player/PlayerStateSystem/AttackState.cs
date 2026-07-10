@@ -14,7 +14,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private readonly AttackConfig _attackConfig;
         private readonly LayerMask _enemyLayer;
         private readonly Action _activeAction;
-        private bool _delayActive;
 
         protected override Action ActiveAction => _activeAction;
 
@@ -43,10 +42,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Attack()
         {
-            if (_delayActive) return;
-
-            AttackDelay().Forget();
-
             _attackConfig.VisualizeAttack();
 
             float hitTimeMs = Store.Instance.GetMusicPositionMs();
@@ -61,7 +56,9 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
             if (accuracy < 0)
             {
-                Debug.Log($"Miss the beat!(Attack)\naccuracy: {accuracy} quality: {quality} multiplier: {multiplier}");
+                Debug.Log("Miss the beat!(Attack) " + multiplier);
+                EventBus.Publish(new SwitchPlayerRoles());
+                return;
             }
             else
             {
