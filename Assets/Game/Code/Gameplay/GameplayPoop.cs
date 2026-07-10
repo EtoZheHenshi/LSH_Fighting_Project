@@ -17,10 +17,11 @@ namespace Code.Gameplay
     {
         [SerializeField] private Transform deadBodyRoot;
         
+        [SerializeField] private float switchTime = 10f;
+        [SerializeField] private float ghostTime = 5f;
+        
         private PlayerController _player1;
         private PlayerController _player2;
-        private const float SwitchTime = 10f;
-        private const float GhostTime = 5f;
         
         private EventBusService _eventBus;
         private CancellationTokenSource _cts;
@@ -54,7 +55,7 @@ namespace Code.Gameplay
 
         public void StartGhostTimer()
         {
-            _currentGhostTimeLeft = GhostTime;
+            _currentGhostTimeLeft = ghostTime;
             _ghostState = true;
         }
 
@@ -69,6 +70,12 @@ namespace Code.Gameplay
             _cts.Dispose();
 
             _cts = new CancellationTokenSource();
+        }
+
+        public void SwitchPlayerRoles()
+        {
+            StopCycle();
+            StartTimerSwitch().Forget();
         }
 
         private void GhostCycle()
@@ -111,16 +118,13 @@ namespace Code.Gameplay
             
             try
             {
-                while (true)
-                {
-                    await UniTask.Delay(TimeSpan.FromSeconds(SwitchTime), cancellationToken: _cts.Token);
-                    _playerOneAttack = !_playerOneAttack;
-                    _eventBus.Publish(new SwitchPlayerRoles());
-                }
+                await UniTask.Delay(TimeSpan.FromSeconds(switchTime), cancellationToken: _cts.Token);
+                Debug.Log("Switch");
+                StartTimerSwitch().Forget();
             }
             catch (OperationCanceledException)
             {
-                StartGhostTimer();
+                //StartGhostTimer();
             }
         }
 

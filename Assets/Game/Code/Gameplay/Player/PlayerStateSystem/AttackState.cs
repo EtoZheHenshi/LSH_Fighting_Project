@@ -25,20 +25,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             _activeAction = Attack;
         }
 
-        public override void Enter()
-        {
-            base.Enter();
-
-            EventBus.Subscribe<SwitchPlayerRoles>(SwitchToProtection);
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-
-            EventBus.Unsubscribe<SwitchPlayerRoles>(SwitchToProtection);
-        }
-
         private void Attack()
         {
             _attackConfig.VisualizeAttack();
@@ -55,7 +41,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             if (accuracy < 0)
             {
                 Debug.Log("Miss the beat!(Attack) " + multiplier);
-                EventBus.Publish(new SwitchPlayerRoles());
+                GameplayPoop.Instance.SwitchPlayerRoles();
                 return;
             }
             
@@ -63,7 +49,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 $"Hit the beat!(Attack)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
             
             if (Physics2D.OverlapBox(
-                    _attackConfig.transform.position,
+                    _attackConfig.AttackPosition.position,
                     _attackConfig.AttackSize,
                     0f,
                     _enemyLayer
@@ -76,10 +62,24 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 Debug.Log($"Damage = {damage}");
             }
         }
-
-        private void SwitchToProtection(SwitchPlayerRoles switchPlayerRole)
+        
+        public void DrawGizmos()
         {
-            Machine.ChangeState(Player.ProtectionState);
+            if (_attackConfig == null)
+                return;
+
+            Gizmos.color = Color.red;
+
+            Matrix4x4 oldMatrix = Gizmos.matrix;
+
+            Gizmos.matrix = Matrix4x4.TRS(
+                _attackConfig.AttackPosition.position,
+                _attackConfig.transform.rotation,
+                Vector3.one);
+
+            Gizmos.DrawWireCube(Vector3.zero, _attackConfig.AttackSize);
+
+            Gizmos.matrix = oldMatrix;
         }
     }
 }
