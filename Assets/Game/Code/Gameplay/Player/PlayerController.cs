@@ -1,6 +1,7 @@
 using Code.Gameplay.Player.Body;
 using Code.Gameplay.Player.PlayerStateSystem;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
+using Code.Gameplay.UI.HUD;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.InputSystem;
 using UnityEngine;
@@ -20,6 +21,9 @@ namespace Code.Gameplay.Player
         [SerializeField] private LayerMask bodyObstacleLayers;
         [SerializeField] private LayerMask ghostObstacleLayers;
         [SerializeField] private SpriteRenderer ghostSpriteRenderer;
+        
+        [Header("UI")] 
+        [SerializeField] private HpUi hpUi;
 
         private float _hp;
         private float _moveSpeed;
@@ -33,6 +37,7 @@ namespace Code.Gameplay.Player
         public GhostState GhostState { get; private set; }
         public AttackState AttackState { get; private set; }
         public ProtectionState ProtectionState { get; private set; }
+        public WaitState WaitState { get; private set; }
         
         public StateMachine StateMachine => _stateMachine;
         public Rigidbody2D Rigidbody => _rb;
@@ -50,6 +55,7 @@ namespace Code.Gameplay.Player
             _moveObstacleLayers = ghostObstacleLayers;
             
             GhostState = new GhostState(this, _stateMachine, _eventBus, deadBodyLayer);
+            WaitState = new WaitState(this, _stateMachine, _eventBus);
             
             if (isItPlayerTwo)
             {
@@ -88,6 +94,8 @@ namespace Code.Gameplay.Player
             _hp = deadBody.Hp;
             _moveSpeed = deadBody.MoveSpeed;
             HaveBody = true;
+            
+            hpUi.SetHealth(_hp);
         }
 
         public void RemoveBody()
@@ -96,6 +104,7 @@ namespace Code.Gameplay.Player
             {
                 _currentBody.transform.parent = null;
                 _currentBody.gameObject.layer = 0;
+                _currentBody.SpriteRenderer.sortingOrder = -2;
                 _currentBody = null;
             }
             
@@ -117,10 +126,13 @@ namespace Code.Gameplay.Player
             else
             {
                 _hp -= damage;
+                hpUi.UpdateHealth(_hp);
                 Debug.Log($"HP = {_hp}");
 
                 if (_hp <= 0)
                 {
+                    GameplayPoop.Instance.StopCycle();
+                    Enemy.StateMachine.ChangeState(Enemy.WaitState);
                     _stateMachine.ChangeState(GhostState);
                 }
             }
@@ -156,6 +168,11 @@ namespace Code.Gameplay.Player
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 
             _rb.MoveRotation(angle);
+        }
+        
+        private void OnDrawGizmos()
+        {
+            AttackState?.DrawGizmos();
         }
     }
 }

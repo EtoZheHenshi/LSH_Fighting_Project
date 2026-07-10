@@ -28,20 +28,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             _activeAction = Protect;
         }
 
-        public override void Enter()
-        {
-            base.Enter();
-
-            EventBus.Subscribe<SwitchPlayerRoles>(SwitchToAttack);
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-
-            EventBus.Unsubscribe<SwitchPlayerRoles>(SwitchToAttack);
-        }
-
         private void Protect()
         {
             _blockConfig.VisualizeAttack(Duration);
@@ -93,11 +79,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             _canBlock = true;
             await UniTask.Delay(TimeSpan.FromSeconds(Duration));
             _canBlock = false;
-        }
-        
-        private void SwitchToAttack(SwitchPlayerRoles switchPlayerRole)
-        {
-            Machine.ChangeState(Player.AttackState);
         }
     }
 }

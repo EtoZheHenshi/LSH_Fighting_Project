@@ -63,49 +63,64 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
             if (accuracy < 0)
             {
-                // Debug.Log(
-                    // $"Miss the beat!(Attack)\naccuracy: {accuracy} | quality: {attackQuality} | multiplier: {multiplier}");
-                Debug.Log("Missed attack! Turning into protection!");
+                Debug.Log("Miss the beat!(Attack) " + multiplier);
                 TurnIntoProtectPhase();
-                EventBus.Publish(new SwitchPlayerRoles());
+                GameplayPoop.Instance.SwitchPlayerRoles();
+                return;
+            }
+            
+            Debug.Log(
+                $"Hit the beat!(Attack)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
+            
+            if (Store.Instance.AttackIsActive)
+            {
+                Debug.Log("Second attempt to attack per beat! Turning into protection!");
+                    
+                TurnIntoProtectPhase();
             }
             else
             {
-                if (Store.Instance.AttackIsActive)
-                {
-                    Debug.Log("Second attempt to attack per beat! Turning into protection!");
-                    
-                    TurnIntoProtectPhase();
-                }
-                else
-                {
-                    Debug.Log("Hit the beat!(Attack)");
-                    // Debug.Log(
-                        // $"Hit the beat!(Attack)\naccuracy: {accuracy} | quality: {attackQuality} | multiplier: {multiplier}");
-                    Debug.Log($"ATTACK | AttakQuality: {attackQuality} | AttackMultiplier: {attackQuality.GetAttackMultiplier()}\n" +
-                              $"ProtectQuality: {protectQuality} | ProtectMultiplier: {protectQuality.GetProtectMultiplier()} | " +
-                              $"FinalMultiplier: {multiplier}");
-                        Store.Instance.AttackIsActive = true;
-                    if (Physics2D.OverlapBox(
-                            _attackConfig.transform.position,
-                            _attackConfig.AttackSize,
-                            0f,
-                            _enemyLayer
-                        )
-                       )
-                    {
-                        float damage = _attackConfig.Damage * multiplier;
+                Debug.Log("Hit the beat!(Attack)");
+                // Debug.Log(
+                // $"Hit the beat!(Attack)\naccuracy: {accuracy} | quality: {attackQuality} | multiplier: {multiplier}");
+                Debug.Log($"ATTACK | AttakQuality: {attackQuality} | AttackMultiplier: {attackQuality.GetAttackMultiplier()}\n" +
+                          $"ProtectQuality: {protectQuality} | ProtectMultiplier: {protectQuality.GetProtectMultiplier()} | " +
+                          $"FinalMultiplier: {multiplier}");
+                Store.Instance.AttackIsActive = true;
+            }
+            
+            if (Physics2D.OverlapBox(
+                    _attackConfig.AttackPosition.position,
+                    _attackConfig.AttackSize,
+                    0f,
+                    _enemyLayer
+                )
+               )
+            {
+                float damage = _attackConfig.Damage * multiplier;
 
-                        Player.Enemy.TakeDamage(damage);
-                        // Debug.Log($"Damage = {damage}");
-                    }
-                }
+                Player.Enemy.TakeDamage(damage);
+                Debug.Log($"Damage = {damage}");
             }
         }
-
-        private void SwitchToProtection(SwitchPlayerRoles switchPlayerRole)
+        
+        public void DrawGizmos()
         {
-            Machine.ChangeState(Player.ProtectionState);
+            if (_attackConfig == null)
+                return;
+
+            Gizmos.color = Color.red;
+
+            Matrix4x4 oldMatrix = Gizmos.matrix;
+
+            Gizmos.matrix = Matrix4x4.TRS(
+                _attackConfig.AttackPosition.position,
+                _attackConfig.transform.rotation,
+                Vector3.one);
+
+            Gizmos.DrawWireCube(Vector3.zero, _attackConfig.AttackSize);
+
+            Gizmos.matrix = oldMatrix;
         }
     }
 }

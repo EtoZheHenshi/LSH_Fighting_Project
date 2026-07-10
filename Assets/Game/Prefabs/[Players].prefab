@@ -90,11 +90,12 @@ MonoBehaviour:
     m_Bits: 1024
   bodyObstacleLayers:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 832
   ghostObstacleLayers:
     serializedVersion: 2
     m_Bits: 256
   ghostSpriteRenderer: {fileID: 1453418865629483627}
+  hpUi: {fileID: 0}
 --- !u!212 &1453418865629483627
 SpriteRenderer:
   serializedVersion: 2
@@ -274,11 +275,12 @@ MonoBehaviour:
     m_Bits: 1024
   bodyObstacleLayers:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 896
   ghostObstacleLayers:
     serializedVersion: 2
     m_Bits: 256
   ghostSpriteRenderer: {fileID: 2842751132545597767}
+  hpUi: {fileID: 0}
 --- !u!212 &2842751132545597767
 SpriteRenderer:
   serializedVersion: 2

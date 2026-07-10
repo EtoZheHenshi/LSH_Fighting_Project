@@ -17,6 +17,7 @@ namespace Code.Gameplay.Player.Body
         public float MoveSpeed => moveSpeed;
         public AttackConfig AttackConfig => attackConfig;
         public BlockConfig BlockConfig => blockConfig;
+        public SpriteRenderer SpriteRenderer => spriteRenderer;
 
         private static readonly int OutlineEnabled = Shader.PropertyToID("_OutlineEnabled");
 
