@@ -39,41 +39,67 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             EventBus.Unsubscribe<SwitchPlayerRoles>(SwitchToProtection);
         }
 
+        // логика передачи фазы атаки перехода в фазу защиты 
+        private void TurnIntoProtectPhase()
+        {
+            
+        }
         private void Attack()
         {
             _attackConfig.VisualizeAttack();
 
-            float hitTimeMs = Store.Instance.GetMusicPositionMs();
+            float attackTimeMs = Store.Instance.MusicPositionMs;
 
-            Store.Instance.AttackTimeMs = hitTimeMs;
-            
-            float accuracy = BeatTracker.Instance.CalculateHitAccuracy(hitTimeMs);
-            HitQuality quality = BeatTracker.Instance.HitQuality(accuracy);
-            float multiplier = quality.GetMultiplier();
+            Store.Instance.AttackTimeMs = attackTimeMs;
 
+            // float accuracy = BeatTracker.Instance.CalculateHitAccuracy(attackTimeMs);
+            // HitQuality attackQuality = BeatTracker.Instance.GetHitQuality(accuracy);
+            // HitQuality protectQuality = Store.Instance.ProtectQuality;
+            // float multiplier = attackQuality.GetMultiplier(protectQuality);
+            float accuracy = Store.Instance.ProtectAccuracy;
+            HitQuality attackQuality = Store.Instance.AttackQuality;
+            HitQuality protectQuality = Store.Instance.ProtectQuality;
+            float multiplier = Store.Instance.Multiplier;
 
             if (accuracy < 0)
             {
-                Debug.Log("Miss the beat!(Attack) " + multiplier);
+                // Debug.Log(
+                    // $"Miss the beat!(Attack)\naccuracy: {accuracy} | quality: {attackQuality} | multiplier: {multiplier}");
+                Debug.Log("Missed attack! Turning into protection!");
+                TurnIntoProtectPhase();
                 EventBus.Publish(new SwitchPlayerRoles());
-                return;
             }
-            
-            Debug.Log(
-                $"Hit the beat!(Attack)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
-            
-            if (Physics2D.OverlapBox(
-                    _attackConfig.transform.position,
-                    _attackConfig.AttackSize,
-                    0f,
-                    _enemyLayer
-                )
-               )
+            else
             {
-                float damage = _attackConfig.Damage * multiplier;
+                if (Store.Instance.AttackIsActive)
+                {
+                    Debug.Log("Second attempt to attack per beat! Turning into protection!");
+                    
+                    TurnIntoProtectPhase();
+                }
+                else
+                {
+                    Debug.Log("Hit the beat!(Attack)");
+                    // Debug.Log(
+                        // $"Hit the beat!(Attack)\naccuracy: {accuracy} | quality: {attackQuality} | multiplier: {multiplier}");
+                    Debug.Log($"ATTACK | AttakQuality: {attackQuality} | AttackMultiplier: {attackQuality.GetAttackMultiplier()}\n" +
+                              $"ProtectQuality: {protectQuality} | ProtectMultiplier: {protectQuality.GetProtectMultiplier()} | " +
+                              $"FinalMultiplier: {multiplier}");
+                        Store.Instance.AttackIsActive = true;
+                    if (Physics2D.OverlapBox(
+                            _attackConfig.transform.position,
+                            _attackConfig.AttackSize,
+                            0f,
+                            _enemyLayer
+                        )
+                       )
+                    {
+                        float damage = _attackConfig.Damage * multiplier;
 
-                Player.Enemy.TakeDamage(damage);
-                Debug.Log($"Damage = {damage}");
+                        Player.Enemy.TakeDamage(damage);
+                        // Debug.Log($"Damage = {damage}");
+                    }
+                }
             }
         }
 

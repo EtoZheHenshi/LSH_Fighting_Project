@@ -18,12 +18,12 @@ namespace Code.Infrastructure.RhytmSystem
 
         private void Start()
         {
-            Store.Instance.UpdateMusicPosition(music.time); 
+            Store.Instance.MusicPositionMs = music.time; 
         }
 
         private void Update()
         {
-            Store.Instance.UpdateMusicPosition(music.time);
+            Store.Instance.MusicPositionMs = music.time;
         }
     }
 }

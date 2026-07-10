@@ -72,7 +72,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Possession()
         {
-            float hitTimeMs = Store.Instance.GetMusicPositionMs();
+            float hitTimeMs = Store.Instance.MusicPositionMs;
 
             Store.Instance.AttackTimeMs = hitTimeMs;
             

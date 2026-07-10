@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code.Infrastructure.RhytmSystem
 {
@@ -19,7 +20,9 @@ namespace Code.Infrastructure.RhytmSystem
         [SerializeField] private float perfectHitBound = 0.8f;
         [SerializeField] private float goodHitBound = 0.6f;
         [SerializeField] private float badHitBound = 0.2f;
-        private readonly int _hitRadiusMs = 150;
+
+        [FormerlySerializedAs("_hitRadiusMs")] [SerializeField]
+        private int hitRadiusMs = 150;
 
         private float _beatDurationMs;
         private float _nextBeatTime;
@@ -44,21 +47,21 @@ namespace Code.Infrastructure.RhytmSystem
         public float CalculateHitAccuracy(float timeMs)
         {
             float multiplier;
-            print($"timeMs: {timeMs}, _lastBeatPosition: {_lastBeatPosition}, _nextBeatPosition: {_nextBeatPosition}");
-            if (Mathf.Abs(timeMs - _lastBeatPosition) < _hitRadiusMs &&
+            print($"TimeMs: {timeMs} | LastBeatPosition: {_lastBeatPosition} | NextBeatPosition: {_nextBeatPosition}");
+            if (Mathf.Abs(timeMs - _lastBeatPosition) < hitRadiusMs &&
                 _lastHitPosition != _lastBeatPosition)
             {
                 float mu = _lastBeatPosition;
-                float sigma = _hitRadiusMs / 2.5f;
+                float sigma = hitRadiusMs / 2.5f;
                 multiplier = NormalDistribution(timeMs, sigma, mu);
                 _lastHitPosition = _lastBeatPosition;
                 return multiplier;
             }
-            else if (Mathf.Abs(timeMs - _nextBeatPosition) < _hitRadiusMs &&
+            else if (Mathf.Abs(timeMs - _nextBeatPosition) < hitRadiusMs &&
                      _lastHitPosition != _nextBeatPosition)
             {
                 float mu = _nextBeatPosition;
-                float sigma = _hitRadiusMs / 2.5f;
+                float sigma = hitRadiusMs / 2.5f;
                 multiplier = NormalDistribution(timeMs, sigma, mu);
                 _lastHitPosition = _nextBeatPosition;
                 return multiplier;
@@ -67,27 +70,27 @@ namespace Code.Infrastructure.RhytmSystem
             return -1;
         }
 
-        public HitQuality HitQuality(float multiplier)
+        public HitQuality GetHitQuality(float accuracy)
         {
-            if (multiplier > perfectHitBound)
+            if (accuracy > perfectHitBound)
             {
-                return RhytmSystem.HitQuality.Perfect;
+                return HitQuality.Perfect;
             }
-            else if (badHitBound < multiplier && multiplier <= goodHitBound)
+            else if (badHitBound < accuracy && accuracy <= goodHitBound)
             {
-                return RhytmSystem.HitQuality.Good;
+                return HitQuality.Good;
             }
-            else if (0 < multiplier && multiplier <= badHitBound)
+            else if (0 < accuracy && accuracy <= badHitBound)
             {
-                return RhytmSystem.HitQuality.Bad;
+                return HitQuality.Bad;
             }
 
-            return RhytmSystem.HitQuality.Miss;
+            return HitQuality.Miss;
         }
 
         private void Update()
         {
-            _currentBeatPosition = Store.Instance.GetMusicPositionMs();
+            _currentBeatPosition = Store.Instance.MusicPositionMs;
             string attackMessage = Store.Instance.AttackTimeMs == -1
                 ? "attack skipped"
                 : Store.Instance.AttackTimeMs.ToString();
@@ -96,7 +99,33 @@ namespace Code.Infrastructure.RhytmSystem
                 : Store.Instance.AttackTimeMs.ToString();
             if (_currentBeatPosition >= _nextBeatPosition)
             {
+                HitQuality attackQuality = HitQuality.Null;
+                HitQuality protectQuality = HitQuality.Null;
+                float attackAccuracy;
+                float protectAccuracy;
                 // print($"attack time: {attackMessage}, protect time: {protectMessage}");
+                if (Store.Instance.AttackIsActive)
+                {
+                    attackAccuracy = CalculateHitAccuracy(Store.Instance.AttackTimeMs);
+                    Store.Instance.AttackAccuracy = attackAccuracy;
+                    attackQuality = GetHitQuality(attackAccuracy);
+                }
+
+                if (Store.Instance.ProtectIsActive)
+                {
+                    protectAccuracy = CalculateHitAccuracy(Store.Instance.ProtectTimeMs);
+                    Store.Instance.ProtectAccuracy = protectAccuracy;
+                    protectQuality = GetHitQuality(protectAccuracy);
+                }
+
+                float multiplier = attackQuality.GetMultiplier(protectQuality);
+                Store.Instance.Multiplier = multiplier;
+                // сбрасываем состояния 
+                Store.Instance.AttackIsActive = false;
+                Store.Instance.ProtectIsActive = false;
+                // Store.Instance.AttackQuality = HitQuality.Miss;
+                // Store.Instance.ProtectQuality = HitQuality.Miss;
+
                 _lastBeatPosition = _nextBeatPosition;
                 OnBeat?.Invoke();
                 _nextBeatPosition += _beatDurationMs;

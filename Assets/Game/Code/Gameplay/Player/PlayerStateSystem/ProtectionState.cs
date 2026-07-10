@@ -46,23 +46,45 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         {
             _blockConfig.VisualizeAttack(Duration);
 
-            float hitTimeMs = Store.Instance.GetMusicPositionMs();
+            float protectTimeMs = Store.Instance.MusicPositionMs;
 
-            Store.Instance.ProtectTimeMs = hitTimeMs;
+            Store.Instance.ProtectTimeMs = protectTimeMs;
 
-            float accuracy = BeatTracker.Instance.CalculateHitAccuracy(hitTimeMs);
-            HitQuality quality = BeatTracker.Instance.HitQuality(accuracy);
-            float multiplier = quality.GetMultiplier();
-
+            // float accuracy = BeatTracker.Instance.CalculateHitAccuracy(protectTimeMs);
+            // HitQuality quality = BeatTracker.Instance.GetHitQuality(accuracy);
+            // Store.Instance.ProtectQuality = quality;
+            // // float multiplier = quality.GetMultiplier();
+            // HitQuality attackQuality = BeatTracker.Instance.GetHitQuality(accuracy);
+            // HitQuality protectQuality = Store.Instance.ProtectQuality;
+            // float multiplier = attackQuality.GetMultiplier(protectQuality);
+            
+            float accuracy = Store.Instance.ProtectAccuracy;
+            HitQuality attackQuality = Store.Instance.AttackQuality;
+            HitQuality protectQuality = Store.Instance.ProtectQuality;
+            float multiplier = Store.Instance.Multiplier;
 
             if (accuracy < 0)
             {
-                Debug.Log($"Miss the beat!(Protect)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
-                return;
+                Debug.Log("Miss the beat!(Protect)");
+                // Debug.Log($"Miss the beat!(Protect)\naccuracy: {accuracy} | quality: {quality}");
             }
-            
-            ActivateBlock().Forget();
-            Debug.Log($"Hit the beat!(Protect)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
+            else
+            {
+                if (Store.Instance.ProtectIsActive)
+                {
+                    //
+                }
+                else
+                {
+                    Debug.Log("Hit the beat!(Protect)");
+                    // Debug.Log($"Hit the beat!(Protect)\naccuracy: {accuracy} | quality: {quality}");
+
+                    Debug.Log($"PROTECT | AttakQuality: {attackQuality} | AttackMultiplier: {attackQuality.GetAttackMultiplier()}\n" +
+                              $"ProtectQuality: {protectQuality} | ProtectMultiplier: {protectQuality.GetProtectMultiplier()} | " +
+                              $"FinalMultiplier: {multiplier}");
+                    ActivateBlock().Forget();
+                }
+            }
             
         }
 

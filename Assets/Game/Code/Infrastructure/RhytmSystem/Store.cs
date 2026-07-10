@@ -12,23 +12,85 @@ namespace Code.Infrastructure.RhytmSystem
     public class Store : Singleton<Store>
     {
         private float _musicPositionMs;
-        
-        private float _attackTimeMs = -1;
 
+        private float _attackTimeMs = -1;
         private float _protectTimeMs = -1;
 
-        public float AttackTimeMs { get; set; }
+        private bool _attackIsActive = false;
+        private bool _protectIsActive = false;
+        private float _lastBeatPositionMs;
+        private HitQuality _attackQuality = HitQuality.Miss;
+        private HitQuality _protectQuality = HitQuality.Miss;
+        private float _multiplier;
+        private float _attackAccuracy;
+        private float _protectAccuracy;
 
-        public float ProtectTimeMs { get; set; }
-
-        public float GetMusicPositionMs()
+        public float AttackAccuracy
         {
-            return _musicPositionMs;
+            get => _attackAccuracy;
+            set => _attackAccuracy = value;
         }
 
-        public void UpdateMusicPosition(float timeSec)
+        public float ProtectAccuracy
         {
-            _musicPositionMs = timeSec * 1000f;
+            get => _protectAccuracy;
+            set => _protectAccuracy = value;
+        }
+
+        public float Multiplier
+        {
+            get => _multiplier; 
+            set => _multiplier = value; 
+        }
+        public HitQuality AttackQuality
+        {
+            get => _attackQuality;
+            set => _attackQuality = value;
+        }
+
+        public HitQuality ProtectQuality
+        {
+            get => _protectQuality;
+            set => _protectQuality = value;
+        }
+
+        public float AttackTimeMs
+        {
+            get => _attackTimeMs;
+            set => _attackTimeMs = value;
+        }
+
+        public float ProtectTimeMs
+        {
+            get => _protectTimeMs;
+            set => _protectTimeMs = value;
+        }
+
+        public bool AttackIsActive
+        {
+            get => _attackIsActive;
+            set
+            {
+                // AttackQuality = HitQuality.Miss;
+                _attackIsActive = value;
+            }
+        }
+
+        public bool ProtectIsActive
+        {
+            get => _protectIsActive;
+
+            set
+            {
+                // ProtectQuality = HitQuality.Miss;
+                _protectIsActive = value;
+            }
+        }
+
+        public float MusicPositionMs
+        {
+            get => _musicPositionMs;
+            set => _musicPositionMs = value * 1000f; 
         }
     }
 }
