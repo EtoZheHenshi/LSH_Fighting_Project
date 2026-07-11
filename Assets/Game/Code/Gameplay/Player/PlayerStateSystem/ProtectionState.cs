@@ -28,14 +28,17 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             _activeAction = Protect;
         }
 
+        public override void Enter()
+        {
+            base.Enter();
+            
+            Player.PlayerIcons.SetRoleIcon(Color.blue);
+        }
+
         private void Protect()
         {
             _blockConfig.VisualizeAttack(Duration);
-
-            float protectTimeMs = Store.Instance.MusicPositionMs;
-
-            Store.Instance.ProtectTimeMs = protectTimeMs;
-
+            
             // float accuracy = BeatTracker.Instance.CalculateHitAccuracy(protectTimeMs);
             // HitQuality quality = BeatTracker.Instance.GetHitQuality(accuracy);
             // Store.Instance.ProtectQuality = quality;
@@ -43,42 +46,21 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             // HitQuality attackQuality = BeatTracker.Instance.GetHitQuality(accuracy);
             // HitQuality protectQuality = Store.Instance.ProtectQuality;
             // float multiplier = attackQuality.GetMultiplier(protectQuality);
+            //float accuracy = Store.Instance.ProtectAccuracy;
             
-            float accuracy = Store.Instance.ProtectAccuracy;
             HitQuality attackQuality = Store.Instance.AttackQuality;
             HitQuality protectQuality = Store.Instance.ProtectQuality;
             float multiplier = Store.Instance.Multiplier;
 
-            if (accuracy < 0)
+            if (!Store.Instance.ProtectIsActive)
             {
-                Debug.Log("Miss the beat!(Protect)");
-                // Debug.Log($"Miss the beat!(Protect)\naccuracy: {accuracy} | quality: {quality}");
-            }
-            else
-            {
-                if (Store.Instance.ProtectIsActive)
-                {
-                    //
-                }
-                else
-                {
-                    Debug.Log("Hit the beat!(Protect)");
-                    // Debug.Log($"Hit the beat!(Protect)\naccuracy: {accuracy} | quality: {quality}");
+                Store.Instance.ProtectIsActive = true;
+                
+                float protectTimeMs = Store.Instance.MusicPositionMs;
 
-                    Debug.Log($"PROTECT | AttakQuality: {attackQuality} | AttackMultiplier: {attackQuality.GetAttackMultiplier()}\n" +
-                              $"ProtectQuality: {protectQuality} | ProtectMultiplier: {protectQuality.GetProtectMultiplier()} | " +
-                              $"FinalMultiplier: {multiplier}");
-                    ActivateBlock().Forget();
-                }
+                Store.Instance.ProtectTimeMs = protectTimeMs;
             }
             
-        }
-
-        private async UniTask ActivateBlock()
-        {
-            _canBlock = true;
-            await UniTask.Delay(TimeSpan.FromSeconds(Duration));
-            _canBlock = false;
         }
     }
 }

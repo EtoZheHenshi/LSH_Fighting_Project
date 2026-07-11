@@ -30,6 +30,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             base.Enter();
 
             Player.RemoveBody();
+            Player.PlayerIcons.SetRoleIcon(Color.aquamarine);
         }
 
         public override void Exit()
@@ -72,10 +73,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Possession()
         {
-            float hitTimeMs = Store.Instance.MusicPositionMs;
-
-            Store.Instance.AttackTimeMs = hitTimeMs;
-            
             if (_currentSelectedBody != null && !Player.HaveBody)
             {
                 Player.SetBody(_currentSelectedBody);

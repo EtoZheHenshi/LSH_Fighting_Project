@@ -4,6 +4,7 @@ using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Gameplay.UI.HUD;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.InputSystem;
+using Code.Infrastructure.RhytmSystem;
 using UnityEngine;
 
 namespace Code.Gameplay.Player
@@ -21,6 +22,7 @@ namespace Code.Gameplay.Player
         [SerializeField] private LayerMask bodyObstacleLayers;
         [SerializeField] private LayerMask ghostObstacleLayers;
         [SerializeField] private SpriteRenderer ghostSpriteRenderer;
+        [SerializeField] private PlayerIcons playerIcons;
         
         [Header("UI")] 
         [SerializeField] private HpUi hpUi;
@@ -42,8 +44,11 @@ namespace Code.Gameplay.Player
         public StateMachine StateMachine => _stateMachine;
         public Rigidbody2D Rigidbody => _rb;
         public IPlayerInput Input;
+        public PlayerIcons PlayerIcons => playerIcons;
+        public Collider2D GhostCollider {get; private set;}
         public PlayerController Enemy { get; private set; }
         public bool HaveBody { get; private set; }
+        public float CurrentDamage { get; private set; }
 
 
         private void Awake()
@@ -53,6 +58,11 @@ namespace Code.Gameplay.Player
             _eventBus = EventBusService.Instance;
             _moveSpeed = ghostMoveSpeed;
             _moveObstacleLayers = ghostObstacleLayers;
+            
+            GhostCollider = GetComponent<Collider2D>();
+            
+            playerIcons.Initialize(this.transform);
+            playerIcons.SetOffset(GhostCollider);
             
             GhostState = new GhostState(this, _stateMachine, _eventBus, deadBodyLayer);
             WaitState = new WaitState(this, _stateMachine, _eventBus);
@@ -88,12 +98,17 @@ namespace Code.Gameplay.Player
             transform.rotation = deadBody.transform.rotation;
             deadBody.transform.parent = transform;
             _currentBody = deadBody;
+            _currentBody.gameObject.layer = 11;
+            _currentBody.SpriteRenderer.sortingOrder = 0;
 
             AttackState = new AttackState(this, _stateMachine, _eventBus, deadBody.AttackConfig, enemyLayer);
             ProtectionState = new ProtectionState(this, _stateMachine, _eventBus, deadBody.BlockConfig);
             _hp = deadBody.Hp;
             _moveSpeed = deadBody.MoveSpeed;
             HaveBody = true;
+            CurrentDamage = deadBody.AttackConfig.Damage;
+            _moveObstacleLayers = bodyObstacleLayers;
+            playerIcons.SetOffset(_currentBody.GetComponent<Collider2D>());
             
             hpUi.SetHealth(_hp);
         }
@@ -113,6 +128,9 @@ namespace Code.Gameplay.Player
             AttackState = null;
             ProtectionState = null;
             HaveBody = false;
+            CurrentDamage = 0;
+            _moveObstacleLayers = ghostObstacleLayers;
+            playerIcons.SetOffset(GhostCollider);
             //_stateMachine.ChangeState(GhostState);
             GameplayPoop.Instance.StartGhostTimer();
         }
@@ -132,6 +150,7 @@ namespace Code.Gameplay.Player
                 if (_hp <= 0)
                 {
                     GameplayPoop.Instance.StopCycle();
+                    BeatTracker.Instance.ResetData();
                     Enemy.StateMachine.ChangeState(Enemy.WaitState);
                     _stateMachine.ChangeState(GhostState);
                 }
@@ -172,7 +191,7 @@ namespace Code.Gameplay.Player
         
         private void OnDrawGizmos()
         {
-            AttackState?.DrawGizmos();
+            //AttackState?.DrawGizmos();
         }
     }
 }

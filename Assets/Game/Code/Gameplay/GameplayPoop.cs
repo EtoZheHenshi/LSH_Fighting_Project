@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Code.Gameplay.Player;
 using Code.Gameplay.Player.Body;
+using Code.Gameplay.UI.HUD;
 using Code.Infrastructure;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
@@ -16,6 +17,7 @@ namespace Code.Gameplay
     public class GameplayPoop : Singleton<GameplayPoop>
     {
         [SerializeField] private Transform deadBodyRoot;
+        [SerializeField] private TimerUi timerUI;
         
         [SerializeField] private float switchTime = 10f;
         [SerializeField] private float ghostTime = 5f;
@@ -29,6 +31,7 @@ namespace Code.Gameplay
         private float _currentGhostTimeLeft;
         private bool _playerOneAttack;
         private List<DeadBody> _deadBodies;
+        
 
         public void Initialize(PlayerController player1, PlayerController player2)
         {
@@ -74,6 +77,7 @@ namespace Code.Gameplay
 
         public void SwitchPlayerRoles()
         {
+            timerUI.StopTimer();
             StopCycle();
             StartTimerSwitch().Forget();
         }
@@ -118,13 +122,15 @@ namespace Code.Gameplay
             
             try
             {
+                timerUI.StartTimer(switchTime);
                 await UniTask.Delay(TimeSpan.FromSeconds(switchTime), cancellationToken: _cts.Token);
-                Debug.Log("Switch");
+                timerUI.StopTimer();
                 StartTimerSwitch().Forget();
+                Debug.Log("Switch");
             }
             catch (OperationCanceledException)
             {
-                //StartGhostTimer();
+                //timerUI.StopTimer();
             }
         }
 

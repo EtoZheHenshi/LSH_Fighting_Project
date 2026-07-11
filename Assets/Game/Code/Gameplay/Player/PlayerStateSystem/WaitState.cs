@@ -1,6 +1,7 @@
 using System;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
+using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
 {
@@ -11,6 +12,13 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         public WaitState(PlayerController player, StateMachine machine, EventBusService eventBus) 
             : base(player, machine, eventBus)
         {
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            
+            Player.PlayerIcons.SetRoleIcon(Color.yellow);
         }
     }
 }
