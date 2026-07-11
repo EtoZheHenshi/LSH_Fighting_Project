@@ -31,7 +31,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             Player.PlayerIcons.SetRoleIcon(Color.red);
         }
 
-        // логика передачи фазы атаки перехода в фазу защиты 
         
         private void Attack()
         {
@@ -42,9 +41,9 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             // HitQuality protectQuality = Store.Instance.ProtectQuality;
             // float multiplier = attackQuality.GetMultiplier(protectQuality);
             //float accuracy = Store.Instance.ProtectAccuracy;
-            HitQuality attackQuality = Store.Instance.AttackQuality;
-            HitQuality protectQuality = Store.Instance.ProtectQuality;
-            float multiplier = Store.Instance.Multiplier;
+            // HitQuality attackQuality = Store.Instance.AttackQuality;
+            // HitQuality protectQuality = Store.Instance.ProtectQuality;
+            // float multiplier = Store.Instance.Multiplier;
             
             if (Store.Instance.AttackIsActive)
             {

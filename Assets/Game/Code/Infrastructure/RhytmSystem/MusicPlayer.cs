@@ -38,12 +38,12 @@ namespace Code.Infrastructure.RhytmSystem
 
         private void Start()
         {
-            Store.Instance.MusicPositionMs = (float) AudioSettings.dspTime; 
+            Store.Instance.MusicPositionMs = music.time; 
         }
 
         private void Update()
         {
-            Store.Instance.MusicPositionMs = (float) AudioSettings.dspTime;
+            Store.Instance.MusicPositionMs = music.time;
         }
     }
 }

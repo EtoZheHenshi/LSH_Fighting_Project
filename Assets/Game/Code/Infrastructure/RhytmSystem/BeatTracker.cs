@@ -124,6 +124,7 @@ namespace Code.Infrastructure.RhytmSystem
                 float multiplier = attackQuality.GetMultiplier(protectQuality);
                 Store.Instance.Multiplier = multiplier;
 
+                
                 if (PlayerToHit != null)
                 {
                     PlayerToHit.TakeDamage(PlayerToHit.Enemy.CurrentDamage * multiplier);    

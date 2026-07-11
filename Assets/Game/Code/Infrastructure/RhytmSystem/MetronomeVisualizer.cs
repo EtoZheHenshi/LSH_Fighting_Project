@@ -11,7 +11,6 @@ namespace Code.Infrastructure.RhytmSystem
         [SerializeField] private Transform center;
 
         [SerializeField] private float startOffset = 5f;
-        [SerializeField] private int beatsAhead = 2;
         [SerializeField] private int spawnOffsetMs = 1000;
         private float _destroyTime = 0.15f;
         private float _beatDurationMs;
@@ -35,7 +34,7 @@ namespace Code.Infrastructure.RhytmSystem
                 SpawnPair();
             }
         }
-        
+
         private void SpawnPair()
         {
             GameObject left = Instantiate(leftBracketPrefab, transform);
