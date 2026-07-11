@@ -27,14 +27,14 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         public override void Enter()
         {
             base.Enter();
-            
+
             Player.PlayerIcons.SetRoleIcon(Color.red);
         }
-        
+
         private void Attack()
         {
             _attackConfig.VisualizeAttack();
-            
+
             if (Store.Instance.AttackIsActive)
             {
                 Debug.Log("Second attempt to attack per beat! Turning into protection!");
@@ -44,10 +44,10 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 float attackTimeMs = Store.Instance.MusicPositionMs;
 
                 HitQuality quality = BeatTracker.Instance.SetAttackQuality(attackTimeMs);
-
+                Debug.Log("AttackQuality " + quality);
                 Store.Instance.AttackIsActive = true;
             }
-            
+
             if (Physics2D.OverlapBox(
                     _attackConfig.AttackPosition.position,
                     _attackConfig.AttackSize,
@@ -59,7 +59,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 BeatTracker.Instance.PlayerToHit = Player.Enemy;
             }
         }
-        
+
         public void DrawGizmos()
         {
             if (_attackConfig == null)

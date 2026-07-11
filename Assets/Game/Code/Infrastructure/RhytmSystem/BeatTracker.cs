@@ -20,7 +20,7 @@ namespace Code.Infrastructure.RhytmSystem
         [SerializeField] private float goodHitBound = 0.6f;
         [SerializeField] private float badHitBound = 0.2f;
         [SerializeField] private int hitRadiusMs = 150;
-        
+
         public int BPM => bpm;
         public PlayerController PlayerToHit { get; set; }
 
@@ -31,13 +31,15 @@ namespace Code.Infrastructure.RhytmSystem
         private float _nextBeatTime;
         private float _nextBeatPosition;
         private float _lastBeatPosition;
-        private float _lastHitPosition;
+        private float _lastAttackBeatPosition;
+        private float _lastProtectBeatPosition;
 
         private float _currentBeatPosition;
 
         public int HitRadiusMs => hitRadiusMs;
 
         public float NextBeatPosition => _nextBeatPosition;
+
         protected override void Awake()
         {
             base.Awake();
@@ -50,26 +52,42 @@ namespace Code.Infrastructure.RhytmSystem
             return Mathf.Exp(-((x - mu) * (x - mu) / (2 * sigma * sigma)));
         }
 
-        public float CalculateHitAccuracy(float timeMs)
+        public float CalculateHitAccuracy(float timeMs, bool isProtect)
         {
+            float lastHitPosition;
+            lastHitPosition = isProtect ? _lastProtectBeatPosition : _lastAttackBeatPosition;
             float multiplier;
             if (Mathf.Abs(timeMs - _lastBeatPosition) < hitRadiusMs &&
-                _lastHitPosition != _lastBeatPosition)
+                lastHitPosition != _lastBeatPosition)
             {
                 float mu = _lastBeatPosition;
                 float sigma = hitRadiusMs / 2.5f;
                 multiplier = NormalDistribution(timeMs, sigma, mu);
-                _lastHitPosition = _lastBeatPosition;
+                if (isProtect)
+                {
+                    _lastProtectBeatPosition = _lastBeatPosition;
+                }
+                else
+                {
+                    _lastAttackBeatPosition = _lastBeatPosition;
+                }
                 return multiplier;
             }
 
             if (Mathf.Abs(timeMs - _nextBeatPosition) < hitRadiusMs &&
-                _lastHitPosition != _nextBeatPosition)
+                lastHitPosition != _nextBeatPosition)
             {
                 float mu = _nextBeatPosition;
                 float sigma = hitRadiusMs / 2.5f;
                 multiplier = NormalDistribution(timeMs, sigma, mu);
-                _lastHitPosition = _nextBeatPosition;
+                if (isProtect)
+                {
+                    _lastProtectBeatPosition = _lastBeatPosition;
+                }
+                else
+                {
+                    _lastAttackBeatPosition = _lastBeatPosition;
+                }
                 return multiplier;
             }
 
@@ -105,21 +123,17 @@ namespace Code.Infrastructure.RhytmSystem
                     GameplayPoop.Instance.SwitchPlayerRoles();
                     return;
                 }
-                
+
                 float multiplier = _attackQuality.GetMultiplier(_protectQuality);
                 Store.Instance.Multiplier = multiplier;
+                Debug.Log($"Multiplier: {multiplier}");
 
-                
+
                 if (PlayerToHit != null)
                 {
-                    PlayerToHit.TakeDamage(PlayerToHit.Enemy.CurrentDamage * multiplier);    
+                    PlayerToHit.TakeDamage(PlayerToHit.Enemy.CurrentDamage * multiplier);
                 }
-                
-                Debug.Log(
-                    $"AttakQuality: {_attackQuality} | AttackMultiplier: {_attackQuality.GetAttackMultiplier()}\n" +
-                    $"ProtectQuality: {_protectQuality} | ProtectMultiplier: {_protectQuality.GetProtectMultiplier()} | " +
-                    $"FinalMultiplier: {multiplier}");
-                
+
                 // сбрасываем состояния 
                 ResetData();
             }
@@ -127,24 +141,24 @@ namespace Code.Infrastructure.RhytmSystem
 
         public HitQuality SetAttackQuality(float attackTimeMs)
         {
-            float attackAccuracy = CalculateHitAccuracy(attackTimeMs);
+            float attackAccuracy = CalculateHitAccuracy(attackTimeMs, false);
             _attackQuality = GetHitQuality(attackAccuracy);
             return _attackQuality;
         }
 
         public HitQuality SetProtectQuality(float protectTimeMs)
         {
-            float protectAccuracy = CalculateHitAccuracy(protectTimeMs);
+            float protectAccuracy = CalculateHitAccuracy(protectTimeMs, true);
             _protectQuality = GetHitQuality(protectAccuracy);
             return _protectQuality;
         }
-        
+
         public void ResetData()
         {
             Store.Instance.AttackIsActive = false;
             Store.Instance.ProtectIsActive = false;
             PlayerToHit = null;
-            
+
             _attackQuality = HitQuality.Null;
             _protectQuality = HitQuality.Null;
 

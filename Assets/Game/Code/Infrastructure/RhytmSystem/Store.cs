@@ -25,9 +25,10 @@ namespace Code.Infrastructure.RhytmSystem
 
         public float Multiplier
         {
-            get => _multiplier; 
-            set => _multiplier = value; 
+            get => _multiplier;
+            set => _multiplier = value;
         }
+
         public HitQuality AttackQuality
         {
             get => _attackQuality;
@@ -64,14 +65,14 @@ namespace Code.Infrastructure.RhytmSystem
         public float MusicPositionMs
         {
             get => _musicPositionMs;
-            set => _musicPositionMs = value * 1000f; 
+            set => _musicPositionMs = value * 1000f;
         }
 
         private void Update()
         {
             float current = MusicPlayer.Instance.music.time * 1000f;
 
-            if(current < _lastAudioTime)
+            if (current < _lastAudioTime)
             {
                 _loopCount++;
             }
@@ -80,7 +81,7 @@ namespace Code.Infrastructure.RhytmSystem
 
             _musicPositionMs =
                 current +
-                _loopCount *  MusicPlayer.Instance.TrackLengthMs;
+                _loopCount * MusicPlayer.Instance.TrackLengthMs;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         public bool CanBlock => _canBlock;
 
         protected override Action ActiveAction => _activeAction;
-        
+
         public ProtectionState(PlayerController player, StateMachine machine,
             EventBusService eventBusService, BlockConfig blockConfig)
             : base(player, machine, eventBusService)
@@ -31,7 +31,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         public override void Enter()
         {
             base.Enter();
-            
+
             Player.PlayerIcons.SetRoleIcon(Color.blue);
         }
 
@@ -39,19 +39,15 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         {
             _blockConfig.VisualizeAttack(Duration);
             
-            HitQuality attackQuality = Store.Instance.AttackQuality;
-            HitQuality protectQuality = Store.Instance.ProtectQuality;
-            float multiplier = Store.Instance.Multiplier;
-
             if (!Store.Instance.ProtectIsActive)
             {
                 Store.Instance.ProtectIsActive = true;
-                
+
                 float protectTimeMs = Store.Instance.MusicPositionMs;
 
                 HitQuality quality = BeatTracker.Instance.SetProtectQuality(protectTimeMs);
+                Debug.Log("ProtectQuality " + quality);
             }
-            
         }
     }
 }

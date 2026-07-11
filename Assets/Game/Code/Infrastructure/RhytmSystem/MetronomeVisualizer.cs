@@ -12,7 +12,7 @@ namespace Code.Infrastructure.RhytmSystem
 
         [SerializeField] private float startOffset = 5f;
         [SerializeField] private int spawnOffsetMs = 1000;
-        private float _destroyTime = 0.15f;
+        private float _destroyTimeSec;
         private float _beatDurationMs;
         private int _currentBeat;
 
@@ -20,6 +20,7 @@ namespace Code.Infrastructure.RhytmSystem
 
         private void Start()
         {
+            _destroyTimeSec = BeatTracker.Instance.HitRadiusMs / 1000f;
             _beatDurationMs = 60f / BeatTracker.Instance.BPM * 1000f;
             _currentBeat = (int)(spawnOffsetMs / _beatDurationMs);
         }
@@ -49,12 +50,12 @@ namespace Code.Infrastructure.RhytmSystem
             left.transform
                 .DOLocalMoveX(CenterX, spawnOffsetMs / 1000f)
                 .SetEase(Ease.Linear)
-                .OnComplete(() => Destroy(left, _destroyTime));
+                .OnComplete(() => Destroy(left, _destroyTimeSec));
 
             right.transform
                 .DOLocalMoveX(CenterX, spawnOffsetMs / 1000f)
                 .SetEase(Ease.Linear)
-                .OnComplete(() => Destroy(right, _destroyTime));
+                .OnComplete(() => Destroy(right, _destroyTimeSec));
         }
     }
 }
