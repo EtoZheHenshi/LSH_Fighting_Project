@@ -127,10 +127,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 768702126203160776, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: bpm
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 768702126203160776, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: hitRadiusMs
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 2534263919899903756, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: m_Name
       value: '[RhythmService]'
       objectReference: {fileID: 0}
+    - target: {fileID: 2644931818042004677, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 5f7a626783c331e4895c99e11447e87e, type: 3}
     - target: {fileID: 3816400288300873836, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: music
       value: 
