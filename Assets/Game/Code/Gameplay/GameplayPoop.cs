@@ -21,6 +21,9 @@ namespace Code.Gameplay
         
         [SerializeField] private float switchTime = 10f;
         [SerializeField] private float ghostTime = 5f;
+        [SerializeField] private float switchDelay = 1.5f;
+
+        [SerializeField] private IconSwapAnimation iconSwapAnimation;
         
         private PlayerController _player1;
         private PlayerController _player2;
@@ -79,7 +82,18 @@ namespace Code.Gameplay
         {
             timerUI.StopTimer();
             StopCycle();
+            
+            SwitchDelay().Forget();
+            
             StartTimerSwitch().Forget();
+        }
+
+        private async UniTask SwitchDelay()
+        {
+            Time.timeScale = 0f;
+            iconSwapAnimation.Play();
+            await UniTask.WaitForSeconds(switchDelay, true);
+            Time.timeScale = 1f;
         }
 
         private void GhostCycle()
