@@ -24,21 +24,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             _enemyLayer = enemyLayer;
             _activeAction = Attack;
         }
-
-        public override void Enter()
-        {
-            base.Enter();
-
-            EventBus.Subscribe<SwitchPlayerRoles>(SwitchToProtection);
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-
-            EventBus.Unsubscribe<SwitchPlayerRoles>(SwitchToProtection);
-        }
-
+        
         // логика передачи фазы атаки перехода в фазу защиты 
         private void TurnIntoProtectPhase()
         {
@@ -70,7 +56,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             }
             
             Debug.Log(
-                $"Hit the beat!(Attack)\naccuracy: {accuracy} | quality: {quality} | multiplier: {multiplier}");
+                $"Hit the beat!(Attack)\naccuracy: {accuracy} | quality: {attackQuality} | multiplier: {multiplier}");
             
             if (Store.Instance.AttackIsActive)
             {

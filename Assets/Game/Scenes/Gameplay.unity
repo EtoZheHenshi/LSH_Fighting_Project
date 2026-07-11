@@ -127,14 +127,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 768702126203160776, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: bpm
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 2534263919899903756, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: m_Name
       value: '[RhythmService]'
       objectReference: {fileID: 0}
+    - target: {fileID: 2644931818042004677, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2644931818042004677, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 25e08c311c9434726a30351e4a4458bf, type: 3}
     - target: {fileID: 3816400288300873836, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: music
       value: 
       objectReference: {fileID: 1290255622}
+    - target: {fileID: 3816400288300873836, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: beatTracker
+      value: 
+      objectReference: {fileID: 1261851857}
+    - target: {fileID: 5910149300527058701, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: m_Name
+      value: Metronome
+      objectReference: {fileID: 0}
     - target: {fileID: 6816915468243646814, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -241,13 +261,25 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5865076381185501274, guid: c0e810240cce94aa990acc4781983d97, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7035368066221568749, guid: c0e810240cce94aa990acc4781983d97, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7035368066221568749, guid: c0e810240cce94aa990acc4781983d97, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035368066221568749, guid: c0e810240cce94aa990acc4781983d97, type: 3}
       propertyPath: m_LocalPosition.y
       value: -4.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7165269612891378139, guid: c0e810240cce94aa990acc4781983d97, type: 3}
+      propertyPath: m_Name
+      value: Old Metronome Visualizer
       objectReference: {fileID: 0}
     - target: {fileID: 7529928138059553742, guid: c0e810240cce94aa990acc4781983d97, type: 3}
       propertyPath: m_Layer
@@ -270,7 +302,8 @@ PrefabInstance:
       value: '[Enviornment]'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7165269612891378139, guid: c0e810240cce94aa990acc4781983d97, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e810240cce94aa990acc4781983d97, type: 3}
@@ -673,6 +706,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0839f2020c6c7cb48b3276fbab21d192, type: 3}
+--- !u!114 &1261851857 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 768702126203160776, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+  m_PrefabInstance: {fileID: 281614359}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de01641071c4a338d3baa08a9296884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Infrastructure.RhytmSystem.Metronome
 --- !u!82 &1290255622 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 2644931818042004677, guid: 609faf41ba87f470587558bf624f187c, type: 3}

@@ -13,7 +13,7 @@ namespace Code.Infrastructure.RhytmSystem
     /// </summary>
     public sealed class BeatTracker : Singleton<BeatTracker>
     {
-        [SerializeField] private int bpm = 120;
+        [SerializeField] private int bpm = 60;
         public int BPM => bpm;
         public event Action OnBeat;
 
@@ -21,7 +21,7 @@ namespace Code.Infrastructure.RhytmSystem
         [SerializeField] private float goodHitBound = 0.6f;
         [SerializeField] private float badHitBound = 0.2f;
 
-        [FormerlySerializedAs("_hitRadiusMs")] [SerializeField]
+        [SerializeField]
         private int hitRadiusMs = 150;
 
         private float _beatDurationMs;
@@ -32,6 +32,9 @@ namespace Code.Infrastructure.RhytmSystem
 
         private float _currentBeatPosition;
 
+        public int HitRadiusMs => hitRadiusMs;
+
+        public float NextBeatPosition => _nextBeatPosition;
         protected override void Awake()
         {
             base.Awake();
@@ -91,19 +94,12 @@ namespace Code.Infrastructure.RhytmSystem
         private void Update()
         {
             _currentBeatPosition = Store.Instance.MusicPositionMs;
-            string attackMessage = Store.Instance.AttackTimeMs == -1
-                ? "attack skipped"
-                : Store.Instance.AttackTimeMs.ToString();
-            string protectMessage = Store.Instance.AttackTimeMs == -1
-                ? "protect skipped"
-                : Store.Instance.AttackTimeMs.ToString();
             if (_currentBeatPosition >= _nextBeatPosition)
             {
                 HitQuality attackQuality = HitQuality.Null;
                 HitQuality protectQuality = HitQuality.Null;
                 float attackAccuracy;
                 float protectAccuracy;
-                // print($"attack time: {attackMessage}, protect time: {protectMessage}");
                 if (Store.Instance.AttackIsActive)
                 {
                     attackAccuracy = CalculateHitAccuracy(Store.Instance.AttackTimeMs);

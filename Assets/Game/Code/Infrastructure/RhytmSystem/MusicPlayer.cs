@@ -12,18 +12,28 @@ namespace Code.Infrastructure.RhytmSystem
     public class MusicPlayer : Singleton<MusicPlayer>
     {
         public AudioSource music;
-        public bool startPlaying;
-        public BeatTracker beatTracker;
         private float _timePositionMs;
+        private float _trackLengthMs;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _trackLengthMs = music.clip.length * 1000f;
+        }
+        public float TrackLengthMs
+        {
+            get => _trackLengthMs;
+            set => _trackLengthMs = value;
+        }
 
         private void Start()
         {
-            Store.Instance.MusicPositionMs = music.time; 
+            Store.Instance.MusicPositionMs = (float) AudioSettings.dspTime; 
         }
 
         private void Update()
         {
-            Store.Instance.MusicPositionMs = music.time;
+            Store.Instance.MusicPositionMs = (float) AudioSettings.dspTime;
         }
     }
 }
