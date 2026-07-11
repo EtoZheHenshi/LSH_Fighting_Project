@@ -22,8 +22,10 @@ namespace Code.Infrastructure.RhytmSystem
         [SerializeField] private int hitRadiusMs = 150;
         
         public int BPM => bpm;
-        public event Action OnBeat;
         public PlayerController PlayerToHit { get; set; }
+
+        private HitQuality _attackQuality;
+        private HitQuality _protectQuality;
 
         private float _beatDurationMs;
         private float _nextBeatTime;
@@ -97,31 +99,14 @@ namespace Code.Infrastructure.RhytmSystem
             _currentBeatPosition = Store.Instance.MusicPositionMs;
             if (_currentBeatPosition >= _nextBeatPosition)
             {
-                HitQuality attackQuality = HitQuality.Null;
-                HitQuality protectQuality = HitQuality.Null;
-                float attackAccuracy;
-                float protectAccuracy;
-                if (Store.Instance.AttackIsActive)
+                if (_attackQuality == HitQuality.Miss)
                 {
-                    attackAccuracy = CalculateHitAccuracy(Store.Instance.AttackTimeMs);
-                    if (attackAccuracy <= 0)
-                    {
-                        ResetData();
-                        GameplayPoop.Instance.SwitchPlayerRoles();
-                        return;
-                    }
-                    Store.Instance.AttackAccuracy = attackAccuracy;
-                    attackQuality = GetHitQuality(attackAccuracy);
-                }
-
-                if (Store.Instance.ProtectIsActive)
-                {
-                    protectAccuracy = CalculateHitAccuracy(Store.Instance.ProtectTimeMs);
-                    Store.Instance.ProtectAccuracy = protectAccuracy;
-                    protectQuality = GetHitQuality(protectAccuracy);
+                    ResetData();
+                    GameplayPoop.Instance.SwitchPlayerRoles();
+                    return;
                 }
                 
-                float multiplier = attackQuality.GetMultiplier(protectQuality);
+                float multiplier = _attackQuality.GetMultiplier(_protectQuality);
                 Store.Instance.Multiplier = multiplier;
 
                 
@@ -131,13 +116,27 @@ namespace Code.Infrastructure.RhytmSystem
                 }
                 
                 Debug.Log(
-                    $"AttakQuality: {attackQuality} | AttackMultiplier: {attackQuality.GetAttackMultiplier()}\n" +
-                    $"ProtectQuality: {protectQuality} | ProtectMultiplier: {protectQuality.GetProtectMultiplier()} | " +
+                    $"AttakQuality: {_attackQuality} | AttackMultiplier: {_attackQuality.GetAttackMultiplier()}\n" +
+                    $"ProtectQuality: {_protectQuality} | ProtectMultiplier: {_protectQuality.GetProtectMultiplier()} | " +
                     $"FinalMultiplier: {multiplier}");
                 
                 // сбрасываем состояния 
                 ResetData();
             }
+        }
+
+        public HitQuality SetAttackQuality(float attackTimeMs)
+        {
+            float attackAccuracy = CalculateHitAccuracy(attackTimeMs);
+            _attackQuality = GetHitQuality(attackAccuracy);
+            return _attackQuality;
+        }
+
+        public HitQuality SetProtectQuality(float protectTimeMs)
+        {
+            float protectAccuracy = CalculateHitAccuracy(protectTimeMs);
+            _protectQuality = GetHitQuality(protectAccuracy);
+            return _protectQuality;
         }
         
         public void ResetData()
@@ -145,11 +144,11 @@ namespace Code.Infrastructure.RhytmSystem
             Store.Instance.AttackIsActive = false;
             Store.Instance.ProtectIsActive = false;
             PlayerToHit = null;
-            // Store.Instance.AttackQuality = HitQuality.Miss;
-            // Store.Instance.ProtectQuality = HitQuality.Miss;
+            
+            _attackQuality = HitQuality.Null;
+            _protectQuality = HitQuality.Null;
 
             _lastBeatPosition = _nextBeatPosition;
-            OnBeat?.Invoke();
             _nextBeatPosition += _beatDurationMs;
         }
     }

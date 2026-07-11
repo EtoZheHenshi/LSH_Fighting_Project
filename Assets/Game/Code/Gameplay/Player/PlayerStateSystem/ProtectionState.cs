@@ -39,15 +39,6 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         {
             _blockConfig.VisualizeAttack(Duration);
             
-            // float accuracy = BeatTracker.Instance.CalculateHitAccuracy(protectTimeMs);
-            // HitQuality quality = BeatTracker.Instance.GetHitQuality(accuracy);
-            // Store.Instance.ProtectQuality = quality;
-            // // float multiplier = quality.GetMultiplier();
-            // HitQuality attackQuality = BeatTracker.Instance.GetHitQuality(accuracy);
-            // HitQuality protectQuality = Store.Instance.ProtectQuality;
-            // float multiplier = attackQuality.GetMultiplier(protectQuality);
-            //float accuracy = Store.Instance.ProtectAccuracy;
-            
             HitQuality attackQuality = Store.Instance.AttackQuality;
             HitQuality protectQuality = Store.Instance.ProtectQuality;
             float multiplier = Store.Instance.Multiplier;
@@ -58,7 +49,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 
                 float protectTimeMs = Store.Instance.MusicPositionMs;
 
-                Store.Instance.ProtectTimeMs = protectTimeMs;
+                HitQuality quality = BeatTracker.Instance.SetProtectQuality(protectTimeMs);
             }
             
         }

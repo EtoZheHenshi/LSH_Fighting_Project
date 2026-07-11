@@ -30,20 +30,10 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             
             Player.PlayerIcons.SetRoleIcon(Color.red);
         }
-
         
         private void Attack()
         {
             _attackConfig.VisualizeAttack();
-
-            // float accuracy = BeatTracker.Instance.CalculateHitAccuracy(attackTimeMs);
-            // HitQuality attackQuality = BeatTracker.Instance.GetHitQuality(accuracy);
-            // HitQuality protectQuality = Store.Instance.ProtectQuality;
-            // float multiplier = attackQuality.GetMultiplier(protectQuality);
-            //float accuracy = Store.Instance.ProtectAccuracy;
-            // HitQuality attackQuality = Store.Instance.AttackQuality;
-            // HitQuality protectQuality = Store.Instance.ProtectQuality;
-            // float multiplier = Store.Instance.Multiplier;
             
             if (Store.Instance.AttackIsActive)
             {
@@ -53,7 +43,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             {
                 float attackTimeMs = Store.Instance.MusicPositionMs;
 
-                Store.Instance.AttackTimeMs = attackTimeMs;
+                HitQuality quality = BeatTracker.Instance.SetAttackQuality(attackTimeMs);
 
                 Store.Instance.AttackIsActive = true;
             }

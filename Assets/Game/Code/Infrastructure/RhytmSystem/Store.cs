@@ -15,8 +15,6 @@ namespace Code.Infrastructure.RhytmSystem
         private float _musicPositionMs;
         private int _loopCount;
         private float _lastAudioTime;
-        private float _attackTimeMs = -1;
-        private float _protectTimeMs = -1;
 
         private bool _attackIsActive = false;
         private bool _protectIsActive = false;
@@ -24,20 +22,6 @@ namespace Code.Infrastructure.RhytmSystem
         private HitQuality _attackQuality = HitQuality.Miss;
         private HitQuality _protectQuality = HitQuality.Miss;
         private float _multiplier;
-        private float _attackAccuracy;
-        private float _protectAccuracy;
-
-        public float AttackAccuracy
-        {
-            get => _attackAccuracy;
-            set => _attackAccuracy = value;
-        }
-
-        public float ProtectAccuracy
-        {
-            get => _protectAccuracy;
-            set => _protectAccuracy = value;
-        }
 
         public float Multiplier
         {
@@ -54,18 +38,6 @@ namespace Code.Infrastructure.RhytmSystem
         {
             get => _protectQuality;
             set => _protectQuality = value;
-        }
-
-        public float AttackTimeMs
-        {
-            get => _attackTimeMs;
-            set => _attackTimeMs = value;
-        }
-
-        public float ProtectTimeMs
-        {
-            get => _protectTimeMs;
-            set => _protectTimeMs = value;
         }
 
         public bool AttackIsActive
