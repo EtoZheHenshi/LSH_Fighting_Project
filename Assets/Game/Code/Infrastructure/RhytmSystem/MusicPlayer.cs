@@ -26,6 +26,16 @@ namespace Code.Infrastructure.RhytmSystem
             set => _trackLengthMs = value;
         }
 
+        public void Play()
+        {
+            music.Play();
+        }
+
+        public void Pause()
+        {
+            music.Pause();
+        }
+
         private void Start()
         {
             Store.Instance.MusicPositionMs = (float) AudioSettings.dspTime; 

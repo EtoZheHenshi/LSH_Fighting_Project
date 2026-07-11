@@ -8,6 +8,7 @@ using Code.Gameplay.UI.HUD;
 using Code.Infrastructure;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
+using Code.Infrastructure.RhytmSystem;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -21,6 +22,9 @@ namespace Code.Gameplay
         
         [SerializeField] private float switchTime = 10f;
         [SerializeField] private float ghostTime = 5f;
+        [SerializeField] private float switchDelay = 1.5f;
+
+        [SerializeField] private IconSwapAnimation iconSwapAnimation;
         
         private PlayerController _player1;
         private PlayerController _player2;
@@ -79,7 +83,20 @@ namespace Code.Gameplay
         {
             timerUI.StopTimer();
             StopCycle();
+            
+            SwitchDelay().Forget();
+            
             StartTimerSwitch().Forget();
+        }
+
+        private async UniTask SwitchDelay()
+        {
+            MusicPlayer.Instance.Pause();
+            Time.timeScale = 0f;
+            iconSwapAnimation.Play();
+            await UniTask.WaitForSeconds(switchDelay, true);
+            MusicPlayer.Instance.Play();
+            Time.timeScale = 1f;
         }
 
         private void GhostCycle()
@@ -125,6 +142,7 @@ namespace Code.Gameplay
                 timerUI.StartTimer(switchTime);
                 await UniTask.Delay(TimeSpan.FromSeconds(switchTime), cancellationToken: _cts.Token);
                 timerUI.StopTimer();
+                SwitchDelay().Forget();
                 StartTimerSwitch().Forget();
                 Debug.Log("Switch");
             }

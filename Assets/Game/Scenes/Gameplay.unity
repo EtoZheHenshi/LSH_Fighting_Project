@@ -282,7 +282,8 @@ PrefabInstance:
       value: '[Enviornment]'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7165269612891378139, guid: c0e810240cce94aa990acc4781983d97, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e810240cce94aa990acc4781983d97, type: 3}
@@ -620,6 +621,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcdf75485a5317b48809f7d1af533b0b, type: 3}
+--- !u!114 &990000111 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2597416050395771775, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
+  m_PrefabInstance: {fileID: 3139838162428885533}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 370c687a36104e18bcd89bd4da58902f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.UI.HUD.IconSwapAnimation
 --- !u!1001 &1070346484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -939,6 +951,10 @@ PrefabInstance:
       propertyPath: deadBodyRoot
       value: 
       objectReference: {fileID: 1933428986}
+    - target: {fileID: 289235827808988488, guid: 1d7e78c37a802254ea66ef7f1a122083, type: 3}
+      propertyPath: iconSwapAnimation
+      value: 
+      objectReference: {fileID: 990000111}
     - target: {fileID: 5321818039373634037, guid: 1d7e78c37a802254ea66ef7f1a122083, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.12487
