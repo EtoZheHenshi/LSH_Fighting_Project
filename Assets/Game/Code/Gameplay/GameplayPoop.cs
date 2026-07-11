@@ -8,6 +8,7 @@ using Code.Gameplay.UI.HUD;
 using Code.Infrastructure;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
+using Code.Infrastructure.RhytmSystem;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -90,9 +91,11 @@ namespace Code.Gameplay
 
         private async UniTask SwitchDelay()
         {
+            MusicPlayer.Instance.Pause();
             Time.timeScale = 0f;
             iconSwapAnimation.Play();
             await UniTask.WaitForSeconds(switchDelay, true);
+            MusicPlayer.Instance.Play();
             Time.timeScale = 1f;
         }
 
@@ -139,6 +142,7 @@ namespace Code.Gameplay
                 timerUI.StartTimer(switchTime);
                 await UniTask.Delay(TimeSpan.FromSeconds(switchTime), cancellationToken: _cts.Token);
                 timerUI.StopTimer();
+                SwitchDelay().Forget();
                 StartTimerSwitch().Forget();
                 Debug.Log("Switch");
             }
