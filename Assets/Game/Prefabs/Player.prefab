@@ -140,6 +140,37 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &3508649754172268784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1050366690393297465}
+  m_Layer: 6
+  m_Name: PlayerAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1050366690393297465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3508649754172268784}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8127837968859375692}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3867533432711045272
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,6 +184,7 @@ GameObject:
   - component: {fileID: 7088949193678549843}
   - component: {fileID: 4063457830317322321}
   - component: {fileID: 6389179753303697618}
+  - component: {fileID: 1015463835767243340}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player1
@@ -175,6 +207,7 @@ Transform:
   m_Children:
   - {fileID: 3074622846888168397}
   - {fileID: 6357388595095260338}
+  - {fileID: 1050366690393297465}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4627954905548070410
@@ -203,8 +236,9 @@ MonoBehaviour:
   ghostObstacleLayers:
     serializedVersion: 2
     m_Bits: 256
-  ghostSpriteRenderer: {fileID: 7088949193678549843}
+  playerSpriteRenderer: {fileID: 7088949193678549843}
   playerIcons: {fileID: 3607290726580813892}
+  playerAttack: {fileID: 1050366690393297465}
   hpUi: {fileID: 0}
   feedbackPopup: {fileID: 7759530252748370951}
 --- !u!212 &7088949193678549843
@@ -329,6 +363,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!95 &1015463835767243340
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3867533432711045272}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4780229343962306613
 GameObject:
   m_ObjectHideFlags: 0

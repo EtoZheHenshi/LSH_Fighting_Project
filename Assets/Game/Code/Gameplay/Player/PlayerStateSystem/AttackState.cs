@@ -33,12 +33,14 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
         private void Attack()
         {
-            _attackConfig.VisualizeAttack();
+            //_attackConfig.VisualizeAttack();
+            Player.Animator.SetTrigger("Attack");
 
             if (Store.Instance.AttackIsActive)
             {
-                Debug.Log("Second attempt to attack per beat! Turning into protection!");
                 Player.FeedbackPopup.Play(HitQuality.Miss, Player.transform);
+                BeatTracker.Instance.AttackQuality = HitQuality.Miss;
+                BeatTracker.Instance.HitResult();
             }
             else
             {
@@ -49,6 +51,11 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 Player.FeedbackPopup.Play(quality, Player.transform);
 
                 Store.Instance.AttackIsActive = true;
+
+                if (quality == HitQuality.Miss)
+                {
+                    BeatTracker.Instance.HitResult();
+                }
             }
 
             if (Physics2D.OverlapBox(

@@ -33,7 +33,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4745194000565868792}
-  - {fileID: 3947289402667732134}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7227147638519915839
@@ -85,12 +84,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: af9f3aa1cb87ae141b18449f64fd91a5, type: 3}
   m_Color: {r: 0.98742133, g: 0.537182, b: 0.537182, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.4066668, y: 2.42}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -111,7 +110,8 @@ MonoBehaviour:
   hp: 7
   moveSpeed: 6
   attackConfig: {fileID: 6950710968490268869}
-  blockConfig: {fileID: 5749425507090784237}
+  bodyMusic: {fileID: 11400000, guid: 6340aabc63d119847855c092b78a0b62, type: 2}
+  bodyAnimatorController: {fileID: 9100000, guid: 6daba85488a94a44892153ba85bdf78a, type: 2}
 --- !u!58 &6802299101375640088
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -147,7 +147,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.55
 --- !u!1001 &7066277229228075669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -156,6 +156,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3160507904223234208}
     m_Modifications:
+    - target: {fileID: 172710733007827536, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
+      propertyPath: attackSize.x
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 2578914963722154605, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -196,9 +200,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3536228744408590485, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5090697549195972556, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149551093041125566, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6294219211835010509, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
       propertyPath: m_Name
       value: AttackConfig
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825050222521327572, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825050222521327572, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -221,76 +245,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f0d3e4143b4f65b4e4a0b51fff75fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Player.Attacks.AttackConfig
---- !u!1001 &7524157585195829465
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 3160507904223234208}
-    m_Modifications:
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8045908753507354579, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-      propertyPath: m_Name
-      value: BlockConfig
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
---- !u!4 &3947289402667732134 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6822033942225618047, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-  m_PrefabInstance: {fileID: 7524157585195829465}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5749425507090784237 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2855631245660903220, guid: 15af5446fec52f646b10434c4f9326b6, type: 3}
-  m_PrefabInstance: {fileID: 7524157585195829465}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddb684d089d84c489df659b95d87514d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.Player.Blocks.BlockConfig

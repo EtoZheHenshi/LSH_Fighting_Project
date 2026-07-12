@@ -9,5 +9,7 @@ namespace Code.Infrastructure.InputSystem
         public bool ActiveAction { get; }
         
         public Action InputActiveAction { get; set; }
+        public void EnableInput();
+        public void DisableInput();
     }
 }

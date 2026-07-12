@@ -16,7 +16,9 @@ namespace Code.Gameplay.UI.HUD
             if (_isActive)
             {
                 _switchTime -= Time.deltaTime;
-                timeText.text = Mathf.Ceil(_switchTime).ToString();
+                float time = Mathf.Ceil(_switchTime);
+                time = time > 0 ? time : 0;
+                timeText.text = time.ToString();
             }
         }
 

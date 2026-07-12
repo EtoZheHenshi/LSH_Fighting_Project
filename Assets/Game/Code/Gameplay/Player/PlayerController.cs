@@ -3,6 +3,7 @@ using Code.Gameplay.Player.PlayerStateSystem;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Gameplay.UI;
 using Code.Gameplay.UI.HUD;
+using Code.Infrastructure.Audio;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.InputSystem;
 using Code.Infrastructure.RhytmSystem;
@@ -14,7 +15,7 @@ namespace Code.Gameplay.Player
     [RequireComponent(typeof(Collider2D))]
     public class PlayerController : MonoBehaviour
     {
-        private const float Skin = 0.02f;
+        private const float Skin = 0.005f;
         
         [SerializeField] private bool isItPlayerTwo;
         [SerializeField] private float ghostMoveSpeed = 8f;
@@ -22,8 +23,9 @@ namespace Code.Gameplay.Player
         [SerializeField] private LayerMask deadBodyLayer;
         [SerializeField] private LayerMask bodyObstacleLayers;
         [SerializeField] private LayerMask ghostObstacleLayers;
-        [SerializeField] private SpriteRenderer ghostSpriteRenderer;
+        [SerializeField] private SpriteRenderer playerSpriteRenderer;
         [SerializeField] private PlayerIcons playerIcons;
+        [SerializeField] private Transform playerAttack;
         
         [Header("UI")] 
         [SerializeField] private HpUi hpUi;
@@ -34,10 +36,13 @@ namespace Code.Gameplay.Player
         private Rigidbody2D _rb;
         private LayerMask _moveObstacleLayers;
         private DeadBody _currentBody;
+        private bool _musicSet;
+        private Sprite _ghostSprite;
         
         private StateMachine _stateMachine;
         private EventBusService _eventBus;
         
+        public Animator Animator { get; private set; }
         public GhostState GhostState { get; private set; }
         public AttackState AttackState { get; private set; }
         public ProtectionState ProtectionState { get; private set; }
@@ -61,8 +66,10 @@ namespace Code.Gameplay.Player
             _eventBus = EventBusService.Instance;
             _moveSpeed = ghostMoveSpeed;
             _moveObstacleLayers = ghostObstacleLayers;
+            _ghostSprite = playerSpriteRenderer.sprite;
             
             GhostCollider = GetComponent<Collider2D>();
+            Animator = GetComponent<Animator>();
             
             playerIcons.Initialize(this.transform);
             playerIcons.SetOffset(GhostCollider);
@@ -96,22 +103,34 @@ namespace Code.Gameplay.Player
 
         public void SetBody(DeadBody deadBody)
         {
-            ghostSpriteRenderer.enabled = false;
+            if (!_musicSet && !isItPlayerTwo)
+            {
+                AudioManager.Instance.SetPlayerMusic(deadBody.BodyMusic);
+            }
+
+            playerSpriteRenderer.sprite = deadBody.SpriteRenderer.sprite;
+            deadBody.SpriteRenderer.enabled = false;
+            
             transform.position = deadBody.transform.position;
             transform.rotation = deadBody.transform.rotation;
-            deadBody.transform.parent = transform;
+            
+            deadBody.transform.SetParent(playerAttack);
+            deadBody.transform.localPosition = Vector3.zero;
+            deadBody.transform.localRotation = Quaternion.identity;
+            
             _currentBody = deadBody;
             _currentBody.gameObject.layer = 11;
-            _currentBody.SpriteRenderer.sortingOrder = 0;
+            //_currentBody.SpriteRenderer.sortingOrder = 0;
 
             AttackState = new AttackState(this, _stateMachine, _eventBus, deadBody.AttackConfig, enemyLayer);
-            ProtectionState = new ProtectionState(this, _stateMachine, _eventBus, deadBody.BlockConfig);
+            ProtectionState = new ProtectionState(this, _stateMachine, _eventBus);
             _hp = deadBody.Hp;
             _moveSpeed = deadBody.MoveSpeed;
             HaveBody = true;
             CurrentDamage = deadBody.AttackConfig.Damage;
             _moveObstacleLayers = bodyObstacleLayers;
             playerIcons.SetOffset(_currentBody.GetComponent<Collider2D>());
+            Animator.runtimeAnimatorController = deadBody.AnimatorController;
             
             hpUi.SetHealth(_hp);
         }
@@ -123,11 +142,12 @@ namespace Code.Gameplay.Player
                 _currentBody.transform.parent = null;
                 _currentBody.gameObject.layer = 0;
                 _currentBody.SpriteRenderer.sortingOrder = -2;
+                _currentBody.SpriteRenderer.enabled = true;
                 _currentBody = null;
             }
             
             _moveSpeed = ghostMoveSpeed;
-            ghostSpriteRenderer.enabled = true;
+            playerSpriteRenderer.sprite = _ghostSprite;
             AttackState = null;
             ProtectionState = null;
             HaveBody = false;
@@ -182,14 +202,38 @@ namespace Code.Gameplay.Player
             {
                 _rb.MovePosition(_rb.position + Input.Move * (hits[0].distance - Skin));
             }
+
+            //transform.parent.transform.position = _rb.position;
         }
 
         private void Rotate()
         {
             Vector2 direction = Enemy.Rigidbody.position - _rb.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                
-            _rb.MoveRotation(angle);
+
+            if (direction.sqrMagnitude <= Mathf.Epsilon)
+                return;
+
+            // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            //
+            // playerAttack.rotation = Quaternion.Euler(0f, 0f, angle);
+            
+            playerAttack.right = direction.normalized;
+
+            playerSpriteRenderer.flipX = direction.x < 0f;
+            
+            // Vector2 direction = Enemy.Rigidbody.position - _rb.position;
+            // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            //     
+            // playerAttack.Rotate(Vector3.forward, angle);
+            //
+            // if (playerAttack.rotation.z > 90f || playerAttack.rotation.z < -90f)
+            // {
+            //     playerSpriteRenderer.flipX = true;
+            // }
+            // else
+            // {
+            //     playerSpriteRenderer.flipX = false;
+            // }
         }
         
         private void OnDrawGizmos()

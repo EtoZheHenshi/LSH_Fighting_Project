@@ -45,3 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.GameplayPoop
   deadBodyRoot: {fileID: 0}
+  timerUI: {fileID: 0}
+  switchTime: 10
+  ghostTime: 5
+  switchDelay: 1.5
+  iconSwapAnimation: {fileID: 0}
+  switchSound: {fileID: 11400000, guid: 3278c0a291dae5e46b1a6586b23267c3, type: 2}

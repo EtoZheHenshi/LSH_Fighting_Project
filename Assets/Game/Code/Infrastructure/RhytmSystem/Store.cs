@@ -1,4 +1,5 @@
 using System;
+using Code.Infrastructure.Audio;
 using UnityEngine;
 
 namespace Code.Infrastructure.RhytmSystem
@@ -70,18 +71,23 @@ namespace Code.Infrastructure.RhytmSystem
 
         private void Update()
         {
-            float current = MusicPlayer.Instance.music.time * 1000f;
-
-            if (current < _lastAudioTime)
+            if (AudioManager.Instance.PlayerMusicSet)
             {
-                _loopCount++;
+                MusicPositionMs = AudioManager.Instance.PlayerMusicSource.time;
+
+                float current = AudioManager.Instance.PlayerMusicSource.time * 1000f;
+
+                if (current < _lastAudioTime)
+                {
+                    _loopCount++;
+                }
+
+                _lastAudioTime = current;
+
+                _musicPositionMs =
+                    current +
+                    _loopCount * AudioManager.Instance.PlayerTrackLengthMs;
             }
-
-            _lastAudioTime = current;
-
-            _musicPositionMs =
-                current +
-                _loopCount * MusicPlayer.Instance.TrackLengthMs;
         }
     }
 }

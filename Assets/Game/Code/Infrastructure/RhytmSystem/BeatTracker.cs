@@ -20,6 +20,10 @@ namespace Code.Infrastructure.RhytmSystem
         [SerializeField] private float goodHitBound = 0.6f;
         [SerializeField] private float badHitBound = 0.2f;
         [SerializeField] private int hitRadiusMs = 150;
+
+        [SerializeField] private int missesCountToSwitchRole = 2;
+        private int _missesCount;
+        
         public Action OnBeat;
 
         public int BPM => bpm;
@@ -38,6 +42,12 @@ namespace Code.Infrastructure.RhytmSystem
         private float _currentBeatPosition;
 
         public int HitRadiusMs => hitRadiusMs;
+
+        public HitQuality AttackQuality
+        {
+            get => _attackQuality;
+            set => _attackQuality = value;
+        }
 
         public float NextBeatPosition => _nextBeatPosition;
 
@@ -118,30 +128,40 @@ namespace Code.Infrastructure.RhytmSystem
             _currentBeatPosition = Store.Instance.MusicPositionMs;
             if (_currentBeatPosition >= _nextBeatPosition)
             {
-                OnBeat?.Invoke();
-                if (_attackQuality == HitQuality.Miss)
+                HitResult();
+            }
+        }
+
+        public void HitResult()
+        {
+            OnBeat?.Invoke();
+            if (_attackQuality == HitQuality.Miss)
+            {
+                _missesCount++;
+                if (_missesCount >= missesCountToSwitchRole)
                 {
                     ResetData();
+                    _missesCount = 0;
                     GameplayPoop.Instance.SwitchPlayerRoles();
-                    return;
+                    return;   
                 }
-
-                float multiplier = _attackQuality.GetMultiplier(_protectQuality);
-                Store.Instance.Multiplier = multiplier;
-                Debug.Log($"Multiplier: {multiplier}");
-
-
-                if (PlayerToHit != null)
-                {
-                    PlayerToHit.TakeDamage(PlayerToHit.Enemy.CurrentDamage * multiplier);
-                }
-
-                Debug.Log($"AttakQuality: {_attackQuality} | AttackMultiplier: {_attackQuality.GetAttackMultiplier()}\n" +
-                    $"ProtectQuality: {_protectQuality} | ProtectMultiplier: {_protectQuality.GetProtectMultiplier()} | " +
-                    $"FinalMultiplier: {multiplier}");
-                // сбрасываем состояния 
-                ResetData();
             }
+
+            float multiplier = _attackQuality.GetMultiplier(_protectQuality);
+            Store.Instance.Multiplier = multiplier;
+            Debug.Log($"Multiplier: {multiplier}");
+
+
+            if (PlayerToHit != null)
+            {
+                PlayerToHit.TakeDamage(PlayerToHit.Enemy.CurrentDamage * multiplier);
+            }
+
+            Debug.Log($"AttakQuality: {_attackQuality} | AttackMultiplier: {_attackQuality.GetAttackMultiplier()}\n" +
+                      $"ProtectQuality: {_protectQuality} | ProtectMultiplier: {_protectQuality.GetProtectMultiplier()} | " +
+                      $"FinalMultiplier: {multiplier}");
+            // сбрасываем состояния 
+            ResetData();
         }
 
         public HitQuality SetAttackQuality(float attackTimeMs)
