@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b8ff66ff48722e64faf509eeb7900b62
+guid: 5a64b2a0babad9d4189e1f3c64c3f323
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Quantico
+  - Pangolin
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
