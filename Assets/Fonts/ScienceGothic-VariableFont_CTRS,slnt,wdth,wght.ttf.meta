@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2a7e886578ac3406a9372b312c86f0ce
+guid: 942d0e28a1803408990566c63e37eef3
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Quantico
+  - Science Gothic
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
