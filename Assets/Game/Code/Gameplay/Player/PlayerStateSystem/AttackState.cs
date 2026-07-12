@@ -38,13 +38,16 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             if (Store.Instance.AttackIsActive)
             {
                 Debug.Log("Second attempt to attack per beat! Turning into protection!");
+                Player.FeedbackPopup.Play(HitQuality.Miss, Player.transform);
             }
             else
             {
                 float attackTimeMs = Store.Instance.MusicPositionMs;
 
                 HitQuality quality = BeatTracker.Instance.SetAttackQuality(attackTimeMs);
-                Debug.Log("AttackQuality " + quality);
+                
+                Player.FeedbackPopup.Play(quality, Player.transform);
+
                 Store.Instance.AttackIsActive = true;
             }
 

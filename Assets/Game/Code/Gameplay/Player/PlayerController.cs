@@ -1,6 +1,7 @@
 using Code.Gameplay.Player.Body;
 using Code.Gameplay.Player.PlayerStateSystem;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
+using Code.Gameplay.UI;
 using Code.Gameplay.UI.HUD;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.InputSystem;
@@ -26,6 +27,7 @@ namespace Code.Gameplay.Player
         
         [Header("UI")] 
         [SerializeField] private HpUi hpUi;
+        [SerializeField] private FeedbackPopup feedbackPopup;
 
         private float _hp;
         private float _moveSpeed;
@@ -49,6 +51,7 @@ namespace Code.Gameplay.Player
         public PlayerController Enemy { get; private set; }
         public bool HaveBody { get; private set; }
         public float CurrentDamage { get; private set; }
+        public FeedbackPopup FeedbackPopup => feedbackPopup;
 
 
         private void Awake()

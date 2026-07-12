@@ -143,6 +143,10 @@ PrefabInstance:
       propertyPath: m_Resource
       value: 
       objectReference: {fileID: 8300000, guid: 5f7a626783c331e4895c99e11447e87e, type: 3}
+    - target: {fileID: 2644931818042004677, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3816400288300873836, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: music
       value: 
@@ -424,6 +428,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &546281772 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6072397043024372603, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
+  m_PrefabInstance: {fileID: 3139838162428885533}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9eb82f91e724ec69e497c8445057830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.UI.FeedbackPopup
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +659,10 @@ PrefabInstance:
       propertyPath: hpUi
       value: 
       objectReference: {fileID: 780469356}
+    - target: {fileID: 372592446397230110, guid: 0839f2020c6c7cb48b3276fbab21d192, type: 3}
+      propertyPath: feedbackPopup
+      value: 
+      objectReference: {fileID: 1947721280}
     - target: {fileID: 1800435974607508891, guid: 0839f2020c6c7cb48b3276fbab21d192, type: 3}
       propertyPath: hpUi
       value: 
@@ -652,6 +671,10 @@ PrefabInstance:
       propertyPath: hpUi
       value: 
       objectReference: {fileID: 1751419576}
+    - target: {fileID: 1873441328374463211, guid: 0839f2020c6c7cb48b3276fbab21d192, type: 3}
+      propertyPath: feedbackPopup
+      value: 
+      objectReference: {fileID: 546281772}
     - target: {fileID: 5072399812368341714, guid: 0839f2020c6c7cb48b3276fbab21d192, type: 3}
       propertyPath: m_Name
       value: '[Players]'
@@ -722,6 +745,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2085169593108048645, guid: 114c6c9d70d63ae4d9c0fb90d002c036, type: 3}
   m_PrefabInstance: {fileID: 1844021804660309428}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1947721280 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2476260720040605144, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
+  m_PrefabInstance: {fileID: 3139838162428885533}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9eb82f91e724ec69e497c8445057830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Code.Gameplay.UI.FeedbackPopup
 --- !u!1 &1989755535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,7 +1101,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: '[UI]'
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6684861769714839077, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
+      propertyPath: m_text
+      value: vsdv
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2579953196000343661, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

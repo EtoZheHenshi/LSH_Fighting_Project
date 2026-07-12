@@ -38,7 +38,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private void Protect()
         {
             _blockConfig.VisualizeAttack(Duration);
-            
+
             if (!Store.Instance.ProtectIsActive)
             {
                 Store.Instance.ProtectIsActive = true;
@@ -46,7 +46,12 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 float protectTimeMs = Store.Instance.MusicPositionMs;
 
                 HitQuality quality = BeatTracker.Instance.SetProtectQuality(protectTimeMs);
-                Debug.Log("ProtectQuality " + quality);
+                
+                Player.FeedbackPopup.Play(quality, Player.transform);
+            }
+            else
+            {
+                Player.FeedbackPopup.Play(HitQuality.Miss, Player.transform);
             }
         }
     }

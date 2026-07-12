@@ -134,6 +134,10 @@ namespace Code.Infrastructure.RhytmSystem
                     PlayerToHit.TakeDamage(PlayerToHit.Enemy.CurrentDamage * multiplier);
                 }
 
+                Debug.Log($"AttakQuality: {_attackQuality} | AttackMultiplier: {_attackQuality.GetAttackMultiplier()}\n" +
+                    $"ProtectQuality: {_protectQuality} | ProtectMultiplier: {_protectQuality.GetProtectMultiplier()} | " +
+                    $"FinalMultiplier: {multiplier}");
+
                 // сбрасываем состояния 
                 ResetData();
             }
