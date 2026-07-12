@@ -16,6 +16,15 @@ namespace Code.Infrastructure.InputSystem
         public bool ActiveAction { get; set;}
 
         public Action InputActiveAction { get; set; }
+        public void EnableInput()
+        {
+            _actions.Enable();
+        }
+
+        public void DisableInput()
+        {
+            _actions.Disable();
+        }
 
         public PlayerInput(GameInput.PlayerOneActions playerOneActions)
         {

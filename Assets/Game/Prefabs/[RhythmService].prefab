@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6816915468243646814}
-  - component: {fileID: 3816400288300873836}
   - component: {fileID: 768702126203160776}
   m_Layer: 0
   m_Name: '[RhythmService]'
@@ -35,19 +34,6 @@ Transform:
   - {fileID: 2597076019560360246}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3816400288300873836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2534263919899903756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2cc834d35094942a37b6a265732f9dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Code.Infrastructure.RhytmSystem.MusicPlayer
-  music: {fileID: 2644931818042004677}
 --- !u!114 &768702126203160776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,5 +380,4 @@ MonoBehaviour:
   rightBracketPrefab: {fileID: 3162467019371894627, guid: c088f3e22fde54285adf2df549bb2b5d, type: 3}
   center: {fileID: 5055388437236091777}
   startOffset: 5
-  beatsAhead: 2
   spawnOffsetMs: 1000

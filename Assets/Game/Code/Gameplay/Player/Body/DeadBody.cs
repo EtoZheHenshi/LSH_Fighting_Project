@@ -1,6 +1,5 @@
-using System;
 using Code.Gameplay.Player.Attacks;
-using Code.Gameplay.Player.Blocks;
+using Code.Infrastructure.Audio;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.Body
@@ -11,13 +10,15 @@ namespace Code.Gameplay.Player.Body
         [SerializeField] private float hp;
         [SerializeField] private float moveSpeed;
         [SerializeField] private AttackConfig attackConfig;
-        [SerializeField] private BlockConfig blockConfig;
+        [SerializeField] private SoundData bodyMusic;
+        [SerializeField] private RuntimeAnimatorController bodyAnimatorController;
         
         public float Hp => hp;
         public float MoveSpeed => moveSpeed;
         public AttackConfig AttackConfig => attackConfig;
-        public BlockConfig BlockConfig => blockConfig;
         public SpriteRenderer SpriteRenderer => spriteRenderer;
+        public SoundData BodyMusic => bodyMusic;
+        public RuntimeAnimatorController AnimatorController => bodyAnimatorController;
 
         private static readonly int OutlineEnabled = Shader.PropertyToID("_OutlineEnabled");
 

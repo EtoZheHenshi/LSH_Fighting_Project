@@ -6,6 +6,7 @@ using Code.Gameplay.Player;
 using Code.Gameplay.Player.Body;
 using Code.Gameplay.UI.HUD;
 using Code.Infrastructure;
+using Code.Infrastructure.Audio;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
 using Code.Infrastructure.RhytmSystem;
@@ -22,9 +23,11 @@ namespace Code.Gameplay
         
         [SerializeField] private float switchTime = 10f;
         [SerializeField] private float ghostTime = 5f;
-        [SerializeField] private float switchDelay = 1.5f;
+        [SerializeField] private float switchDelay = 3f;
 
         [SerializeField] private IconSwapAnimation iconSwapAnimation;
+
+        [SerializeField] private SoundData switchSound;
         
         private PlayerController _player1;
         private PlayerController _player2;
@@ -84,19 +87,27 @@ namespace Code.Gameplay
             timerUI.StopTimer();
             StopCycle();
             
-            SwitchDelay().Forget();
-            
+            //SwitchDelay().Forget();
             StartTimerSwitch().Forget();
         }
 
         private async UniTask SwitchDelay()
         {
-            MusicPlayer.Instance.Pause();
-            Time.timeScale = 0f;
+            _player1.Input.DisableInput();
+            _player2.Input.DisableInput();
+            AudioManager.Instance.PausePlayerMusic();
+            //Time.timeScale = 0f;
             iconSwapAnimation.Play();
+            
+            AudioManager.Instance.PlaySound(switchSound, switchDelay);
+            
             await UniTask.WaitForSeconds(switchDelay, true);
-            MusicPlayer.Instance.Play();
-            Time.timeScale = 1f;
+            
+            //Time.timeScale = 1f;
+            _player1.Input.EnableInput();
+            _player2.Input.EnableInput();
+            
+            StartTimerSwitch().Forget();
         }
 
         private void GhostCycle()
@@ -137,13 +148,33 @@ namespace Code.Gameplay
 
             _playerOneAttack = !_playerOneAttack;
             
+            _player1.Input.DisableInput();
+            _player2.Input.DisableInput();
+            AudioManager.Instance.PausePlayerMusic();
+            Time.timeScale = 0f;
+            iconSwapAnimation.Play();
+            
+            AudioManager.Instance.PlaySound(switchSound, switchDelay);
+            
+            await UniTask.WaitForSeconds(switchDelay, true);
+            
+            Time.timeScale = 1f;
+            _player1.Input.EnableInput();
+            _player2.Input.EnableInput();
+            
             try
             {
+                AudioManager.Instance.PlayPlayerMusic();
+                
                 timerUI.StartTimer(switchTime);
+                
                 await UniTask.Delay(TimeSpan.FromSeconds(switchTime), cancellationToken: _cts.Token);
+                
                 timerUI.StopTimer();
-                SwitchDelay().Forget();
+                
+                //SwitchDelay().Forget();
                 StartTimerSwitch().Forget();
+                
                 Debug.Log("Switch");
             }
             catch (OperationCanceledException)
