@@ -1,7 +1,8 @@
+using Code.Infrastructure.RhytmSystem;
 using DG.Tweening;
 using UnityEngine;
 
-namespace Code.Infrastructure.RhytmSystem
+namespace Code.Gameplay.UI
 {
     public class MetronomeVisualizer : MonoBehaviour
     {

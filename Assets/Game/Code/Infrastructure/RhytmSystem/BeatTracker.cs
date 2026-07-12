@@ -20,6 +20,7 @@ namespace Code.Infrastructure.RhytmSystem
         [SerializeField] private float goodHitBound = 0.6f;
         [SerializeField] private float badHitBound = 0.2f;
         [SerializeField] private int hitRadiusMs = 150;
+        public Action OnBeat;
 
         public int BPM => bpm;
         public PlayerController PlayerToHit { get; set; }
@@ -117,6 +118,7 @@ namespace Code.Infrastructure.RhytmSystem
             _currentBeatPosition = Store.Instance.MusicPositionMs;
             if (_currentBeatPosition >= _nextBeatPosition)
             {
+                OnBeat?.Invoke();
                 if (_attackQuality == HitQuality.Miss)
                 {
                     ResetData();
@@ -137,7 +139,6 @@ namespace Code.Infrastructure.RhytmSystem
                 Debug.Log($"AttakQuality: {_attackQuality} | AttackMultiplier: {_attackQuality.GetAttackMultiplier()}\n" +
                     $"ProtectQuality: {_protectQuality} | ProtectMultiplier: {_protectQuality.GetProtectMultiplier()} | " +
                     $"FinalMultiplier: {multiplier}");
-
                 // сбрасываем состояния 
                 ResetData();
             }
@@ -165,7 +166,7 @@ namespace Code.Infrastructure.RhytmSystem
 
             _attackQuality = HitQuality.Null;
             _protectQuality = HitQuality.Null;
-
+        
             _lastBeatPosition = _nextBeatPosition;
             _nextBeatPosition += _beatDurationMs;
         }
