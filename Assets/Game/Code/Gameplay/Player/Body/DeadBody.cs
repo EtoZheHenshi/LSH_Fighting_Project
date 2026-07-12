@@ -1,6 +1,5 @@
 using Code.Gameplay.Player.Attacks;
 using Code.Infrastructure.Audio;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.Body

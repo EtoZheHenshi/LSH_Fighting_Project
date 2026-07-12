@@ -34,7 +34,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private void Attack()
         {
             //_attackConfig.VisualizeAttack();
-            Player.Animator.SetTrigger("Attack");
+            Player.PlayerAnimator.SetTrigger("Attack");
 
             if (Store.Instance.AttackIsActive)
             {

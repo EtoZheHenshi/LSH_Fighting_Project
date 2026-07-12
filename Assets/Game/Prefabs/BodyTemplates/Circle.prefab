@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3874206983403207435}
   - component: {fileID: 6802299101375640088}
   m_Layer: 10
-  m_Name: DeadBody
+  m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

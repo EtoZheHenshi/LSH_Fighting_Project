@@ -42,7 +42,7 @@ namespace Code.Gameplay.Player
         private StateMachine _stateMachine;
         private EventBusService _eventBus;
         
-        public Animator Animator { get; private set; }
+        public Animator PlayerAnimator { get; private set; }
         public GhostState GhostState { get; private set; }
         public AttackState AttackState { get; private set; }
         public ProtectionState ProtectionState { get; private set; }
@@ -69,7 +69,7 @@ namespace Code.Gameplay.Player
             _ghostSprite = playerSpriteRenderer.sprite;
             
             GhostCollider = GetComponent<Collider2D>();
-            Animator = GetComponent<Animator>();
+            PlayerAnimator = GetComponent<Animator>();
             
             playerIcons.Initialize(this.transform);
             playerIcons.SetOffset(GhostCollider);
@@ -130,7 +130,7 @@ namespace Code.Gameplay.Player
             CurrentDamage = deadBody.AttackConfig.Damage;
             _moveObstacleLayers = bodyObstacleLayers;
             playerIcons.SetOffset(_currentBody.GetComponent<Collider2D>());
-            Animator.runtimeAnimatorController = deadBody.AnimatorController;
+            PlayerAnimator.runtimeAnimatorController = deadBody.AnimatorController;
             
             hpUi.SetHealth(_hp);
         }
@@ -145,7 +145,8 @@ namespace Code.Gameplay.Player
                 _currentBody.SpriteRenderer.enabled = true;
                 _currentBody = null;
             }
-            
+
+            PlayerAnimator.runtimeAnimatorController = null;
             _moveSpeed = ghostMoveSpeed;
             playerSpriteRenderer.sprite = _ghostSprite;
             AttackState = null;
