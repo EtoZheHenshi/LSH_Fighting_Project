@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f073242c3aff4c0aae5f93bb505c81ad, type: 3}
-  m_Name: SwitchRoleSound
+  m_Name: Metronom 60bpm
   m_EditorClassIdentifier: Assembly-CSharp::Code.Infrastructure.Audio.SoundData
   clips:
-  - {fileID: 8300000, guid: bfcad1413bd194503b447250e0b7c67b, type: 3}
+  - {fileID: 8300000, guid: 25e08c311c9434726a30351e4a4458bf, type: 3}
   isPitchRandom: 0
   pitchVariance: 0.1
-  volume: 0
+  volume: 1
   pitch: 1

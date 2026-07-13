@@ -190,7 +190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 768702126203160776, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: hitRadiusMs
-      value: 250
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 2534263919899903756, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: m_Name
@@ -1155,7 +1155,7 @@ PrefabInstance:
       objectReference: {fileID: 2030693329}
     - target: {fileID: 289235827808988488, guid: 1d7e78c37a802254ea66ef7f1a122083, type: 3}
       propertyPath: switchDelay
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 289235827808988488, guid: 1d7e78c37a802254ea66ef7f1a122083, type: 3}
       propertyPath: deadBodyRoot
@@ -1300,6 +1300,10 @@ PrefabInstance:
     - target: {fileID: 2446677225566722248, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2597416050395771775, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
+      propertyPath: totalDuration
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2676966135006209267, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
       propertyPath: m_AnchoredPosition.y

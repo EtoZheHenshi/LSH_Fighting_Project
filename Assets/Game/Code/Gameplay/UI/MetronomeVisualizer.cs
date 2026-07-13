@@ -13,7 +13,7 @@ namespace Code.Gameplay.UI
 
         [SerializeField] private float startOffset = 5f;
         [SerializeField] private int spawnOffsetMs = 1000;
-        private float _destroyTimeSec;
+        [SerializeField] private float pairSpeed = 2f;
         private float _beatDurationMs;
         private int _currentBeat;
 
@@ -21,7 +21,7 @@ namespace Code.Gameplay.UI
 
         private void Start()
         {
-            _destroyTimeSec = BeatTracker.Instance.HitRadiusMs / 1000f;
+            //_destroyTimeSec = BeatTracker.Instance.HitRadiusMs / 1000f;
             _beatDurationMs = 60f / BeatTracker.Instance.BPM * 1000f;
             _currentBeat = (int)(spawnOffsetMs / _beatDurationMs);
         }
@@ -49,14 +49,14 @@ namespace Code.Gameplay.UI
                 new Vector3(CenterX + startOffset, 0f, 0f);
 
             left.transform
-                .DOLocalMoveX(CenterX, spawnOffsetMs / 1000f)
+                .DOLocalMoveX(CenterX, pairSpeed)
                 .SetEase(Ease.Linear)
-                .OnComplete(() => Destroy(left, _destroyTimeSec));
+                .OnComplete(() => Destroy(left));
 
             right.transform
-                .DOLocalMoveX(CenterX, spawnOffsetMs / 1000f)
+                .DOLocalMoveX(CenterX, pairSpeed)
                 .SetEase(Ease.Linear)
-                .OnComplete(() => Destroy(right, _destroyTimeSec));
+                .OnComplete(() => Destroy(right));
         }
     }
 }

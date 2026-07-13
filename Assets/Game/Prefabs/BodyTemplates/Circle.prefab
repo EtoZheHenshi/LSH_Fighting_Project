@@ -110,7 +110,7 @@ MonoBehaviour:
   hp: 7
   moveSpeed: 6
   attackConfig: {fileID: 6950710968490268869}
-  bodyMusic: {fileID: 11400000, guid: 6340aabc63d119847855c092b78a0b62, type: 2}
+  bodyMusic: {fileID: 11400000, guid: 0ca19a0d0f89ea44ea3023ff6ae48cdf, type: 2}
   bodyAnimatorController: {fileID: 9100000, guid: 6daba85488a94a44892153ba85bdf78a, type: 2}
 --- !u!58 &6802299101375640088
 CircleCollider2D:
