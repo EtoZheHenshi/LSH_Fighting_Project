@@ -15,7 +15,7 @@ namespace Code.Gameplay.Player
     [RequireComponent(typeof(Collider2D))]
     public class PlayerController : MonoBehaviour
     {
-        private const float Skin = 0.005f;
+        private const float Skin = 0.02f;
         
         [SerializeField] private bool isItPlayerTwo;
         [SerializeField] private float ghostMoveSpeed = 8f;
@@ -38,6 +38,8 @@ namespace Code.Gameplay.Player
         private DeadBody _currentBody;
         private bool _musicSet;
         private Sprite _ghostSprite;
+
+        private Animator _animatorCache;
         
         private StateMachine _stateMachine;
         private EventBusService _eventBus;
@@ -106,7 +108,10 @@ namespace Code.Gameplay.Player
             if (!_musicSet && !isItPlayerTwo)
             {
                 AudioManager.Instance.SetPlayerMusic(deadBody.BodyMusic);
+                _musicSet = true;
             }
+            
+            GhostCollider.enabled = false;
 
             playerSpriteRenderer.sprite = deadBody.SpriteRenderer.sprite;
             deadBody.SpriteRenderer.enabled = false;
@@ -133,6 +138,12 @@ namespace Code.Gameplay.Player
             PlayerAnimator.runtimeAnimatorController = deadBody.AnimatorController;
             
             hpUi.SetHealth(_hp);
+
+            if (deadBody.CompareTag("Worm"))
+            {
+                _animatorCache = PlayerAnimator;
+                PlayerAnimator = deadBody.GetComponentInChildren<Animator>();
+            }
         }
 
         public void RemoveBody()
@@ -143,6 +154,12 @@ namespace Code.Gameplay.Player
                 _currentBody.gameObject.layer = 0;
                 _currentBody.SpriteRenderer.sortingOrder = -2;
                 _currentBody.SpriteRenderer.enabled = true;
+
+                if (_currentBody.CompareTag("Worm"))
+                {
+                    PlayerAnimator = _animatorCache;
+                }
+
                 _currentBody = null;
             }
 
@@ -154,7 +171,10 @@ namespace Code.Gameplay.Player
             HaveBody = false;
             CurrentDamage = 0;
             _moveObstacleLayers = ghostObstacleLayers;
+
+            GhostCollider.enabled = true;
             playerIcons.SetOffset(GhostCollider);
+            
             //_stateMachine.ChangeState(GhostState);
             GameplayPoop.Instance.StartGhostTimer();
         }
@@ -219,7 +239,7 @@ namespace Code.Gameplay.Player
             // playerAttack.rotation = Quaternion.Euler(0f, 0f, angle);
             
             playerAttack.right = direction.normalized;
-
+            
             playerSpriteRenderer.flipX = direction.x < 0f;
             
             // Vector2 direction = Enemy.Rigidbody.position - _rb.position;

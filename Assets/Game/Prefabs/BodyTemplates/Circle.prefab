@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: af9f3aa1cb87ae141b18449f64fd91a5, type: 3}
-  m_Color: {r: 0.98742133, g: 0.537182, b: 0.537182, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -147,7 +147,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.55
+  m_Radius: 0.5
 --- !u!1001 &7066277229228075669
 PrefabInstance:
   m_ObjectHideFlags: 0

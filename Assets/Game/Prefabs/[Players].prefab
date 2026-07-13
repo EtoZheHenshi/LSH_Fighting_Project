@@ -46,6 +46,10 @@ PrefabInstance:
       value: Player1
       objectReference: {fileID: 0}
     - target: {fileID: 4627954905548070410, guid: d7e7c6d92bbabdb4d942b3e0b30c1cd5, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 2176
+      objectReference: {fileID: 0}
+    - target: {fileID: 4627954905548070410, guid: d7e7c6d92bbabdb4d942b3e0b30c1cd5, type: 3}
       propertyPath: bodyObstacleLayers.m_Bits
       value: 2816
       objectReference: {fileID: 0}
@@ -153,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4627954905548070410, guid: d7e7c6d92bbabdb4d942b3e0b30c1cd5, type: 3}
       propertyPath: enemyLayer.m_Bits
-      value: 64
+      value: 2112
       objectReference: {fileID: 0}
     - target: {fileID: 4627954905548070410, guid: d7e7c6d92bbabdb4d942b3e0b30c1cd5, type: 3}
       propertyPath: bodyObstacleLayers.m_Bits

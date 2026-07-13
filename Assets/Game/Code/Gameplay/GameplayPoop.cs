@@ -38,7 +38,9 @@ namespace Code.Gameplay
         private float _currentGhostTimeLeft;
         private bool _playerOneAttack;
         private List<DeadBody> _deadBodies;
+        private int _delayCountOfBeat;
         
+        private bool _musicIsPlaying;
 
         public void Initialize(PlayerController player1, PlayerController player2)
         {
@@ -47,6 +49,7 @@ namespace Code.Gameplay
             _eventBus = EventBusService.Instance;
             _cts = new CancellationTokenSource();
             _deadBodies = deadBodyRoot.GetComponentsInChildren<DeadBody>().ToList();
+            BeatTracker.Instance.OnBeat += IncrementDelayCountOfBeat;
         }
 
         private void Update()
@@ -150,22 +153,28 @@ namespace Code.Gameplay
             
             _player1.Input.DisableInput();
             _player2.Input.DisableInput();
-            AudioManager.Instance.PausePlayerMusic();
-            Time.timeScale = 0f;
+            //AudioManager.Instance.PausePlayerMusic();
+            //Time.timeScale = 0f;
+            
             iconSwapAnimation.Play();
+
+            if (!_musicIsPlaying)
+            {
+                AudioManager.Instance.PlayPlayerMusic();
+                _musicIsPlaying = true;
+            }
             
-            AudioManager.Instance.PlaySound(switchSound, switchDelay);
+            //AudioManager.Instance.PlaySound(switchSound, switchDelay);
+            _delayCountOfBeat = 0;
+            await UniTask.WaitUntil(() => _delayCountOfBeat >= 2);
+            //await UniTask.WaitForSeconds(switchDelay, true);
             
-            await UniTask.WaitForSeconds(switchDelay, true);
-            
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
             _player1.Input.EnableInput();
             _player2.Input.EnableInput();
             
             try
             {
-                AudioManager.Instance.PlayPlayerMusic();
-                
                 timerUI.StartTimer(switchTime);
                 
                 await UniTask.Delay(TimeSpan.FromSeconds(switchTime), cancellationToken: _cts.Token);
@@ -203,6 +212,16 @@ namespace Code.Gameplay
             DeadBody deadBody = _deadBodies[Random.Range(0, _deadBodies.Count)];
             _deadBodies.Remove(deadBody);
             player.SetBody(deadBody);
+        }
+
+        private void IncrementDelayCountOfBeat()
+        {
+            _delayCountOfBeat++;
+        }
+
+        private void OnDestroy()
+        {
+            BeatTracker.Instance.OnBeat -= IncrementDelayCountOfBeat;
         }
     }
 }

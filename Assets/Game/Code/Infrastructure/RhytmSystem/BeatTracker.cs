@@ -17,8 +17,7 @@ namespace Code.Infrastructure.RhytmSystem
     {
         [SerializeField] private int bpm = 120;
         [SerializeField] private float perfectHitBound = 0.8f;
-        [SerializeField] private float goodHitBound = 0.6f;
-        [SerializeField] private float badHitBound = 0.2f;
+        [SerializeField] private float goodHitBound = 0.4f;
         [SerializeField] private int hitRadiusMs = 150;
 
         [SerializeField] private int missesCountToSwitchRole = 2;
@@ -111,11 +110,11 @@ namespace Code.Infrastructure.RhytmSystem
             {
                 return HitQuality.Perfect;
             }
-            else if (badHitBound < accuracy && accuracy <= goodHitBound)
+            else if (goodHitBound < accuracy && accuracy <= perfectHitBound)
             {
                 return HitQuality.Good;
             }
-            else if (0 < accuracy && accuracy <= badHitBound)
+            else if (0 < accuracy && accuracy <= goodHitBound)
             {
                 return HitQuality.Bad;
             }
