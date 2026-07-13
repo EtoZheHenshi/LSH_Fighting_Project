@@ -225,6 +225,10 @@ namespace Code.Gameplay.Player
             
             playerAttack.right = direction.normalized;
 
+            if (_currentBody.CompareTag("Worm"))
+            {
+            }
+            
             playerSpriteRenderer.flipX = direction.x < 0f;
             
             // Vector2 direction = Enemy.Rigidbody.position - _rb.position;
