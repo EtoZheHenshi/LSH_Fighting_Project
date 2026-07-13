@@ -38,6 +38,8 @@ namespace Code.Gameplay.Player
         private DeadBody _currentBody;
         private bool _musicSet;
         private Sprite _ghostSprite;
+
+        private Animator _animatorCache;
         
         private StateMachine _stateMachine;
         private EventBusService _eventBus;
@@ -106,6 +108,7 @@ namespace Code.Gameplay.Player
             if (!_musicSet && !isItPlayerTwo)
             {
                 AudioManager.Instance.SetPlayerMusic(deadBody.BodyMusic);
+                _musicSet = true;
             }
             
             GhostCollider.enabled = false;
@@ -135,6 +138,12 @@ namespace Code.Gameplay.Player
             PlayerAnimator.runtimeAnimatorController = deadBody.AnimatorController;
             
             hpUi.SetHealth(_hp);
+
+            if (deadBody.CompareTag("Worm"))
+            {
+                _animatorCache = PlayerAnimator;
+                PlayerAnimator = deadBody.GetComponentInChildren<Animator>();
+            }
         }
 
         public void RemoveBody()
@@ -145,6 +154,12 @@ namespace Code.Gameplay.Player
                 _currentBody.gameObject.layer = 0;
                 _currentBody.SpriteRenderer.sortingOrder = -2;
                 _currentBody.SpriteRenderer.enabled = true;
+
+                if (_currentBody.CompareTag("Worm"))
+                {
+                    PlayerAnimator = _animatorCache;
+                }
+
                 _currentBody = null;
             }
 
@@ -224,10 +239,6 @@ namespace Code.Gameplay.Player
             // playerAttack.rotation = Quaternion.Euler(0f, 0f, angle);
             
             playerAttack.right = direction.normalized;
-
-            if (_currentBody.CompareTag("Worm"))
-            {
-            }
             
             playerSpriteRenderer.flipX = direction.x < 0f;
             
