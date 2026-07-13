@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0eb98d517cc642a4b939513678ebc317
+guid: a1eb4d4ccec378b44a377589804fff8f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8315612561880876938
-    second: "\u0421\u0435\u0440\u0434\u0446\u0435_0"
+      213: -2510181880258599152
+    second: Metronome bar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\u0421\u0435\u0440\u0434\u0446\u0435_0"
+      name: Metronome bar_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 12
-        width: 141
-        height: 180
+        x: 0
+        y: 0
+        width: 1198
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6787057de62099c80800000000000000
-      internalID: -8315612561880876938
+      spriteID: 017609121ea0a2dd0800000000000000
+      internalID: -2510181880258599152
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\u0421\u0435\u0440\u0434\u0446\u0435_0": -8315612561880876938
+      Metronome bar_0: -2510181880258599152
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

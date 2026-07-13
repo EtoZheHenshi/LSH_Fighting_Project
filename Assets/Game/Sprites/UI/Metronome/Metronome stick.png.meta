@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cb6d86464eae52645a63bb5f863c4292
+guid: 946c181d3befb6d4397ec4192560fb21
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4317141059710643065
-    second: "\u041C\u0435\u0442\u043A\u0430 \u043C\u0435\u0442\u0440\u043E\u043D\u043E\u043C\u0430_0"
+      213: 6086501411059622312
+    second: Metronome stick_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\u041C\u0435\u0442\u043A\u0430 \u043C\u0435\u0442\u0440\u043E\u043D\u043E\u043C\u0430_0"
+      name: Metronome stick_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 24
-        width: 43
-        height: 181
+        x: 0
+        y: 0
+        width: 41
+        height: 179
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 78491b2541f6614c0800000000000000
-      internalID: -4317141059710643065
+      spriteID: 8a16f1329c8977450800000000000000
+      internalID: 6086501411059622312
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\u041C\u0435\u0442\u043A\u0430 \u043C\u0435\u0442\u0440\u043E\u043D\u043E\u043C\u0430_0": -4317141059710643065
+      Metronome stick_0: 6086501411059622312
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
