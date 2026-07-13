@@ -15,7 +15,7 @@ namespace Code.Gameplay.Player
     [RequireComponent(typeof(Collider2D))]
     public class PlayerController : MonoBehaviour
     {
-        private const float Skin = 0.005f;
+        private const float Skin = 0.02f;
         
         [SerializeField] private bool isItPlayerTwo;
         [SerializeField] private float ghostMoveSpeed = 8f;
@@ -107,6 +107,8 @@ namespace Code.Gameplay.Player
             {
                 AudioManager.Instance.SetPlayerMusic(deadBody.BodyMusic);
             }
+            
+            GhostCollider.enabled = false;
 
             playerSpriteRenderer.sprite = deadBody.SpriteRenderer.sprite;
             deadBody.SpriteRenderer.enabled = false;
@@ -154,7 +156,10 @@ namespace Code.Gameplay.Player
             HaveBody = false;
             CurrentDamage = 0;
             _moveObstacleLayers = ghostObstacleLayers;
+
+            GhostCollider.enabled = true;
             playerIcons.SetOffset(GhostCollider);
+            
             //_stateMachine.ChangeState(GhostState);
             GameplayPoop.Instance.StartGhostTimer();
         }
