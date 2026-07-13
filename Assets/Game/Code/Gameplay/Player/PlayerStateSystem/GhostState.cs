@@ -14,6 +14,8 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         private Collider2D[] _deadBodies;
         private DeadBody _currentSelectedBody;
         
+        private static readonly int OutlineEnabled = Shader.PropertyToID("_OutlineEnabled");
+        
         protected override Action ActiveAction => _activeAction;
         
         public GhostState(PlayerController player, StateMachine machine,
@@ -31,6 +33,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
 
             Player.RemoveBody();
             Player.PlayerIcons.SetRoleIcon(Color.aquamarine);
+            Player.SpriteRenderer.material.SetFloat(OutlineEnabled, 0);
         }
 
         public override void Exit()
@@ -42,6 +45,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 _currentSelectedBody.SetOutline(false);
                 _currentSelectedBody = null;
             }
+            Player.SpriteRenderer.material.SetFloat(OutlineEnabled, 1);
         }
 
         public override void Tick()

@@ -59,6 +59,7 @@ namespace Code.Gameplay.Player
         public bool HaveBody { get; private set; }
         public float CurrentDamage { get; private set; }
         public FeedbackPopup FeedbackPopup => feedbackPopup;
+        public SpriteRenderer SpriteRenderer => playerSpriteRenderer;
 
 
         private void Awake()

@@ -29,6 +29,8 @@ namespace Code.Gameplay
 
         [SerializeField] private SoundData switchSound;
         
+        [SerializeField] private BeatOutlineAnimation outlineAnimation;
+        
         private PlayerController _player1;
         private PlayerController _player2;
         
@@ -38,7 +40,6 @@ namespace Code.Gameplay
         private float _currentGhostTimeLeft;
         private bool _playerOneAttack;
         private List<DeadBody> _deadBodies;
-        private int _delayCountOfBeat;
         
         private bool _musicIsPlaying;
 
@@ -49,7 +50,7 @@ namespace Code.Gameplay
             _eventBus = EventBusService.Instance;
             _cts = new CancellationTokenSource();
             _deadBodies = deadBodyRoot.GetComponentsInChildren<DeadBody>().ToList();
-            BeatTracker.Instance.OnBeat += IncrementDelayCountOfBeat;
+            BeatTracker.Instance.OnBeat += outlineAnimation.OnBeat;
         }
 
         private void Update()
@@ -89,29 +90,30 @@ namespace Code.Gameplay
         {
             timerUI.StopTimer();
             StopCycle();
-            
-            //SwitchDelay().Forget();
+
+            outlineAnimation.PrepareRoleSwap();
+
             StartTimerSwitch().Forget();
         }
 
-        private async UniTask SwitchDelay()
-        {
-            _player1.Input.DisableInput();
-            _player2.Input.DisableInput();
-            AudioManager.Instance.PausePlayerMusic();
-            //Time.timeScale = 0f;
-            iconSwapAnimation.Play();
-            
-            AudioManager.Instance.PlaySound(switchSound, switchDelay);
-            
-            await UniTask.WaitForSeconds(switchDelay, true);
-            
-            //Time.timeScale = 1f;
-            _player1.Input.EnableInput();
-            _player2.Input.EnableInput();
-            
-            StartTimerSwitch().Forget();
-        }
+        // private async UniTask SwitchDelay()
+        // {
+        //     _player1.Input.DisableInput();
+        //     _player2.Input.DisableInput();
+        //     AudioManager.Instance.PausePlayerMusic();
+        //     //Time.timeScale = 0f;
+        //     iconSwapAnimation.Play();
+        //     
+        //     AudioManager.Instance.PlaySound(switchSound, switchDelay);
+        //     
+        //     await UniTask.WaitForSeconds(switchDelay, true);
+        //     
+        //     //Time.timeScale = 1f;
+        //     _player1.Input.EnableInput();
+        //     _player2.Input.EnableInput();
+        //     
+        //     StartTimerSwitch().Forget();
+        // }
 
         private void GhostCycle()
         {
@@ -138,60 +140,61 @@ namespace Code.Gameplay
 
         private async UniTask StartTimerSwitch()
         {
-            if (_playerOneAttack)
-            {
-                _player1.StateMachine.ChangeState(_player1.AttackState);
-                _player2.StateMachine.ChangeState(_player2.ProtectionState);
-            }
-            else
-            {
-                _player1.StateMachine.ChangeState(_player1.ProtectionState);
-                _player2.StateMachine.ChangeState(_player2.AttackState);
-            }
+            CancellationToken token = _cts.Token;
 
-            _playerOneAttack = !_playerOneAttack;
-            
-            _player1.Input.DisableInput();
-            _player2.Input.DisableInput();
-            //AudioManager.Instance.PausePlayerMusic();
-            //Time.timeScale = 0f;
-            
-            iconSwapAnimation.Play();
-
-            if (!_musicIsPlaying)
-            {
-                AudioManager.Instance.PlayPlayerMusic();
-                _musicIsPlaying = true;
-            }
-            
-            //AudioManager.Instance.PlaySound(switchSound, switchDelay);
-            _delayCountOfBeat = 0;
-            await UniTask.WaitUntil(() => _delayCountOfBeat >= 2);
-            //await UniTask.WaitForSeconds(switchDelay, true);
-            
-            //Time.timeScale = 1f;
-            _player1.Input.EnableInput();
-            _player2.Input.EnableInput();
-            
             try
             {
+                if (_playerOneAttack)
+                {
+                    _player1.StateMachine.ChangeState(_player1.AttackState);
+                    _player2.StateMachine.ChangeState(_player2.ProtectionState);
+                }
+                else
+                {
+                    _player1.StateMachine.ChangeState(_player1.ProtectionState);
+                    _player2.StateMachine.ChangeState(_player2.AttackState);
+                }
+
+                _playerOneAttack = !_playerOneAttack;
+
+                _player1.Input.DisableInput();
+                _player2.Input.DisableInput();
+
+                iconSwapAnimation.Play();
+
+                if (!_musicIsPlaying)
+                {
+                    AudioManager.Instance.PlayPlayerMusic();
+                    _musicIsPlaying = true;
+                }
+
+                // BeatOutlineAnimation сама ждёт следующий OnBeat,
+                // запускает анимацию и завершает этот UniTask после неё.
+                await outlineAnimation
+                    .WaitForCompletion()
+                    .AttachExternalCancellation(token);
+
+                _player1.Input.EnableInput();
+                _player2.Input.EnableInput();
+
                 timerUI.StartTimer(switchTime);
-                
-                await UniTask.Delay(TimeSpan.FromSeconds(switchTime), cancellationToken: _cts.Token);
-                
+
+                await UniTask.Delay(
+                    TimeSpan.FromSeconds(switchTime),
+                    cancellationToken: token);
+
                 timerUI.StopTimer();
-                
-                //SwitchDelay().Forget();
-                StartTimerSwitch().Forget();
-                
+
+                SwitchPlayerRoles();
+
                 Debug.Log("Switch");
             }
             catch (OperationCanceledException)
             {
-                //timerUI.StopTimer();
+                // Старый цикл был отменён.
             }
         }
-
+        
         private void FindDeadBody()
         {
             if (!_player1.HaveBody)
@@ -214,14 +217,9 @@ namespace Code.Gameplay
             player.SetBody(deadBody);
         }
 
-        private void IncrementDelayCountOfBeat()
-        {
-            _delayCountOfBeat++;
-        }
-
         private void OnDestroy()
         {
-            BeatTracker.Instance.OnBeat -= IncrementDelayCountOfBeat;
+            BeatTracker.Instance.OnBeat -= outlineAnimation.OnBeat;
         }
     }
 }
