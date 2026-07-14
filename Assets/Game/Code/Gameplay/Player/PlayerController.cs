@@ -163,7 +163,18 @@ namespace Code.Gameplay.Player
             {
                 Input.DisableInput();
                 Enemy.Input.DisableInput();
-                _eventBus.Publish(new GameEndEvent());
+                string winPlayer;
+
+                if (isItPlayerTwo)
+                {
+                    winPlayer = "Player 1 win";
+                }
+                else
+                {
+                    winPlayer = "Player 2 win";
+                }
+                
+                _eventBus.Publish(new GameEndEvent(winPlayer));
                 return;
             }
             

@@ -1,5 +1,6 @@
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ namespace Code.Gameplay.UI
     {
         [SerializeField] private Button restartButton;
         [SerializeField] private Button quitButton;
+        [SerializeField] private TMP_Text winPlayerText;
 
         private void Awake()
         {
@@ -21,6 +23,7 @@ namespace Code.Gameplay.UI
 
         private void Show(GameEndEvent gameEndEvent)
         {
+            winPlayerText.text = gameEndEvent.WinPlayer;
             gameObject.SetActive(true);
         }
 
