@@ -250,7 +250,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 172710733007827536, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
       propertyPath: attackSize.x
-      value: 1.9
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 2578914963722154605, guid: 07f1edf61ecc6954286fa4a7b625ac67, type: 3}
       propertyPath: m_LocalPosition.x

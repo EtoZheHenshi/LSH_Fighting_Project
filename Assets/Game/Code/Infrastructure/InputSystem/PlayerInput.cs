@@ -55,6 +55,46 @@ namespace Code.Infrastructure.InputSystem
             
             actions.ActiveAction.performed += _ => InputActiveAction?.Invoke();
         }
+        
+        public PlayerInput(GameInput.GamepadOneActions playerOneActions)
+        {
+            GameInput.GamepadOneActions actions = playerOneActions;
+            actions.Get().devices = new InputDevice[]
+            {
+                Gamepad.all[0]
+            };
+            _actions = actions;
+            actions.Enable();
+            
+            actions.Move.performed += OnMove;
+            actions.Move.canceled += OnMove;
+
+            // actions.ActiveAction.started += OnHandAttack;
+            // actions.ActiveAction.canceled += OnHandAttack;
+            
+            actions.ActiveAction.performed += _ => InputActiveAction?.Invoke();
+        }
+        
+        public PlayerInput(GameInput.GamepadTwoActions playerOneActions)
+        {
+            GameInput.GamepadTwoActions actions = playerOneActions;
+            actions.Get().devices = new InputDevice[]
+            {
+                Gamepad.all[1]
+            };
+            _actions = actions;
+            actions.Enable();
+            
+            actions.Move.performed += OnMove;
+            actions.Move.canceled += OnMove;
+
+            // actions.ActiveAction.started += OnHandAttack;
+            // actions.ActiveAction.canceled += OnHandAttack;
+            
+            actions.ActiveAction.performed += _ => InputActiveAction?.Invoke();
+        }
+
+
 
         private void OnMove(InputAction.CallbackContext ctx)
         {

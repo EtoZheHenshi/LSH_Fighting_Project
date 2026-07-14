@@ -211,9 +211,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 768702126203160776, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: hitRadiusMs
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 2534263919899903756, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: m_Name
       value: '[RhythmService]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624292418078119262, guid: 609faf41ba87f470587558bf624f187c, type: 3}
+      propertyPath: spawnOffsetMs
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 6816915468243646814, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: m_LocalPosition.x

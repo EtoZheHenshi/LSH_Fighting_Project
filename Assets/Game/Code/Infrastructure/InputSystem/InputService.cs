@@ -24,9 +24,24 @@ namespace Code.Infrastructure.InputSystem
             // }
             
             DontDestroyOnLoad(gameObject);
-
-            Player1 = new PlayerInput(_gameInput.PlayerOne);
-            Player2 = new PlayerInput(_gameInput.PlayerTwo);
+            
+            if (Gamepad.all.Count >= 1)
+            {
+                Player1 = new PlayerInput(_gameInput.GamepadOne);
+            }
+            else
+            {
+                Player1 = new PlayerInput(_gameInput.PlayerOne);
+            }
+            
+            if (Gamepad.all.Count >= 2)
+            {
+                Player2 = new PlayerInput(_gameInput.GamepadTwo);
+            }
+            else
+            {
+                Player2 = new PlayerInput(_gameInput.PlayerTwo);
+            }
         }
     }
 }
