@@ -39,7 +39,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         public override void Exit()
         {
             base.Exit();
-
+            
             if (_currentSelectedBody != null)
             {
                 _currentSelectedBody.SetOutline(false);

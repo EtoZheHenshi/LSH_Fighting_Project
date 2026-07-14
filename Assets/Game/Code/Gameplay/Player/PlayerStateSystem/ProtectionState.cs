@@ -30,12 +30,22 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             base.Enter();
 
             //Player.PlayerIcons.SetRoleIcon(Color.blue);
+            Player.ShieldSpriteRenderer.enabled = true;
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            
+            Player.ShieldSpriteRenderer.enabled = false;
         }
 
         private void Protect()
         {
             if (!Store.Instance.ProtectIsActive)
             {
+                ShieldBlink().Forget();
+                
                 Store.Instance.ProtectIsActive = true;
 
                 float protectTimeMs = Store.Instance.MusicPositionMs;
@@ -48,6 +58,18 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             {
                 Player.FeedbackPopup.Play(HitQuality.Miss, Player.transform);
             }
+        }
+
+        private async UniTask ShieldBlink()
+        {
+            Color color = Player.ShieldSpriteRenderer.color;
+            color.a = 1f;
+            Player.ShieldSpriteRenderer.color = color;
+
+            await UniTask.Delay(200);
+            
+            color.a = 0.4f;
+            Player.ShieldSpriteRenderer.color = color;
         }
     }
 }

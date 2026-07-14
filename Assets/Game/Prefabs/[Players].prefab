@@ -82,12 +82,10 @@ MonoBehaviour:
   playerTwoRenderer: {fileID: 4298405721071146930}
   outlineColorProperty: _SolidOutline
   outlineSizeProperty: _Thickness
+  duration: 0.35
   pulseSizeMultiplier: 1.75
-  pulseAlphaMultiplier: 1.2
-  pulseDuration: 0.25
   pulseInEase: 6
   pulseOutEase: 5
-  colorSwapDuration: 0.2
   colorSwapEase: 4
 --- !u!1001 &4977175419099296276
 PrefabInstance:
@@ -200,6 +198,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8471437119878410401}
     m_Modifications:
+    - target: {fileID: 3191677408600613112, guid: d7e7c6d92bbabdb4d942b3e0b30c1cd5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3867533432711045272, guid: d7e7c6d92bbabdb4d942b3e0b30c1cd5, type: 3}
       propertyPath: m_Name
       value: Player2

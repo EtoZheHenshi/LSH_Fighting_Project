@@ -27,6 +27,7 @@ namespace Code.Gameplay.Player
         [SerializeField] private SpriteRenderer playerSpriteRenderer;
         [SerializeField] private PlayerIcons playerIcons;
         [SerializeField] private Transform playerAttack;
+        [SerializeField] private SpriteRenderer shieldSpriteRenderer;
         
         [Header("UI")] 
         [SerializeField] private HpUi hpUi;
@@ -63,6 +64,7 @@ namespace Code.Gameplay.Player
         public float CurrentDamage { get; private set; }
         public FeedbackPopup FeedbackPopup => feedbackPopup;
         public SpriteRenderer SpriteRenderer => playerSpriteRenderer;
+        public SpriteRenderer ShieldSpriteRenderer => shieldSpriteRenderer;
 
 
         private void Awake()
