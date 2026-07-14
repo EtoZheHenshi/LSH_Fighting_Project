@@ -23,7 +23,6 @@ namespace Code.Gameplay
         
         [SerializeField] private float switchTime = 10f;
         [SerializeField] private float ghostTime = 5f;
-        [SerializeField] private float switchDelay = 3f;
 
         [SerializeField] private IconSwapAnimation iconSwapAnimation;
 
