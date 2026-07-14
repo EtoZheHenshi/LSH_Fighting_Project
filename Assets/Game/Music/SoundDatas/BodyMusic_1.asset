@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BodyMusic_1
   m_EditorClassIdentifier: Assembly-CSharp::Code.Infrastructure.Audio.SoundData
   clips:
-  - {fileID: 8300000, guid: 5f7a626783c331e4895c99e11447e87e, type: 3}
+  - {fileID: 8300000, guid: 7b30f644918cacc449503cb811f63714, type: 3}
   isPitchRandom: 0
   pitchVariance: 0.1
   volume: 1

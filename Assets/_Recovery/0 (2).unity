@@ -213,7 +213,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 768702126203160776, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: bpm
-      value: 60
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 768702126203160776, guid: 609faf41ba87f470587558bf624f187c, type: 3}
       propertyPath: hitRadiusMs
@@ -786,7 +786,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9002199206908346863, guid: 114c6c9d70d63ae4d9c0fb90d002c036, type: 3}
       propertyPath: moveSpeed
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9146642320475878013, guid: 114c6c9d70d63ae4d9c0fb90d002c036, type: 3}
       propertyPath: m_Name
@@ -1613,11 +1613,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6495972930808451643, guid: e847107c5c71b7941b6b3d8cd5a94837, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.88
+      value: 0.05258
       objectReference: {fileID: 0}
     - target: {fileID: 6495972930808451643, guid: e847107c5c71b7941b6b3d8cd5a94837, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.88
+      value: -0.05899
       objectReference: {fileID: 0}
     - target: {fileID: 6495972930808451643, guid: e847107c5c71b7941b6b3d8cd5a94837, type: 3}
       propertyPath: m_LocalPosition.z
