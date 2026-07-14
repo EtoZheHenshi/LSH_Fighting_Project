@@ -5,6 +5,7 @@ using Code.Gameplay.UI;
 using Code.Gameplay.UI.HUD;
 using Code.Infrastructure.Audio;
 using Code.Infrastructure.EventBusSystem;
+using Code.Infrastructure.EventBusSystem.Events;
 using Code.Infrastructure.InputSystem;
 using Code.Infrastructure.RhytmSystem;
 using UnityEngine;
@@ -40,6 +41,8 @@ namespace Code.Gameplay.Player
         private Sprite _ghostSprite;
 
         private Animator _animatorCache;
+
+        private int _countHp;
         
         private StateMachine _stateMachine;
         private EventBusService _eventBus;
@@ -90,6 +93,8 @@ namespace Code.Gameplay.Player
                 Input = InputService.Instance.Player1;
                 Enemy = GameObject.FindWithTag("Player2").GetComponent<PlayerController>();
             }
+
+            _countHp = 3;
         }
 
         private void Update()
@@ -149,6 +154,16 @@ namespace Code.Gameplay.Player
 
         public void RemoveBody()
         {
+            _countHp--;
+            
+            if (_countHp <= 0)
+            {
+                Input.DisableInput();
+                Enemy.Input.DisableInput();
+                _eventBus.Publish(new GameEndEvent());
+                return;
+            }
+            
             if (_currentBody != null)
             {
                 _currentBody.transform.parent = null;

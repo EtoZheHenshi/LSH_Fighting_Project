@@ -23,6 +23,8 @@ namespace Code.Infrastructure.EntryPoints
 
         private void Start()
         {
+            _player1.Input.EnableInput();
+            _player2.Input.EnableInput();
             gameplayPoop.StartGameplayLoop();
         }
     }
