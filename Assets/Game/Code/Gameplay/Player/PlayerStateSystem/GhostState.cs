@@ -32,7 +32,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             base.Enter();
 
             Player.RemoveBody();
-            Player.PlayerIcons.SetRoleIcon(Color.aquamarine);
+            //Player.PlayerIcons.SetRoleIcon(Color.aquamarine);
             Player.SpriteRenderer.material.SetFloat(OutlineEnabled, 0);
         }
 

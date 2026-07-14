@@ -28,7 +28,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         {
             base.Enter();
 
-            Player.PlayerIcons.SetRoleIcon(Color.red);
+            //Player.PlayerIcons.SetRoleIcon(Color.red);
         }
 
         private void Attack()

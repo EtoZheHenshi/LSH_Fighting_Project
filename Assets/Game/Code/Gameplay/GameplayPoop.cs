@@ -90,8 +90,6 @@ namespace Code.Gameplay
             timerUI.StopTimer();
             StopCycle();
 
-            outlineAnimation.PrepareRoleSwap();
-
             StartTimerSwitch().Forget();
         }
 
@@ -140,6 +138,8 @@ namespace Code.Gameplay
         private async UniTask StartTimerSwitch()
         {
             CancellationToken token = _cts.Token;
+            
+            outlineAnimation.PrepareRoleSwap();
 
             try
             {

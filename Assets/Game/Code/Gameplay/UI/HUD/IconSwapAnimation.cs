@@ -41,15 +41,15 @@ namespace Code.Gameplay.UI.HUD
             leftIcon.localScale = Vector3.one * startScale;
             rightIcon.localScale = Vector3.one * startScale;
 
-            leftCanvasGroup.alpha = 0f;
-            rightCanvasGroup.alpha = 0f;
+            leftCanvasGroup.alpha = 1f;
+            rightCanvasGroup.alpha = 1f;
 
             _sequence = DOTween.Sequence()
                 .SetUpdate(UpdateType.Normal, true);
 
             // Появление
-            _sequence.Append(leftCanvasGroup.DOFade(1f, appearDuration));
-            _sequence.Join(rightCanvasGroup.DOFade(1f, appearDuration));
+            // _sequence.Append(leftCanvasGroup.DOFade(1f, appearDuration));
+            // _sequence.Join(rightCanvasGroup.DOFade(1f, appearDuration));
 
             _sequence.Join(
                 leftIcon.DOScale(1f, appearDuration)
@@ -78,8 +78,8 @@ namespace Code.Gameplay.UI.HUD
                     .SetEase(Ease.InOutSine));
 
             // Исчезновение
-            _sequence.Append(leftCanvasGroup.DOFade(0f, disappearDuration));
-            _sequence.Join(rightCanvasGroup.DOFade(0f, disappearDuration));
+            // _sequence.Append(leftCanvasGroup.DOFade(0f, disappearDuration));
+            // _sequence.Join(rightCanvasGroup.DOFade(0f, disappearDuration));
 
             _sequence.Join(leftIcon.DOScale(endScale, disappearDuration));
             _sequence.Join(rightIcon.DOScale(endScale, disappearDuration));

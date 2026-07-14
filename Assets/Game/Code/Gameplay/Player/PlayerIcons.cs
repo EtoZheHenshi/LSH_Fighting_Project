@@ -27,9 +27,9 @@ namespace Code.Gameplay.Player
             _currentOffset = bodyCollider.bounds.extents.y;
         }
         
-        public void SetRoleIcon(Color color)
+        public void SetRoleIcon(bool active)
         {
-            roleIcon.color = color;
+            roleIcon.enabled = active;
         }
 
         private void SetIconsPosition()

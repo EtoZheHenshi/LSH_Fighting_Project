@@ -18,7 +18,14 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         {
             base.Enter();
             
-            Player.PlayerIcons.SetRoleIcon(Color.yellow);
+            Player.PlayerIcons.SetRoleIcon(true);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            
+            Player.PlayerIcons.SetRoleIcon(false);
         }
     }
 }

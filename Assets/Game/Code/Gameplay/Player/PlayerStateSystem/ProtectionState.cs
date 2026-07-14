@@ -29,7 +29,7 @@ namespace Code.Gameplay.Player.PlayerStateSystem
         {
             base.Enter();
 
-            Player.PlayerIcons.SetRoleIcon(Color.blue);
+            //Player.PlayerIcons.SetRoleIcon(Color.blue);
         }
 
         private void Protect()
