@@ -1360,6 +1360,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2597416050395771775, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
+      propertyPath: arcHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2597416050395771775, guid: d3b831b64dc33bd4986e785532df8a53, type: 3}
       propertyPath: totalDuration
       value: 2
       objectReference: {fileID: 0}

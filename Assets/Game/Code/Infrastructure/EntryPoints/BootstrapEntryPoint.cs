@@ -13,6 +13,8 @@ namespace Code.Infrastructure.EntryPoints
 
         private void Awake()
         {
+            Screen.SetResolution(1920, 1080, FullScreenMode.ExclusiveFullScreen);
+            
             Instantiate(inputSystemPrefab);
             Instantiate(eventBusPrefab);
             

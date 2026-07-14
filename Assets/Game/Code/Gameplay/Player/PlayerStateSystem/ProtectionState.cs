@@ -66,9 +66,9 @@ namespace Code.Gameplay.Player.PlayerStateSystem
             color.a = 1f;
             Player.ShieldSpriteRenderer.color = color;
 
-            await UniTask.Delay(200);
+            await UniTask.Delay(300);
             
-            color.a = 0.4f;
+            color.a = 0.5f;
             Player.ShieldSpriteRenderer.color = color;
         }
     }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3775844033472609739}
   - component: {fileID: 7707996388356558591}
   - component: {fileID: 7380357153954997593}
-  - component: {fileID: 2780425394282937600}
   m_Layer: 10
   m_Name: Chair
   m_TagString: Untagged
@@ -149,28 +148,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.55
---- !u!95 &2780425394282937600
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7748814503753318459}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bf3e6d856239f3048a17008280518e58, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2163085817135274257
 PrefabInstance:
   m_ObjectHideFlags: 0

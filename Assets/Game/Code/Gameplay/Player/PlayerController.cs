@@ -8,6 +8,7 @@ using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.EventBusSystem.Events;
 using Code.Infrastructure.InputSystem;
 using Code.Infrastructure.RhytmSystem;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.Gameplay.Player
@@ -199,24 +200,24 @@ namespace Code.Gameplay.Player
 
         public void TakeDamage(float damage)
         {
-            if (ProtectionState.CanBlock)
-            {
-                Debug.Log("Blocked");
-            }
-            else
-            {
-                _hp -= damage;
-                hpUi.UpdateHealth(_hp);
-                Debug.Log($"HP = {_hp}");
+            _hp -= damage;
+            hpUi.UpdateHealth(_hp);
+            Debug.Log($"HP = {_hp}");
 
-                if (_hp <= 0)
-                {
-                    GameplayPoop.Instance.StopCycle();
-                    BeatTracker.Instance.ResetData();
-                    Enemy.StateMachine.ChangeState(Enemy.WaitState);
-                    _stateMachine.ChangeState(GhostState);
-                }
+            if (_hp <= 0)
+            {
+                GameplayPoop.Instance.StopCycle();
+                BeatTracker.Instance.ResetData();
+                Enemy.StateMachine.ChangeState(Enemy.WaitState);
+                _stateMachine.ChangeState(GhostState);
             }
+        }
+
+        public async UniTask GetDamage()
+        {
+            SpriteRenderer.color = Color.red;
+            await UniTask.Delay(100);
+            SpriteRenderer.color = Color.white;
         }
 
         private void Move()

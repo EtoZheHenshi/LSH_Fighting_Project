@@ -3,6 +3,7 @@ using Code.Gameplay.Player.Attacks;
 using Code.Gameplay.Player.PlayerStateSystem.Base;
 using Code.Infrastructure.EventBusSystem;
 using Code.Infrastructure.RhytmSystem;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.Gameplay.Player.PlayerStateSystem
@@ -66,6 +67,10 @@ namespace Code.Gameplay.Player.PlayerStateSystem
                 )
                )
             {
+                if (BeatTracker.Instance.AttackQuality != HitQuality.Miss)
+                {
+                    Player.Enemy.GetDamage().Forget();
+                }
                 BeatTracker.Instance.PlayerToHit = Player.Enemy;
             }
         }
